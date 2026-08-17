@@ -43,13 +43,26 @@
     ]
   },
   "connected_tools": {
-    "calendar": "Google Calendar (multiple calendars: primary, Meetings, Deadlines, GSD, Content Creation, Weekly Review, Personal, Self-Care, etc.)",
+    "calendar": "Google Calendar — many calendars on this account, several with generic/non-obvious names. Two are import-type ICS feeds (organizer field literally says 'Kalender' / 'Hjem') and MUST NOT be skipped just because the name doesn't say 'work':",
+    "calendar_ids": {
+      "Kalender (import) — THIS IS THE ODENSE ROBOTICS WORK CALENDAR": "2epk5o290umrpjdo994s4k0ekubu26ra@import.calendar.google.com",
+      "Hjem (import) — family/personal (kids' sports, partner Per, household)": "30s4f9bbj7iv99ti25qqrkqf4ll9bv0r@import.calendar.google.com",
+      "primary": "melaniegrohnheit@gmail.com",
+      "Meetings": "7ac2f5f49dc71c35844be1ced79480a294c5273c64f551fcdac6a4023df9f6c7@group.calendar.google.com",
+      "Deadlines": "605ddeaee768dd3eaa73c04b8e2d701d2fb867e7a999d93bdd22cb9807c4a101@group.calendar.google.com",
+      "GSD": "2a7cb87e7fe59bcbfd34ab6eb58847bdaeb79a35188ec877537495b5afccc8b6@group.calendar.google.com",
+      "Content Creation": "55de63b114f5cf1ac78519042c4ac1b85ff6d0c3bcb7f9d3ce7f0444996154f1@group.calendar.google.com",
+      "Weekly Review": "8824a13e81fc33f280c620f9181bec89147626041025cbfffc96d76d35840dea@group.calendar.google.com",
+      "Personal": "885b93be449eecd36929e4d5920dea37e2d69994216b63054ada123a65b2d7eb@group.calendar.google.com",
+      "Self-Care": "f9a0c91c17c0ecae20079e3a14fd6378f59f84962780dc486d09d1562505648d@group.calendar.google.com"
+    },
+    "calendar_lesson_learned": "On 2026-08-17 the first brief wrongly reported an empty day because only obviously-named calendars were checked. The real OR work calendar was hiding under the generic name 'Kalender'. ALWAYS query every calendar returned by list_calendars for the target window, not just ones whose name sounds work-related — generic names (Kalender, Hjem, Calendar, etc.) are exactly where this breaks.",
     "email": ["Gmail (melaniegrohnheit@gmail.com, personal)", "Outlook (Melanie@elevathors.com, client work)"],
     "tasks_and_notes": "Notion (Tasks + Meeting Notes databases, set up 2026-08-17)",
     "notion_morning_brief_page": "https://app.notion.com/p/3bf3cc60887281c0a699f122a389b95c"
   },
   "known_gaps": [
-    "No dedicated Odense Robotics email inbox is connected — only personal Gmail and the Elevathors Outlook mailbox. OR outreach/email progress can't be verified directly until this is connected."
+    "No dedicated Odense Robotics email inbox is connected — only personal Gmail and the Elevathors Outlook mailbox. OR outreach/email progress can't be verified directly until this is connected. (Calendar visibility into OR is fine via the 'Kalender' calendar — this gap is email only.)"
   ],
   "profile_version": 1,
   "last_updated": "2026-08-17"

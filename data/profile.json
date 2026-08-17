@@ -7,7 +7,8 @@
   "publish": {
     "method": "github_pages",
     "repo": "MelleGr/melanie-morning-brief",
-    "served_folder": "public/",
+    "served_folder": "docs/",
+    "pages_source": "Deploy from a branch: main, /docs",
     "base_url": "https://mellegr.github.io/melanie-morning-brief/",
     "filename_pattern": "brief-YYYY-MM-DD.html"
   },

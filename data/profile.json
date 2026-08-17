@@ -45,7 +45,8 @@
   "connected_tools": {
     "calendar": "Google Calendar (multiple calendars: primary, Meetings, Deadlines, GSD, Content Creation, Weekly Review, Personal, Self-Care, etc.)",
     "email": ["Gmail (melaniegrohnheit@gmail.com, personal)", "Outlook (Melanie@elevathors.com, client work)"],
-    "tasks_and_notes": "Notion (Tasks + Meeting Notes databases, set up 2026-08-17)"
+    "tasks_and_notes": "Notion (Tasks + Meeting Notes databases, set up 2026-08-17)",
+    "notion_morning_brief_page": "https://app.notion.com/p/3bf3cc60887281c0a699f122a389b95c"
   },
   "known_gaps": [
     "No dedicated Odense Robotics email inbox is connected — only personal Gmail and the Elevathors Outlook mailbox. OR outreach/email progress can't be verified directly until this is connected."

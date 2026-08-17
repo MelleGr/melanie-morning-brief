@@ -1,0 +1,54 @@
+{
+  "name": "Melanie Grohnheit",
+  "notify_email": "melaniegrohnheit@gmail.com",
+  "wake_time": "07:00",
+  "timezone": "Europe/Copenhagen",
+  "theme_default": "system",
+  "publish": {
+    "method": "github_pages",
+    "repo": "MelleGr/melanie-morning-brief",
+    "served_folder": "public/",
+    "base_url": "https://mellegr.github.io/melanie-morning-brief/",
+    "filename_pattern": "brief-YYYY-MM-DD.html"
+  },
+  "identity": {
+    "role": "Business Development Manager at Odense Robotics (since Feb 2026, Southern Jutland / Sønderborg territory — Danish robotics, automation & drone cluster)",
+    "other_work": [
+      "Confidential LinkedIn/content ghostwriting for client Elevathors (consultant network: onboarding, case stories, company spotlights)",
+      "Building own personal brand: content for ambitious women on career and wealth-building"
+    ],
+    "season": "Three active threads running in parallel every week, not one deep launch: OR business development, Elevathors content, personal brand."
+  },
+  "goals_this_quarter": [
+    "Grow Odense Robotics hub membership from 22 to 50 members",
+    "Consistent publishing on own brand (Instagram + LinkedIn), aiming toward a combined 100k followers across IG/LinkedIn/Substack — pillars are defined, posting cadence is the gap",
+    "Successfully run the week across all three focuses"
+  ],
+  "this_week_win_condition": "3 new OR outreach messages sent to potential members; next two weeks of Elevathors client content planned; something actually created and posted for own brand.",
+  "active_threads": [
+    "Unanswered emails and outreach across both OR and Elevathors client work",
+    "Not-yet-planned visits to current OR member companies",
+    "Elevathors LinkedIn content pipeline: thought leadership, case stories, company spotlights",
+    "Own brand content — pillars defined, posting inconsistent"
+  ],
+  "reading_sources": {
+    "fixed_list": [],
+    "note": "Open — no fixed source list yet. Curate against topics below and sharpen based on what she reacts to over time.",
+    "topics": [
+      "Robotics / automation / drone industry news (Danish + European)",
+      "Danish business news",
+      "Creator economy / LinkedIn content strategy",
+      "Personal brand & wealth-building content (her own pillar)"
+    ]
+  },
+  "connected_tools": {
+    "calendar": "Google Calendar (multiple calendars: primary, Meetings, Deadlines, GSD, Content Creation, Weekly Review, Personal, Self-Care, etc.)",
+    "email": ["Gmail (melaniegrohnheit@gmail.com, personal)", "Outlook (Melanie@elevathors.com, client work)"],
+    "tasks_and_notes": "Notion (Tasks + Meeting Notes databases, set up 2026-08-17)"
+  },
+  "known_gaps": [
+    "No dedicated Odense Robotics email inbox is connected — only personal Gmail and the Elevathors Outlook mailbox. OR outreach/email progress can't be verified directly until this is connected."
+  ],
+  "profile_version": 1,
+  "last_updated": "2026-08-17"
+}

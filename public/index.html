@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Melanie's Morning Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --accent: #225EDC; }
+  html[data-theme="dark"] { --bg:#000405; --card:#0b1013; --border:rgba(255,255,255,0.08); --t95:rgba(255,255,255,0.95); --t60:rgba(255,255,255,0.60); }
+  html[data-theme="light"] { --bg:#FBFBF9; --card:#ffffff; --border:rgba(0,0,0,0.08); --t95:rgba(10,10,10,0.95); --t60:rgba(10,10,10,0.62); }
+  @media (prefers-color-scheme: dark) { html:not([data-theme]) { --bg:#000405; --card:#0b1013; --border:rgba(255,255,255,0.08); --t95:rgba(255,255,255,0.95); --t60:rgba(255,255,255,0.60); } }
+  @media (prefers-color-scheme: light) { html:not([data-theme]) { --bg:#FBFBF9; --card:#ffffff; --border:rgba(0,0,0,0.08); --t95:rgba(10,10,10,0.95); --t60:rgba(10,10,10,0.62); } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--t95); font-family:'Inter',-apple-system,sans-serif; }
+  .wrap { max-width: 560px; margin: 0 auto; padding: 64px 24px; }
+  .kicker { font-family:'DM Mono',monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color: var(--t60); margin-bottom: 6px; }
+  h1 { font-size: 26px; margin: 0 0 32px; }
+  ul { list-style: none; padding: 0; margin: 0; }
+  li { border: 1px solid var(--border); background: var(--card); border-radius: 14px; margin-bottom: 10px; }
+  a { display: block; padding: 16px 20px; color: var(--t95); text-decoration: none; font-weight: 600; }
+  a:hover { color: var(--accent); }
+  .latest-tag { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.05em; text-transform:uppercase; color: var(--accent); display:block; margin-top:4px; font-weight:500; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">Archive</div>
+  <h1>Melanie's Morning Brief</h1>
+  <ul id="list">
+    <li><a href="brief-2026-08-17.html">Monday, August 17, 2026<span class="latest-tag">Latest</span></a></li>
+  </ul>
+</div>
+<script>
+  var saved = localStorage.getItem('brief-theme');
+  document.documentElement.setAttribute('data-theme', saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+</script>
+</body>
+</html>

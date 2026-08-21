@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morning Brief — Friday, August 21, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #225EDC;
+    --accent-dim: rgba(34,94,220,0.14);
+  }
+  html[data-theme="dark"] {
+    --bg: #000405;
+    --card: #0b1013;
+    --card-border: rgba(255,255,255,0.08);
+    --text-95: rgba(255,255,255,0.95);
+    --text-60: rgba(255,255,255,0.60);
+    --text-38: rgba(255,255,255,0.38);
+  }
+  html[data-theme="light"] {
+    --bg: #FBFBF9;
+    --card: #ffffff;
+    --card-border: rgba(0,0,0,0.08);
+    --text-95: rgba(10,10,10,0.95);
+    --text-60: rgba(10,10,10,0.62);
+    --text-38: rgba(10,10,10,0.42);
+  }
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme]) {
+      --bg: #000405;
+      --card: #0b1013;
+      --card-border: rgba(255,255,255,0.08);
+      --text-95: rgba(255,255,255,0.95);
+      --text-60: rgba(255,255,255,0.60);
+      --text-38: rgba(255,255,255,0.38);
+    }
+  }
+  @media (prefers-color-scheme: light) {
+    html:not([data-theme]) {
+      --bg: #FBFBF9;
+      --card: #ffffff;
+      --card-border: rgba(0,0,0,0.08);
+      --text-95: rgba(10,10,10,0.95);
+      --text-60: rgba(10,10,10,0.62);
+      --text-38: rgba(10,10,10,0.42);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text-95);
+    font-family: 'Inter', -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+  }
+  .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-38);
+  }
+  .date {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 6px;
+    color: var(--text-95);
+  }
+  .toggle {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-60);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .toggle:hover { color: var(--text-95); border-color: var(--text-38); }
+
+  .quote-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 28px 30px;
+    margin-bottom: 48px;
+  }
+  .quote-text {
+    font-size: 19px;
+    line-height: 1.5;
+    font-weight: 500;
+    color: var(--text-95);
+    margin: 0 0 10px;
+  }
+  .quote-attr {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-38);
+  }
+
+  .section { margin-bottom: 48px; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-38);
+    margin-bottom: 16px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 20px 22px;
+    margin-bottom: 12px;
+  }
+  .card:last-child { margin-bottom: 0; }
+
+  .win-row { display: flex; gap: 16px; align-items: flex-start; }
+  .win-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--accent);
+    min-width: 22px;
+  }
+  .win-body { flex: 1; }
+  .win-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .pill {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-top: 2px;
+  }
+
+  .decision-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .decision-context { font-size: 14.5px; line-height: 1.55; color: var(--text-60); margin-bottom: 12px; }
+  .recommend-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 5px 14px;
+  }
+
+  .light-day-line {
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--text-60);
+  }
+  .light-day-line b { color: var(--text-95); font-weight: 600; }
+
+  .read-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .read-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .read-title a {
+    color: var(--text-95);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+  }
+  .read-title a:hover { border-bottom-color: var(--text-38); }
+  .read-why { font-size: 14.5px; color: var(--text-60); line-height: 1.5; }
+
+  .time-card p { font-size: 15.5px; line-height: 1.6; color: var(--text-60); margin: 0; }
+  .time-card p b { color: var(--text-95); font-weight: 600; }
+
+  footer {
+    margin-top: 56px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-38);
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 36px 18px 72px; }
+    .date { font-size: 19px; }
+    .quote-text { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div>
+      <div class="kicker">Melanie's Morning Brief</div>
+      <div class="date">Friday, August 21, 2026</div>
+    </div>
+    <button class="toggle" id="themeToggle" onclick="toggleTheme()">Dark</button>
+  </div>
+
+  <div class="quote-card">
+    <p class="quote-text">"We tell ourselves stories in order to live."</p>
+    <div class="quote-attr">— Joan Didion, <em>The White Album</em></div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Win Conditions For Today</div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">01</div>
+        <div class="win-body">
+          <div class="win-title">Get Joe an answer today — his post's date already passed</div>
+          <span class="pill">→ Client trust maintained</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">02</div>
+        <div class="win-body">
+          <div class="win-title">Get Rasto an answer today — also past his date now</div>
+          <span class="pill">→ Backlog actually cleared</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">03</div>
+        <div class="win-body">
+          <div class="win-title">Find real time for OR outreach — no dedicated block again today</div>
+          <span class="pill">→ Hub 22 → 50</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Urgent Decisions</div>
+    <div class="card">
+      <div class="decision-title">Joe's post date came and went yesterday — still no word sent</div>
+      <div class="decision-context">August 20 was the scheduled date. There's been no confirmation to him at any point, and no evidence yet on whether it actually published. Reach out today regardless — check status, and if it's stuck, get it moving.</div>
+      <span class="recommend-pill">Send + check status</span>
+    </div>
+    <div class="card">
+      <div class="decision-title">Rasto is now well past his date too — zero contact since the original intro</div>
+      <div class="decision-context">His post was slated for August 11. The only message he's had from you is the original July 4 introduction — nothing since. This one needs the same fix as Joe.</div>
+      <span class="recommend-pill">Send today</span>
+    </div>
+    <div class="card">
+      <div class="decision-title">10 AM double-booking: Workshop 1 vs. the weekly status call</div>
+      <div class="decision-context">Workshop 1 ("den fælles fortælling") runs 10–2 at Knudepunktet. Your recurring "AT: Status og opfølgning" call is 10–10:45, same start time. You can't be in both — decide now and let whoever runs the status call know if you're skipping it.</div>
+      <span class="recommend-pill">Decide + notify</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">What To Be Prepped For</div>
+    <div class="card">
+      <div class="decision-title">10:00 AM – 2:00 PM · Workshop 1: "den fælles fortælling" <span class="pill" style="margin-left:6px;">Knudepunktet · Teams</span></div>
+      <div class="decision-context">"The shared narrative" — four hours, no agenda or materials attached to the invite. Walk in knowing: this looks like a build-it-together session, not a review of something pre-drafted, so come ready to contribute rather than critique.</div>
+    </div>
+    <div class="card">
+      <div class="light-day-line">1:30 – 2:00 PM: <b>timeregistrering</b> — just your time-logging reminder, falls inside the workshop window, nothing to prep.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Five Things To Read</div>
+    <div class="card read-item">
+      <div class="read-tag">Jordan Bower</div>
+      <div class="read-title"><a href="https://www.jordanbower.com/leadership-storytelling-training-workshop" target="_blank" rel="noopener">Narrative Alignment Lab: Executive Storytelling Workshop for Visionary Impact</a></div>
+      <div class="read-why">The exact shape of today's Workshop 1, from a different facilitator's playbook — good comparison points before you walk in.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">SønderborgNYT</div>
+      <div class="read-title"><a href="https://www.sonderborgnyt.dk/soenderborg-bliver-centrum-for-ny-internationel-erhvervsuddannelse/" target="_blank" rel="noopener">Sønderborg bliver centrum for ny international erhvervsuddannelse</a></div>
+      <div class="read-why">EUC Syd's new English-taught automation technician program, drawing students from across Europe — a real new talent and member pipeline in your own territory.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">CNBC</div>
+      <div class="read-title"><a href="https://www.cnbc.com/2026/07/15/drones-defense-europe-autonomous-weapons.html" target="_blank" rel="noopener">Why Europe Is Suddenly Betting Big on Drones</a></div>
+      <div class="read-why">The funding story behind the drone side of the cluster — useful context, not just talking points.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">CNBC Select</div>
+      <div class="read-title"><a href="https://www.cnbc.com/select/how-women-invest/" target="_blank" rel="noopener">How Women Invest and How You Can Follow Their Lead</a></div>
+      <div class="read-why">Women outperform male investors by 0.4% annually — a genuinely good hook buried in a mainstream, credible source.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Neal Schaffer</div>
+      <div class="read-title"><a href="https://nealschaffer.com/linkedin-videos/" target="_blank" rel="noopener">LinkedIn Videos: The Complete 2026 Guide to B2B Video Success</a></div>
+      <div class="read-why">Video posts get shared 20x more than anything else on LinkedIn right now — worth knowing before the next Elevathors post goes out.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">If You Have Time</div>
+    <div class="card time-card">
+      <p>Workshop ends around 2, and nothing else is fixed on the calendar after that. Once Joe and Rasto are actually sent, <b>let yourself clock out into the weekend</b> instead of turning a free Friday afternoon into overflow time.</p>
+    </div>
+  </div>
+
+  <footer>Built for Melanie · 7:00 AM</footer>
+
+</div>
+
+<script>
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.getElementById('themeToggle').textContent = theme === 'dark' ? 'Dark' : 'Light';
+  }
+  function toggleTheme() {
+    var current = document.documentElement.getAttribute('data-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('brief-theme', next);
+    applyTheme(next);
+  }
+  (function init() {
+    var saved = localStorage.getItem('brief-theme');
+    if (saved) {
+      applyTheme(saved);
+    } else {
+      var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      applyTheme(system);
+    }
+  })();
+</script>
+</body>
+</html>

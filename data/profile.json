@@ -40,7 +40,8 @@
       "Danish business news",
       "Creator economy / LinkedIn content strategy",
       "Personal brand & wealth-building content (her own pillar)"
-    ]
+    ],
+    "recency_rule": "Added 2026-08-27 at Melanie's request: every news/trend/read item must be published no more than 2 months before the brief's date. Verify the actual publish date before including anything — don't assume from a search snippet. Applies to Five Things To Read and any other news/trend content surfaced in the brief. Does NOT apply to the daily book quote, which can be from any era."
   },
   "connected_tools": {
     "calendar": "Google Calendar — many calendars on this account, several with generic/non-obvious names. Two are import-type ICS feeds (organizer field literally says 'Kalender' / 'Hjem') and MUST NOT be skipped just because the name doesn't say 'work':",
@@ -64,6 +65,6 @@
   "known_gaps": [
     "No dedicated Odense Robotics email inbox is connected — only personal Gmail and the Elevathors Outlook mailbox. OR outreach/email progress can't be verified directly until this is connected. (Calendar visibility into OR is fine via the 'Kalender' calendar — this gap is email only.)"
   ],
-  "profile_version": 1,
-  "last_updated": "2026-08-17"
+  "profile_version": 2,
+  "last_updated": "2026-08-27"
 }

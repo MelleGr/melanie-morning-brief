@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morning Brief — Wednesday, September 2, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #225EDC;
+    --accent-dim: rgba(34,94,220,0.14);
+  }
+  html[data-theme="dark"] {
+    --bg: #000405;
+    --card: #0b1013;
+    --card-border: rgba(255,255,255,0.08);
+    --text-95: rgba(255,255,255,0.95);
+    --text-60: rgba(255,255,255,0.60);
+    --text-38: rgba(255,255,255,0.38);
+  }
+  html[data-theme="light"] {
+    --bg: #FBFBF9;
+    --card: #ffffff;
+    --card-border: rgba(0,0,0,0.08);
+    --text-95: rgba(10,10,10,0.95);
+    --text-60: rgba(10,10,10,0.62);
+    --text-38: rgba(10,10,10,0.42);
+  }
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme]) {
+      --bg: #000405;
+      --card: #0b1013;
+      --card-border: rgba(255,255,255,0.08);
+      --text-95: rgba(255,255,255,0.95);
+      --text-60: rgba(255,255,255,0.60);
+      --text-38: rgba(255,255,255,0.38);
+    }
+  }
+  @media (prefers-color-scheme: light) {
+    html:not([data-theme]) {
+      --bg: #FBFBF9;
+      --card: #ffffff;
+      --card-border: rgba(0,0,0,0.08);
+      --text-95: rgba(10,10,10,0.95);
+      --text-60: rgba(10,10,10,0.62);
+      --text-38: rgba(10,10,10,0.42);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text-95);
+    font-family: 'Inter', -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+  }
+  .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-38);
+  }
+  .date {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 6px;
+    color: var(--text-95);
+  }
+  .toggle {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-60);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .toggle:hover { color: var(--text-95); border-color: var(--text-38); }
+
+  .quote-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 28px 30px;
+    margin-bottom: 48px;
+  }
+  .quote-text {
+    font-size: 19px;
+    line-height: 1.5;
+    font-weight: 500;
+    color: var(--text-95);
+    margin: 0 0 10px;
+  }
+  .quote-attr {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-38);
+  }
+
+  .section { margin-bottom: 48px; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-38);
+    margin-bottom: 16px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 20px 22px;
+    margin-bottom: 12px;
+  }
+  .card:last-child { margin-bottom: 0; }
+
+  .win-row { display: flex; gap: 16px; align-items: flex-start; }
+  .win-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--accent);
+    min-width: 22px;
+  }
+  .win-body { flex: 1; }
+  .win-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .pill {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-top: 2px;
+  }
+  .cut-note {
+    font-size: 13px;
+    color: var(--text-38);
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  .decision-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .decision-context { font-size: 14.5px; line-height: 1.55; color: var(--text-60); margin-bottom: 12px; }
+  .recommend-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 5px 14px;
+  }
+
+  .light-day-line {
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--text-60);
+  }
+  .light-day-line b { color: var(--text-95); font-weight: 600; }
+
+  .read-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .read-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .read-title a {
+    color: var(--text-95);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+  }
+  .read-title a:hover { border-bottom-color: var(--text-38); }
+  .read-why { font-size: 14.5px; color: var(--text-60); line-height: 1.5; }
+
+  .time-card p { font-size: 15.5px; line-height: 1.6; color: var(--text-60); margin: 0; }
+  .time-card p b { color: var(--text-95); font-weight: 600; }
+
+  footer {
+    margin-top: 56px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-38);
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 36px 18px 72px; }
+    .date { font-size: 19px; }
+    .quote-text { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div>
+      <div class="kicker">Melanie's Morning Brief</div>
+      <div class="date">Wednesday, September 2, 2026</div>
+    </div>
+    <button class="toggle" id="themeToggle" onclick="toggleTheme()">Dark</button>
+  </div>
+
+  <div class="quote-card">
+    <p class="quote-text">"Somewhere, something incredible is waiting to be known."</p>
+    <div class="quote-attr">— Carl Sagan, <em>Cosmos</em></div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Win Conditions For Today</div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">01</div>
+        <div class="win-body">
+          <div class="win-title">Walk into AI i eksport with 2–3 specific questions — extract real value for OR members, not just attendance</div>
+          <span class="pill">→ Hub credibility</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">02</div>
+        <div class="win-body">
+          <div class="win-title">Use the 8–9 AM focus block for real triage — you're offline in Sønderborg the rest of the day</div>
+          <span class="pill">→ Protects the day</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">03</div>
+        <div class="win-body">
+          <div class="win-title">Get Joe and Matko off your plate before the conference swallows the day — even two lines from your phone counts</div>
+          <span class="pill">→ Elevathors pipeline, finally</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Urgent Decisions</div>
+    <div class="card">
+      <div class="decision-title">Transport and registration for today's event — your own calendar note flags both as unconfirmed</div>
+      <div class="decision-context">The event description literally says "Husk: Book transport til Sønderborg og bekræft tilmelding." Worth a two-minute check before 8 so it's not a scramble.</div>
+      <span class="recommend-pill">Confirm before 8 AM</span>
+    </div>
+    <div class="card">
+      <div class="decision-title">Joe and Matko — email clearly isn't working</div>
+      <div class="decision-context">Every other name from Friday's original list is resolved: Simon's scheduled for next Tuesday, Jan Tore closed it out with a laugh, Klaus is in motion, even Morten's blocker got fixed same-day. Joe and Matko have had zero movement across three flagged mornings now.</div>
+      <span class="recommend-pill">Call instead of email</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">What To Be Prepped For</div>
+    <div class="card">
+      <div class="decision-title">8:00 – 9:00 AM · Focus Time — Reply to Emails</div>
+      <div class="decision-context">Self-scheduled block. This is genuinely the only inbox time you'll get before evening.</div>
+    </div>
+    <div class="card">
+      <div class="decision-title">9:00 AM – 5:00 PM · AI i eksport — fra inspiration til handling (Sønderborg)</div>
+      <div class="decision-context">First time this event's appeared in the brief — no prior notes. A full day out, so the one thing to walk in knowing is what you actually want to bring back for members, not just what you'll absorb.</div>
+    </div>
+    <div class="card">
+      <div class="light-day-line">Two personal notes for today: Magnus hurt his little toe on a parasol stone yesterday and missed football — worth a check-in if you get a break. And "Emma" is flagged on the home calendar today, so a quick message would be nice if there's a gap.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Five Things To Read</div>
+    <div class="card read-item">
+      <div class="read-tag">TechCrunch</div>
+      <div class="read-title"><a href="https://techcrunch.com/2026/07/30/linkedin-adds-a-button-to-report-ai-generated-slop/" target="_blank" rel="noopener">LinkedIn Adds A Button To Report AI-Generated 'Slop'</a></div>
+      <div class="read-why">Worth knowing before your next Elevathors post goes out — 40% of long-form posts reportedly qualify right now.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">RBC Wealth Management</div>
+      <div class="read-title"><a href="https://us.rbcwealthmanagement.com/david.roth/blog//6957857-How-inner-wealth-is-reshaping-financial-planning-for-high-net-worth-women" target="_blank" rel="noopener">How 'Inner Wealth' Is Reshaping Financial Planning For High-Net-Worth Women</a></div>
+      <div class="read-why">A different question than the usual stat roundup — "what is this wealth ultimately for" is real material for your own pillar.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Militarnyi</div>
+      <div class="read-title"><a href="https://militarnyi.com/en/news/frontline-robotics-dropla-develop-ai-ugvs/" target="_blank" rel="noopener">Frontline Robotics And Dropla To Jointly Develop AI UGVs</a></div>
+      <div class="read-why">A Danish-Ukrainian robotics partnership from a couple weeks ago — good context walking into a day about AI and industry.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Dansk Erhverv</div>
+      <div class="read-title"><a href="https://www.danskerhverv.dk/kurser-og-events/Events/dansk-erhvervs-arsdag/" target="_blank" rel="noopener">Dansk Erhvervs Årsdag 2026</a></div>
+      <div class="read-why">Happening today in København — politicians, CEOs, and the Danish Chamber of Commerce Prize. Worth knowing what the rest of Danish business is talking about while you're in Sønderborg.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Vores Sønderborg</div>
+      <div class="read-title"><a href="https://vores-sonderborg.dk/a/nye-virksomheder-i-soenderborg-i-sidste-maaned/ca85a042-2207-433b-827e-f3ac41e04436" target="_blank" rel="noopener">Nye Virksomheder I Sønderborg I Sidste Måned</a></div>
+      <div class="read-why">Fresh local company registrations — a genuine outreach list sitting in plain sight, and you're in town today anyway.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">If You Have Time</div>
+    <div class="card time-card">
+      <p>Somewhere in today's schedule there's a coffee break. <b>Use it to text Magnus about his toe</b> — not to check Slack, just to check on him.</p>
+    </div>
+  </div>
+
+  <footer>Built for Melanie · 7:00 AM</footer>
+
+</div>
+
+<script>
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.getElementById('themeToggle').textContent = theme === 'dark' ? 'Dark' : 'Light';
+  }
+  function toggleTheme() {
+    var current = document.documentElement.getAttribute('data-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('brief-theme', next);
+    applyTheme(next);
+  }
+  (function init() {
+    var saved = localStorage.getItem('brief-theme');
+    if (saved) {
+      applyTheme(saved);
+    } else {
+      var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      applyTheme(system);
+    }
+  })();
+</script>
+</body>
+</html>

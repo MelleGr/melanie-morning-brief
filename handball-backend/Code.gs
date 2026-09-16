@@ -25,6 +25,11 @@ function getSheet_(key){
     sheet.appendRow(def.cols);
     sheet.setFrozenRows(1);
   }
+  // Force every data column to plain text. Without this, Sheets silently
+  // reinterprets a value like "2026-03-03" as a real date, which then
+  // comes back through getValues() shifted by the spreadsheet's timezone
+  // (e.g. "2026-03-02T23:00:00.000Z") instead of the plain string we wrote.
+  sheet.getRange(2, 1, Math.max(sheet.getMaxRows() - 1, 1), def.cols.length).setNumberFormat("@");
   return sheet;
 }
 

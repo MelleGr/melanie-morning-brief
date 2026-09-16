@@ -510,10 +510,16 @@
   function apiGet(){
     return fetch(API_URL, { method: "GET" }).then(function(r){ return r.json(); });
   }
+  // Writes also travel as GET (action + payload in the query string), not
+  // POST — see the comment at the top of handball-backend/Code.gs for why:
+  // a cross-origin POST to an Apps Script Web App gets silently downgraded
+  // to a bodyless GET on the redirect, so a POST write just vanishes.
   function apiPost(action, payload, needsAdmin){
-    var body = { action: action, payload: payload };
-    if(needsAdmin) body.adminKey = getAdminKey();
-    return fetch(API_URL, { method: "POST", body: JSON.stringify(body) }).then(function(r){ return r.json(); });
+    var params = new URLSearchParams();
+    params.set("action", action);
+    params.set("payload", JSON.stringify(payload || {}));
+    if(needsAdmin) params.set("adminKey", getAdminKey());
+    return fetch(API_URL + "?" + params.toString(), { method: "GET" }).then(function(r){ return r.json(); });
   }
 
   var pendingRender = false;

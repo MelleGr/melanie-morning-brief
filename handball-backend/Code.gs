@@ -2,6 +2,12 @@
  * Kampkalenderen — backend for the handball availability tool.
  * Deploy this as a Google Apps Script Web App bound to a Google Sheet.
  * See handball-backend/README.md for the one-time deploy steps.
+ *
+ * Writes travel as GET requests with the data in the query string, not
+ * POST. Apps Script Web Apps answer a cross-origin request with a redirect,
+ * and the redirect step turns a POST into a GET and drops its body before
+ * it ever reaches doPost — so a POST-based write silently vanishes. GET
+ * requests don't have that problem, so every write goes through doGet too.
  */
 
 var SHEETS = {
@@ -74,19 +80,108 @@ function newId_(prefix){
   return prefix + "_" + Utilities.getUuid().replace(/-/g, "").slice(0, 12);
 }
 
-function checkAdmin_(body){
+function checkAdmin_(req){
   var key = PropertiesService.getScriptProperties().getProperty("ADMIN_KEY");
-  return !!key && body.adminKey === key;
+  return !!key && req.adminKey === key;
 }
 
 function jsonOut_(obj){
   return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
 }
 
+/** req = { action, payload, adminKey } with payload already a plain object. */
+function handleAction_(req){
+  var action = req.action;
+  var payload = req.payload || {};
+
+  if(action === "saveProfile"){
+    if(!payload.id || !payload.name || !payload.position) return jsonOut_({ ok:false, error:"invalid_argument" });
+    upsertRow_("players", payload.id, {
+      name: String(payload.name).slice(0,80),
+      position: String(payload.position),
+      detail: String(payload.detail||"").slice(0,120),
+      updatedAt: new Date().toISOString()
+    });
+    return jsonOut_({ ok:true });
+  }
+
+  if(action === "deletePlayer"){
+    if(!payload.id) return jsonOut_({ ok:false, error:"invalid_argument" });
+    deleteRow_("players", payload.id);
+    return jsonOut_({ ok:true });
+  }
+
+  if(action === "setAvailability"){
+    if(!payload.matchId || !payload.playerId) return jsonOut_({ ok:false, error:"invalid_argument" });
+    var id = payload.matchId + "__" + payload.playerId;
+    if(payload.status === null || payload.status === undefined){
+      deleteRow_("availability", id);
+    } else {
+      upsertRow_("availability", id, {
+        matchId: payload.matchId,
+        playerId: payload.playerId,
+        playerName: String(payload.playerName||"").slice(0,80),
+        position: String(payload.position||""),
+        status: String(payload.status),
+        updatedAt: new Date().toISOString()
+      });
+    }
+    return jsonOut_({ ok:true });
+  }
+
+  if(action === "addMatch"){
+    if(!checkAdmin_(req)) return jsonOut_({ ok:false, error:"not_admin" });
+    if(!payload.date || !payload.opponent) return jsonOut_({ ok:false, error:"invalid_argument" });
+    var mid = newId_("m");
+    upsertRow_("matches", mid, {
+      date: payload.date, time: payload.time||"", opponent: String(payload.opponent).slice(0,120),
+      location: String(payload.location||"").slice(0,120), minPlayers: payload.minPlayers||12,
+      dateChangedAt: "", previousDate: "", createdAt: new Date().toISOString()
+    });
+    return jsonOut_({ ok:true, id: mid });
+  }
+
+  if(action === "updateMatch"){
+    if(!checkAdmin_(req)) return jsonOut_({ ok:false, error:"not_admin" });
+    if(!payload.id || !payload.date || !payload.opponent) return jsonOut_({ ok:false, error:"invalid_argument" });
+    var sheet = getSheet_("matches");
+    var idx = findRowIndex_(sheet, SHEETS.matches, payload.id);
+    if(idx < 0) return jsonOut_({ ok:false, error:"not_found" });
+    var existingVals = sheet.getRange(idx, 1, 1, SHEETS.matches.cols.length).getValues()[0];
+    var existingDate = existingVals[1];
+    var patch = {
+      date: payload.date, time: payload.time||"", opponent: String(payload.opponent).slice(0,120),
+      location: String(payload.location||"").slice(0,120), minPlayers: payload.minPlayers||12
+    };
+    if(existingDate && String(existingDate) !== String(payload.date)){
+      patch.dateChangedAt = new Date().toISOString();
+      patch.previousDate = existingDate;
+    }
+    upsertRow_("matches", payload.id, patch);
+    return jsonOut_({ ok:true });
+  }
+
+  if(action === "deleteMatch"){
+    if(!checkAdmin_(req)) return jsonOut_({ ok:false, error:"not_admin" });
+    if(!payload.id) return jsonOut_({ ok:false, error:"invalid_argument" });
+    deleteRow_("matches", payload.id);
+    return jsonOut_({ ok:true });
+  }
+
+  return jsonOut_({ ok:false, error:"unknown_action" });
+}
+
 function doGet(e){
   var lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try{
+    var params = (e && e.parameter) || {};
+    if(params.action){
+      var payload = {};
+      try{ payload = params.payload ? JSON.parse(params.payload) : {}; }
+      catch(err){ return jsonOut_({ ok:false, error:"bad_request" }); }
+      return handleAction_({ action: params.action, payload: payload, adminKey: params.adminKey || "" });
+    }
     return jsonOut_({
       ok: true,
       matches: readAll_("matches"),
@@ -98,95 +193,15 @@ function doGet(e){
   }
 }
 
-// Body is sent as text/plain (JSON string) to avoid a CORS preflight that
-// Apps Script web apps cannot answer. Parse it manually.
+// Kept for completeness; the page itself calls doGet with an action
+// parameter (see the file header for why POST isn't used for writes).
 function doPost(e){
   var lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try{
     var body = {};
     try{ body = JSON.parse(e.postData.contents); }catch(err){ return jsonOut_({ ok:false, error:"bad_request" }); }
-    var action = body.action;
-
-    if(action === "saveProfile"){
-      var p = body.payload || {};
-      if(!p.id || !p.name || !p.position) return jsonOut_({ ok:false, error:"invalid_argument" });
-      upsertRow_("players", p.id, {
-        name: String(p.name).slice(0,80),
-        position: String(p.position),
-        detail: String(p.detail||"").slice(0,120),
-        updatedAt: new Date().toISOString()
-      });
-      return jsonOut_({ ok:true });
-    }
-
-    if(action === "deletePlayer"){
-      if(!body.payload || !body.payload.id) return jsonOut_({ ok:false, error:"invalid_argument" });
-      deleteRow_("players", body.payload.id);
-      return jsonOut_({ ok:true });
-    }
-
-    if(action === "setAvailability"){
-      var a = body.payload || {};
-      if(!a.matchId || !a.playerId) return jsonOut_({ ok:false, error:"invalid_argument" });
-      var id = a.matchId + "__" + a.playerId;
-      if(a.status === null){
-        deleteRow_("availability", id);
-      } else {
-        upsertRow_("availability", id, {
-          matchId: a.matchId,
-          playerId: a.playerId,
-          playerName: String(a.playerName||"").slice(0,80),
-          position: String(a.position||""),
-          status: String(a.status),
-          updatedAt: new Date().toISOString()
-        });
-      }
-      return jsonOut_({ ok:true });
-    }
-
-    if(action === "addMatch"){
-      if(!checkAdmin_(body)) return jsonOut_({ ok:false, error:"not_admin" });
-      var m = body.payload || {};
-      if(!m.date || !m.opponent) return jsonOut_({ ok:false, error:"invalid_argument" });
-      var mid = newId_("m");
-      upsertRow_("matches", mid, {
-        date: m.date, time: m.time||"", opponent: String(m.opponent).slice(0,120),
-        location: String(m.location||"").slice(0,120), minPlayers: m.minPlayers||12,
-        dateChangedAt: "", previousDate: "", createdAt: new Date().toISOString()
-      });
-      return jsonOut_({ ok:true, id: mid });
-    }
-
-    if(action === "updateMatch"){
-      if(!checkAdmin_(body)) return jsonOut_({ ok:false, error:"not_admin" });
-      var um = body.payload || {};
-      if(!um.id || !um.date || !um.opponent) return jsonOut_({ ok:false, error:"invalid_argument" });
-      var sheet = getSheet_("matches");
-      var idx = findRowIndex_(sheet, SHEETS.matches, um.id);
-      if(idx < 0) return jsonOut_({ ok:false, error:"not_found" });
-      var existingVals = sheet.getRange(idx, 1, 1, SHEETS.matches.cols.length).getValues()[0];
-      var existingDate = existingVals[1];
-      var patch = {
-        date: um.date, time: um.time||"", opponent: String(um.opponent).slice(0,120),
-        location: String(um.location||"").slice(0,120), minPlayers: um.minPlayers||12
-      };
-      if(existingDate && String(existingDate) !== String(um.date)){
-        patch.dateChangedAt = new Date().toISOString();
-        patch.previousDate = existingDate;
-      }
-      upsertRow_("matches", um.id, patch);
-      return jsonOut_({ ok:true });
-    }
-
-    if(action === "deleteMatch"){
-      if(!checkAdmin_(body)) return jsonOut_({ ok:false, error:"not_admin" });
-      if(!body.payload || !body.payload.id) return jsonOut_({ ok:false, error:"invalid_argument" });
-      deleteRow_("matches", body.payload.id);
-      return jsonOut_({ ok:true });
-    }
-
-    return jsonOut_({ ok:false, error:"unknown_action" });
+    return handleAction_(body);
   } finally {
     lock.releaseLock();
   }

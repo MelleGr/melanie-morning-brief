@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kampkalenderen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Karla:wght@400;500;600;700;800&display=swap">
+<style>
+  :root{
+    color-scheme: light dark;
+    --ink:#182620; --ink-soft:#4B5B53; --paper:#F7F3EC; --surface:#FFFFFF; --line:#E4DCC9;
+    --accent:#2B6E5D; --accent-soft:#DEEAE4; --ember:#E0592A; --ember-soft:#FBE6DA;
+    --good:#2F7D4F; --good-soft:#E1F1E6; --warn:#B94A17; --warn-soft:#F8E2D4;
+    --info:#2A6FB0; --info-soft:#E1EDF7; --focus:#2B6E5D;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --ink:#F1ECE1; --ink-soft:#B9C4BC; --paper:#131C17; --surface:#1B2620; --line:#2C3A32;
+      --accent:#6FBFA3; --accent-soft:#20362E; --ember:#F0824F; --ember-soft:#3A2418;
+      --good:#67C48A; --good-soft:#1D3327; --warn:#F0A268; --warn-soft:#3B2417;
+      --info:#7FB4E8; --info-soft:#1B2C3D; --focus:#6FBFA3;
+    }
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0; background:var(--paper);}
+  body{
+    color:var(--ink); font-family:'Karla',system-ui,-apple-system,'Segoe UI',sans-serif;
+    padding-inline:16px; padding-block:20px 48px; max-width:760px; margin-inline:auto; line-height:1.45;
+  }
+  h1,h2,h3,h4{font-family:'Big Shoulders Display',system-ui,sans-serif; margin:0;}
+  .num{font-variant-numeric:tabular-nums;}
+  img{max-width:100%;}
+
+  header.top{margin-bottom:18px;}
+  .eyebrow{font-family:'Karla',sans-serif; font-weight:700; letter-spacing:.08em; text-transform:uppercase; font-size:11.5px; color:var(--accent);}
+  h1.title{font-size:34px; font-weight:800; letter-spacing:.01em; line-height:1;}
+  .sub{color:var(--ink-soft); font-size:13.5px; margin-top:4px;}
+  .sync-state{font-size:11.5px; color:var(--ink-soft); margin-top:8px;}
+  .sync-state.err{color:var(--warn);}
+
+  .share{display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; align-items:center;}
+  .share input{flex:1 1 200px; min-width:0; font-family:'Karla',monospace; font-size:12.5px; padding:8px 10px; border-radius:8px; border:1px solid var(--line); background:var(--surface); color:var(--ink-soft);}
+  .btn{font-family:'Karla',sans-serif; font-weight:700; font-size:13.5px; cursor:pointer; border-radius:9px; border:1px solid var(--line); background:var(--surface); color:var(--ink); padding:9px 14px; white-space:nowrap;}
+  .btn:focus-visible, input:focus-visible, select:focus-visible{outline:2px solid var(--focus); outline-offset:2px;}
+  .btn.primary{background:var(--accent); border-color:var(--accent); color:var(--surface);}
+  .btn.ghost{background:transparent;}
+  .btn.small{padding:6px 10px; font-size:12px;}
+  .btn.danger{color:var(--warn); border-color:var(--warn-soft);}
+  .btn[disabled]{opacity:.5; cursor:default;}
+
+  nav.tabs{display:flex; gap:6px; margin-top:18px; border-bottom:1px solid var(--line);}
+  nav.tabs button{font-family:'Karla',sans-serif; font-weight:700; font-size:13.5px; cursor:pointer; background:transparent; border:none; border-bottom:2.5px solid transparent; color:var(--ink-soft); padding:9px 4px; margin-bottom:-1px;}
+  nav.tabs button.active{color:var(--ink); border-bottom-color:var(--accent);}
+  nav.tabs button .dot{display:inline-block; min-width:16px; height:16px; padding:0 4px; border-radius:8px; background:var(--warn); color:#fff; font-size:10px; font-weight:800; line-height:16px; text-align:center; margin-left:5px; vertical-align:2px;}
+
+  section.view{padding-top:20px;}
+  section.view[hidden]{display:none!important;}
+
+  .card{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:12px;}
+
+  .profile-form{display:flex; flex-direction:column; gap:10px;}
+  .field{display:flex; flex-direction:column; gap:5px;}
+  .field label{font-size:12px; font-weight:700; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.04em;}
+  .field input[type=text], .field input[type=date], .field input[type=time], .field select{
+    font-family:'Karla',sans-serif; font-size:14.5px; padding:9px 11px; border-radius:9px; border:1px solid var(--line); background:var(--paper); color:var(--ink); width:100%;
+  }
+  .pos-row{display:flex; gap:8px; flex-wrap:wrap;}
+  .pos-choice{flex:1 1 auto; text-align:center; padding:10px 8px; border-radius:10px; border:1.5px solid var(--line); cursor:pointer; font-weight:700; font-size:13px; background:var(--paper); color:var(--ink-soft);}
+  .pos-choice.picked{border-color:var(--accent); background:var(--accent-soft); color:var(--ink);}
+  .profile-summary{display:flex; align-items:center; gap:12px; justify-content:space-between; flex-wrap:wrap;}
+  .who{display:flex; align-items:center; gap:10px;}
+  .avatar{width:38px; height:38px; border-radius:50%; background:var(--accent-soft); color:var(--accent); display:flex; align-items:center; justify-content:center; font-weight:800; font-family:'Big Shoulders Display'; font-size:17px; flex:none;}
+  .who .name{font-weight:700; font-size:15px;}
+  .who .pos{font-size:12.5px; color:var(--ink-soft);}
+  .claim-box{border-top:1px solid var(--line); margin-top:14px; padding-top:12px;}
+  .claim-box .hint{font-size:12px; color:var(--ink-soft); margin-bottom:6px;}
+
+  .banner{display:flex; align-items:center; gap:10px; padding:12px 14px; border-radius:12px; background:var(--warn-soft); color:var(--warn); font-weight:700; font-size:13.5px; margin-bottom:10px;}
+  .banner.ok{background:var(--good-soft); color:var(--good);}
+  .banner.info{background:var(--info-soft); color:var(--info);}
+
+  .match-row{display:flex; align-items:center; gap:14px; padding:13px 8px; border-top:1px solid var(--line); border-radius:10px;}
+  .match-row:first-of-type{border-top:none;}
+  .match-row.stale{background:var(--info-soft); border-top-color:transparent;}
+  .pill-reconfirm{display:inline-block; font-size:10.5px; font-weight:800; color:var(--info); background:var(--surface); border:1px solid var(--info); padding:2px 7px; border-radius:20px; margin-bottom:4px;}
+  .datebox{flex:none; width:52px; text-align:center;}
+  .datebox .d{font-family:'Big Shoulders Display'; font-size:26px; font-weight:800; line-height:1;}
+  .datebox .m{font-size:10.5px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.05em; font-weight:700;}
+  .match-info{flex:1 1 auto; min-width:0;}
+  .match-info .opp{font-weight:700; font-size:14.5px;}
+  .match-info .meta{font-size:12px; color:var(--ink-soft); margin-top:1px;}
+  .status-toggle{display:flex; gap:5px; flex:none; flex-wrap:wrap; justify-content:flex-end;}
+  .status-toggle button{font-family:'Karla',sans-serif; font-weight:700; font-size:12px; padding:7px 10px; border-radius:8px; border:1.5px solid var(--line); background:var(--paper); color:var(--ink-soft); cursor:pointer;}
+  .status-toggle button.on.yes{background:var(--good-soft); border-color:var(--good); color:var(--good);}
+  .status-toggle button.on.maybe{background:var(--ember-soft); border-color:var(--ember); color:var(--ember);}
+  .status-toggle button.on.no{background:var(--warn-soft); border-color:var(--warn); color:var(--warn);}
+
+  .toprow{display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap;}
+  .mcard{background:var(--surface); border:1px solid var(--line); border-radius:14px; margin-bottom:10px; border-left:5px solid var(--line); overflow:hidden;}
+  .mcard.flag{border-left-color:var(--warn);}
+  .mcard.pending{border-left-color:var(--info);}
+  .mcard.ok{border-left-color:var(--good);}
+  .mcard-head{display:flex; align-items:center; gap:14px; padding:14px 16px; cursor:pointer;}
+  .mcard-head .datebox{width:56px;}
+  .mcard-head .opp{font-weight:700; font-size:15.5px;}
+  .mcard-head .meta{font-size:12px; color:var(--ink-soft); margin-top:2px;}
+  .chips{display:flex; gap:6px; flex:none; flex-wrap:wrap; justify-content:flex-end;}
+  .chip{font-size:11.5px; font-weight:800; padding:4px 8px; border-radius:20px; font-variant-numeric:tabular-nums;}
+  .chip.yes{background:var(--good-soft); color:var(--good);}
+  .chip.maybe{background:var(--ember-soft); color:var(--ember);}
+  .chip.no{background:var(--warn-soft); color:var(--warn);}
+  .flagtext{font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.03em; margin-top:4px; display:flex; gap:10px; flex-wrap:wrap;}
+  .flagtext.st-flag{color:var(--warn);}
+  .flagtext.st-pending{color:var(--info);}
+  .mcard-body{padding:0 16px 16px; border-top:1px solid var(--line);}
+  .mcard-body[hidden]{display:none;}
+  .posgroup{margin-top:12px;}
+  .posgroup h4{font-family:'Karla',sans-serif; font-size:11.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); margin:0 0 6px;}
+  .plist{display:flex; flex-wrap:wrap; gap:6px;}
+  .ptag{font-size:12.5px; padding:4px 9px; border-radius:20px; background:var(--paper); border:1px solid var(--line);}
+  .ptag.empty{color:var(--ink-soft); border-style:dashed;}
+  .noanswer{font-size:12px; color:var(--ink-soft); margin-top:10px;}
+
+  .admin-toggle{font-size:12px; color:var(--ink-soft); background:none; border:none; text-decoration:underline; cursor:pointer; padding:4px 0;}
+  .admin-panel{margin-top:6px;}
+  .admin-form{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:6px;}
+  .admin-form .field.wide{grid-column:1/-1;}
+  .admin-actions{display:flex; gap:8px; padding:10px 16px 14px; border-top:1px solid var(--line); flex-wrap:wrap;}
+  .tag-hint{font-size:11.5px; color:var(--ink-soft); margin-top:4px;}
+  .import-box{border:1.5px dashed var(--line); border-radius:12px; padding:14px; margin-bottom:16px; background:var(--paper); font-size:13px; color:var(--ink-soft);}
+  .import-box h3{font-size:16px; margin-bottom:4px; color:var(--ink);}
+
+  .roster-group{margin-bottom:18px;}
+  .roster-group h3{font-size:18px; margin-bottom:8px;}
+  .roster-count{font-size:13px; color:var(--ink-soft); font-weight:400; font-family:'Karla',sans-serif; margin-left:6px;}
+  .prow{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 0; border-top:1px solid var(--line);}
+  .prow:first-of-type{border-top:none;}
+  .prow .detail{font-size:12px; color:var(--ink-soft);}
+
+  .empty-state{color:var(--ink-soft); font-size:13.5px; padding:20px 4px; text-align:center;}
+  .toast{position:fixed; left:50%; bottom:22px; transform:translateX(-50%); background:var(--ink); color:var(--paper); padding:10px 16px; border-radius:10px; font-size:13px; font-weight:600; z-index:50; max-width:88vw; text-align:center; box-shadow:0 8px 24px rgba(0,0,0,.25);}
+  .toast[hidden]{display:none;}
+  .setup-notice{max-width:520px; margin:60px auto; text-align:center;}
+</style>
+</head>
+<body>
+
+<div id="setupNotice" class="setup-notice" hidden>
+  <h1 class="title">Kampkalenderen er ikke helt sat op endnu</h1>
+  <p class="sub">Backend-adressen mangler i <code>docs/kampkalender/config.js</code>. Se <code>handball-backend/README.md</code> for opsætning.</p>
+</div>
+
+<div id="app" hidden>
+<header class="top">
+  <div class="eyebrow">Sæsonens kampe</div>
+  <h1 class="title">Kampkalenderen</h1>
+  <div class="sub">Sæt kryds ved de kampe du kan spille &mdash; opdateres for hele holdet.</div>
+  <div class="share">
+    <input id="shareUrl" type="text" readonly value="" aria-label="Link til kampkalenderen">
+    <button class="btn" id="copyBtn" type="button">Kopiér link</button>
+  </div>
+  <div class="sync-state" id="syncState"></div>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button data-tab="mine" class="active" role="tab" aria-selected="true">Min status</button>
+  <button data-tab="overblik" role="tab" aria-selected="false">Kampoverblik<span class="dot" id="flagDot" hidden>0</span></button>
+  <button data-tab="spillere" role="tab" aria-selected="false">Spillerliste</button>
+</nav>
+
+<section class="view" id="view-mine"></section>
+<section class="view" id="view-overblik" hidden></section>
+<section class="view" id="view-spillere" hidden></section>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="config.js"></script>
+<script>
+(function(){
+
+  var API_URL = (window.KAMPKALENDER_CONFIG && window.KAMPKALENDER_CONFIG.apiUrl) || "";
+  if(!API_URL){
+    document.getElementById("setupNotice").hidden = false;
+    return;
+  }
+  document.getElementById("app").hidden = false;
+
+  var POSITIONS = { goalkeeper:"Målmand", wing:"Fløj", back:"Bagspiller", pivot:"Streg", other:"Andet" };
+  var POS_ORDER = ["goalkeeper","wing","back","pivot","other"];
+  var STATUS_LABEL = { yes:"Kan spille", maybe:"Måske", no:"Kan ikke" };
+  var DEFAULT_MIN_PLAYERS = 12;
+  var WEEKDAYS = ["søn","man","tir","ons","tor","fre","lør"];
+  var MONTHS = ["jan","feb","mar","apr","maj","jun","jul","aug","sep","okt","nov","dec"];
+  var POLL_MS = 7000;
+
+  var state = { matches: {}, players: {}, availability: {} };
+  var activeTab = "mine";
+  var expanded = {};
+  var adminMode = false;
+  var lastSyncOk = null;
+
+  function safeLS(fn, fallback){ try{ return fn(); }catch(e){ return fallback; } }
+
+  var PLAYER_ID = safeLS(function(){
+    var id = localStorage.getItem("hb_player_id");
+    if(!id){
+      id = "p_" + Math.random().toString(36).slice(2,10) + Date.now().toString(36);
+      localStorage.setItem("hb_player_id", id);
+    }
+    return id;
+  }, "p_" + Math.random().toString(36).slice(2,10));
+
+  adminMode = !!safeLS(function(){ return localStorage.getItem("hb_admin_mode") === "1"; }, false);
+
+  function getAdminKey(){ return safeLS(function(){ return localStorage.getItem("hb_admin_key") || ""; }, ""); }
+  function setAdminKey(k){ safeLS(function(){ localStorage.setItem("hb_admin_key", k); }); }
+
+  function toast(msg){
+    var el = document.getElementById("toast");
+    el.textContent = msg;
+    el.hidden = false;
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function(){ el.hidden = true; }, 3400);
+  }
+
+  function esc(s){
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];
+    });
+  }
+
+  function fmtDatePart(iso){
+    if(!iso) return { d:"--", m:"", full:"Dato mangler" };
+    var parts = String(iso).slice(0,10).split("-");
+    var dt = new Date(Date.UTC(+parts[0], +parts[1]-1, +parts[2]));
+    return { d: parts[2], m: MONTHS[dt.getUTCMonth()], full: WEEKDAYS[dt.getUTCDay()] + ". " + parts[2] + ". " + MONTHS[dt.getUTCMonth()] };
+  }
+
+  function daysUntil(iso){
+    if(!iso) return null;
+    var parts = String(iso).slice(0,10).split("-");
+    var target = new Date(+parts[0], +parts[1]-1, +parts[2]);
+    var now = new Date(); now.setHours(0,0,0,0); target.setHours(0,0,0,0);
+    return Math.round((target - now) / 86400000);
+  }
+
+  function relativeDay(iso){
+    var n = daysUntil(iso);
+    if(n === null) return "";
+    if(n === 0) return "i dag";
+    if(n === 1) return "i morgen";
+    if(n < 0) return "overstået";
+    if(n <= 7) return "om " + n + " dage";
+    return "";
+  }
+
+  function sortedMatches(){
+    return Object.keys(state.matches).map(function(id){ return state.matches[id]; })
+      .sort(function(a,b){ return (a.date||"").localeCompare(b.date||""); });
+  }
+  function upcomingMatches(){
+    return sortedMatches().filter(function(m){ return daysUntil(m.date) === null || daysUntil(m.date) >= 0; });
+  }
+  function sortedPlayers(){
+    return Object.keys(state.players).map(function(id){ return state.players[id]; })
+      .sort(function(a,b){ return (a.name||"").localeCompare(b.name||"", "da"); });
+  }
+
+  function staleForPlayer(match, playerId){
+    if(!match.dateChangedAt) return false;
+    var a = state.availability[match.id + "__" + playerId];
+    if(!a) return true;
+    return a.updatedAt < match.dateChangedAt;
+  }
+
+  function availabilityFor(match){
+    var matchId = match.id, changedAt = match.dateChangedAt;
+    var byStatus = { yes: [], maybe: [], no: [] };
+    var staleIds = {}, answeredIds = {};
+    Object.keys(state.availability).forEach(function(key){
+      var a = state.availability[key];
+      if(a.matchId !== matchId) return;
+      if(changedAt && a.updatedAt < changedAt){ staleIds[a.playerId] = true; return; }
+      answeredIds[a.playerId] = true;
+      if(byStatus[a.status]) byStatus[a.status].push(a);
+    });
+    var noAnswer = sortedPlayers().filter(function(p){ return !answeredIds[p.id]; });
+    return { byStatus: byStatus, noAnswer: noAnswer, staleCount: Object.keys(staleIds).length };
+  }
+
+  function flagReasons(match, avail){
+    var min = match.minPlayers || DEFAULT_MIN_PLAYERS;
+    var yesCount = avail.byStatus.yes.length;
+    var gkCount = avail.byStatus.yes.filter(function(a){ return a.position === "goalkeeper"; }).length;
+    var reasons = [];
+    if(avail.staleCount > 0) reasons.push("🔄 " + avail.staleCount + " skal bekræfte ny dato");
+    if(yesCount < min) reasons.push("🚩 " + (min - yesCount) + " spillere mangler (" + yesCount + "/" + min + ")");
+    if(gkCount === 0) reasons.push("🚩 ingen målmand bekræftet");
+    return reasons;
+  }
+
+  function cardState(match, avail){
+    var reasons = flagReasons(match, avail);
+    var hasShortage = reasons.some(function(r){ return r.indexOf("🚩") === 0; });
+    if(hasShortage) return "flag";
+    if(reasons.length) return "pending";
+    return "ok";
+  }
+
+  function initials(name){
+    var parts = (name||"").trim().split(/\s+/);
+    if(!parts[0]) return "?";
+    return (parts[0][0] + (parts[1] ? parts[1][0] : "")).toUpperCase();
+  }
+
+  // ---------- rendering ----------
+
+  function render(){ renderMine(); renderOverblik(); renderSpillere(); renderFlagDot(); }
+
+  function renderFlagDot(){
+    var count = upcomingMatches().filter(function(m){ return cardState(m, availabilityFor(m)) !== "ok"; }).length;
+    var dot = document.getElementById("flagDot");
+    if(count > 0){ dot.hidden = false; dot.textContent = count; } else dot.hidden = true;
+  }
+
+  function renderMine(){
+    var el = document.getElementById("view-mine");
+    var me = state.players[PLAYER_ID];
+    var html = "";
+
+    if(!me){
+      var others = sortedPlayers();
+      html += "<div class='card'><h3 style='font-size:20px;margin-bottom:10px;'>Hvem er du?</h3>" + profileFormHtml({});
+      if(others.length){
+        html += "<div class='claim-box'><div class='hint'>Har du allerede oprettet dig på en anden enhed?</div>" +
+          "<select id='claimSelect'><option value=''>Vælg dit navn i stedet for at oprette igen</option>" +
+          others.map(function(p){ return "<option value='" + esc(p.id) + "'>" + esc(p.name) + "</option>"; }).join("") +
+          "</select></div>";
+      }
+      html += "</div>";
+    } else {
+      html += "<div class='card'>";
+      if(expanded.editingProfile){ html += profileFormHtml(me, true); }
+      else {
+        html += "<div class='profile-summary'>" +
+          "<div class='who'><div class='avatar'>" + esc(initials(me.name)) + "</div>" +
+          "<div><div class='name'>" + esc(me.name) + "</div>" +
+          "<div class='pos'>" + esc(POSITIONS[me.position] || me.position) + (me.detail ? " · " + esc(me.detail) : "") + "</div></div></div>" +
+          "<button class='btn small ghost' data-act='edit-profile' type='button'>Ret profil</button></div>";
+      }
+      html += "</div>";
+
+      var matches = upcomingMatches();
+      var staleMatches = matches.filter(function(m){ return staleForPlayer(m, PLAYER_ID); });
+      if(staleMatches.length) html += "<div class='banner info'>🔄 " + staleMatches.length + " kamp" + (staleMatches.length===1?" har":"e har") + " fået ny dato — tjek om du stadig kan</div>";
+
+      html += "<div class='card'>";
+      if(matches.length === 0){
+        html += "<div class='empty-state'>Der er ingen kommende kampe i kalenderen endnu.</div>";
+      } else {
+        matches.forEach(function(m){
+          var d = fmtDatePart(m.date);
+          var mine = state.availability[m.id + "__" + PLAYER_ID];
+          var isStale = staleForPlayer(m, PLAYER_ID);
+          var status = (mine && !isStale) ? mine.status : null;
+          html += "<div class='match-row" + (isStale ? " stale" : "") + "'>" +
+            "<div class='datebox'><div class='d num'>" + esc(d.d) + "</div><div class='m'>" + esc(d.m) + "</div></div>" +
+            "<div class='match-info'>" +
+              (isStale ? "<div class='pill-reconfirm'>🔄 Ny dato — bekræft</div>" : "") +
+              "<div class='opp'>" + esc(m.opponent || "Kamp") + "</div>" +
+              "<div class='meta'>" + esc(d.full) + (m.time ? " · " + esc(m.time) : "") + (m.location ? " · " + esc(m.location) : "") + "</div>" +
+              (isStale && m.previousDate ? "<div class='meta' style='color:var(--info);'>Var oprindeligt " + esc(fmtDatePart(m.previousDate).full) + "</div>" : "") +
+            "</div>" +
+            "<div class='status-toggle' data-match='" + esc(m.id) + "'>" +
+              ["yes","maybe","no"].map(function(s){ return "<button type='button' class='" + (status===s ? "on "+s : "") + "' data-status='" + s + "'>" + STATUS_LABEL[s] + "</button>"; }).join("") +
+            "</div></div>";
+        });
+      }
+      html += "</div>";
+    }
+    el.innerHTML = html;
+  }
+
+  function profileFormHtml(p, allowCancel){
+    var pos = p.position || "";
+    var isOther = pos === "other";
+    return "<form class='profile-form' data-form='profile'>" +
+      "<div class='field'><label for='pf-name'>Navn</label>" +
+      "<input id='pf-name' type='text' name='name' required value='" + esc(p.name||"") + "' placeholder='Fx Melanie Grønheit'></div>" +
+      "<div class='field'><label>Position</label><div class='pos-row'>" +
+        POS_ORDER.map(function(k){ return "<div class='pos-choice" + (pos===k ? " picked" : "") + "' data-pos='" + k + "' role='button' tabindex='0'>" + POSITIONS[k] + "</div>"; }).join("") +
+      "<input type='hidden' name='position' value='" + esc(pos) + "'></div></div>" +
+      "<div class='field'><label data-role='detail-label' for='pf-detail'>" + (isOther ? "Skriv din position" : "Uddyb evt. (valgfrit)") + "</label>" +
+      "<input id='pf-detail' type='text' name='detail'" + (isOther ? " required" : "") + " value='" + esc(p.detail||"") + "' placeholder='" + (isOther ? "Fx forsvarsspiller, alsidig, ung spiller" : "Fx venstre fløj, højre back") + "'></div>" +
+      "<div style='display:flex; gap:8px;'><button class='btn primary' type='submit'>Gem</button>" +
+      (allowCancel ? "<button class='btn ghost' type='button' data-act='cancel-edit'>Annullér</button>" : "") + "</div></form>";
+  }
+
+  function matchFormHtml(opts){
+    var m = opts.match || {}, formName = opts.formName;
+    return "<form data-form='" + formName + "' class='admin-form'>" +
+      (m.id ? "<input type='hidden' name='matchId' value='" + esc(m.id) + "'>" : "") +
+      "<div class='field'><label for='" + formName + "-date'>Dato</label><input id='" + formName + "-date' type='date' name='date' required value='" + esc((m.date||"").slice(0,10)) + "'></div>" +
+      "<div class='field'><label for='" + formName + "-time'>Kickoff</label><input id='" + formName + "-time' type='time' name='time' value='" + esc(m.time||"") + "'></div>" +
+      "<div class='field wide'><label for='" + formName + "-opp'>Modstander</label><input id='" + formName + "-opp' type='text' name='opponent' required value='" + esc(m.opponent||"") + "' placeholder='Fx Gråsten IF'></div>" +
+      "<div class='field wide'><label for='" + formName + "-loc'>Sted</label><input id='" + formName + "-loc' type='text' name='location' value='" + esc(m.location||"") + "' placeholder='Fx Sønderborg Hallen'></div>" +
+      "<div class='field'><label for='" + formName + "-min'>Spillere nødvendigt</label><input id='" + formName + "-min' type='text' inputmode='numeric' name='minPlayers' value='" + (m.minPlayers || DEFAULT_MIN_PLAYERS) + "'></div>" +
+      "<div class='field wide' style='flex-direction:row; gap:8px;'><button class='btn primary' type='submit'>" + opts.submitLabel + "</button>" +
+      (opts.allowCancel ? "<button class='btn ghost' type='button' data-act='cancel-editmatch' data-match='" + esc(m.id||"") + "'>Annullér</button>" : "") + "</div></form>";
+  }
+
+  function renderOverblik(){
+    var el = document.getElementById("view-overblik");
+    var matches = sortedMatches();
+    var upcoming = upcomingMatches();
+    var shortageCount = upcoming.filter(function(m){ return cardState(m, availabilityFor(m)) === "flag"; }).length;
+    var pendingCount = upcoming.filter(function(m){ return cardState(m, availabilityFor(m)) === "pending"; }).length;
+
+    var html = "<div class='toprow'><button class='admin-toggle' data-act='toggle-admin' type='button'>" + (adminMode ? "Skjul admin-værktøjer" : "Jeg er holdleder — vis admin-værktøjer") + "</button></div>";
+
+    if(shortageCount > 0) html += "<div class='banner'>🚩 " + shortageCount + " kommende kamp" + (shortageCount===1?"":"e") + " mangler spillere eller målmand</div>";
+    if(pendingCount > 0) html += "<div class='banner info'>🔄 " + pendingCount + " kamp" + (pendingCount===1?" venter":"e venter") + " på at spillerne bekræfter en ny dato</div>";
+    if(shortageCount === 0 && pendingCount === 0 && upcoming.length > 0) html += "<div class='banner ok'>✓ Alle kommende kampe er fuldt bemandede</div>";
+
+    if(adminMode){
+      html += "<div class='card admin-panel'>" +
+        "<div class='import-box'><h3>Kampe fra screenshot</h3>Send et screenshot af kampprogrammet til Claude i jeres chat — så læser Claude kampene og lægger dem direkte ind her for dig.</div>" +
+        "<h3 style='font-size:17px;margin-bottom:10px;'>Tilføj kamp manuelt</h3>" +
+        matchFormHtml({ formName: "match", submitLabel: "Tilføj til kalenderen" }) +
+        "</div>";
+    }
+
+    if(matches.length === 0){
+      html += "<div class='card'><div class='empty-state'>Ingen kampe er lagt ind endnu." + (adminMode ? " Brug formularen ovenfor." : " Bed jeres holdleder om at oprette kampprogrammet.") + "</div></div>";
+    } else {
+      matches.forEach(function(m){
+        var avail = availabilityFor(m);
+        var st = cardState(m, avail);
+        var reasons = flagReasons(m, avail);
+        var d = fmtDatePart(m.date);
+        var isOpen = !!expanded[m.id];
+        var isEditing = !!expanded[m.id + "_editing"];
+        var rel = relativeDay(m.date);
+
+        html += "<div class='mcard " + st + "'>";
+        html += "<div class='mcard-head' data-act='toggle-match' data-match='" + esc(m.id) + "'>" +
+          "<div class='datebox'><div class='d num'>" + esc(d.d) + "</div><div class='m'>" + esc(d.m) + "</div></div>" +
+          "<div class='match-info'><div class='opp'>" + esc(m.opponent||"Kamp") + "</div>" +
+          "<div class='meta'>" + esc(d.full) + (m.time?" · "+esc(m.time):"") + (m.location?" · "+esc(m.location):"") + (rel?" · "+rel:"") + "</div>" +
+          (reasons.length ? "<div class='flagtext st-" + st + "'>" + reasons.map(esc).join("") + "</div>" : "") +
+          "</div><div class='chips'>" +
+            "<span class='chip yes'>" + avail.byStatus.yes.length + " ja</span>" +
+            "<span class='chip maybe'>" + avail.byStatus.maybe.length + " måske</span>" +
+            "<span class='chip no'>" + avail.byStatus.no.length + " nej</span>" +
+          "</div></div>";
+
+        html += "<div class='mcard-body'" + ((isOpen || isEditing) ? "" : " hidden") + ">";
+        if(isEditing){
+          html += matchFormHtml({ match: m, formName: "editmatch", submitLabel: "Gem ændringer", allowCancel: true });
+          html += "<div class='tag-hint'>Hvis du ændrer datoen, bliver det tydeligt markeret for spillerne, at de skal bekræfte den nye dato igen.</div>";
+        } else {
+          POS_ORDER.forEach(function(pk){
+            var list = avail.byStatus.yes.filter(function(a){ return a.position === pk; });
+            html += "<div class='posgroup'><h4>" + POSITIONS[pk] + " klar (" + list.length + ")</h4><div class='plist'>";
+            html += list.length === 0 ? "<span class='ptag empty'>Ingen endnu</span>" : list.map(function(a){ return "<span class='ptag'>" + esc(a.playerName) + "</span>"; }).join("");
+            html += "</div></div>";
+          });
+          html += "<div class='noanswer'>" + avail.noAnswer.length + " spiller" + (avail.noAnswer.length===1?"":"e") + " har ikke svaret endnu" + (avail.noAnswer.length ? ": " + avail.noAnswer.map(function(p){return esc(p.name);}).join(", ") : "") + "</div>";
+        }
+        if(adminMode && !isEditing){
+          html += "</div><div class='admin-actions'>" +
+            "<button class='btn small' type='button' data-act='edit-match' data-match='" + esc(m.id) + "'>✏️ Ret kamp</button>" +
+            "<button class='btn small danger' type='button' data-act='delete-match' data-match='" + esc(m.id) + "'>Slet kamp</button></div>";
+        } else { html += "</div>"; }
+        html += "</div>";
+      });
+    }
+    el.innerHTML = html;
+  }
+
+  function renderSpillere(){
+    var el = document.getElementById("view-spillere");
+    var players = sortedPlayers();
+    var html = "";
+    if(players.length === 0){
+      html = "<div class='card'><div class='empty-state'>Ingen spillere har udfyldt deres profil endnu.</div></div>";
+    } else {
+      html += "<div class='card'>";
+      POS_ORDER.forEach(function(pk){
+        var group = players.filter(function(p){ return p.position === pk; });
+        html += "<div class='roster-group'><h3>" + POSITIONS[pk] + "<span class='roster-count'>" + group.length + "</span></h3>";
+        if(group.length === 0) html += "<div class='empty-state' style='padding:6px 0;'>Ingen registreret</div>";
+        else group.forEach(function(p){
+          html += "<div class='prow'><div><div style='font-weight:700;'>" + esc(p.name) + (p.id===PLAYER_ID ? " (dig)" : "") + "</div>" +
+            (p.detail ? "<div class='detail'>" + esc(p.detail) + "</div>" : "") + "</div>" +
+            (adminMode ? "<button class='btn small danger' type='button' data-act='delete-player' data-player='" + esc(p.id) + "'>Fjern</button>" : "") + "</div>";
+        });
+        html += "</div>";
+      });
+      html += "</div>";
+    }
+    el.innerHTML = html;
+  }
+
+  // ---------- API ----------
+
+  function apiGet(){
+    return fetch(API_URL, { method: "GET" }).then(function(r){ return r.json(); });
+  }
+  // Writes also travel as GET (action + payload in the query string), not
+  // POST — see the comment at the top of handball-backend/Code.gs for why:
+  // a cross-origin POST to an Apps Script Web App gets silently downgraded
+  // to a bodyless GET on the redirect, so a POST write just vanishes.
+  function apiPost(action, payload, needsAdmin){
+    var params = new URLSearchParams();
+    params.set("action", action);
+    params.set("payload", JSON.stringify(payload || {}));
+    if(needsAdmin) params.set("adminKey", getAdminKey());
+    return fetch(API_URL + "?" + params.toString(), { method: "GET" }).then(function(r){ return r.json(); });
+  }
+
+  var pendingRender = false;
+
+  function isFormFieldFocused(){
+    var el = document.activeElement;
+    if(!el) return false;
+    var tag = el.tagName;
+    return (tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA") && el.id !== "shareUrl";
+  }
+
+  // Redrawing the page while someone is mid-keystroke in a field would wipe
+  // what they just typed (the form's HTML is rebuilt from scratch on every
+  // render). So a background refresh updates the data but holds off on
+  // repainting until focus leaves the field; the focusout listener below
+  // catches up as soon as it's safe.
+  function refresh(){
+    return apiGet().then(function(data){
+      if(!data || !data.ok) throw new Error("bad_response");
+      var matches = {}, players = {}, availability = {};
+      (data.matches||[]).forEach(function(m){ matches[m.id] = m; });
+      (data.players||[]).forEach(function(p){ players[p.id] = p; });
+      (data.availability||[]).forEach(function(a){ availability[a.id] = a; });
+      state = { matches: matches, players: players, availability: availability };
+      lastSyncOk = new Date();
+      updateSyncState();
+      if(isFormFieldFocused()) pendingRender = true;
+      else { pendingRender = false; render(); }
+    }).catch(function(){
+      lastSyncOk = lastSyncOk || false;
+      updateSyncState(true);
+    });
+  }
+
+  document.addEventListener("focusout", function(){
+    if(!pendingRender) return;
+    setTimeout(function(){
+      if(pendingRender && !isFormFieldFocused()){ pendingRender = false; render(); }
+    }, 50);
+  });
+
+  function updateSyncState(errored){
+    var el = document.getElementById("syncState");
+    if(errored){ el.textContent = "Kunne ikke hente seneste data — prøver igen…"; el.classList.add("err"); return; }
+    el.classList.remove("err");
+    el.textContent = lastSyncOk ? "Opdateret " + lastSyncOk.toLocaleTimeString("da-DK", {hour:"2-digit", minute:"2-digit", second:"2-digit"}) : "";
+  }
+
+  // ---------- writes ----------
+
+  function saveProfile(data){
+    if(data.position === "other" && !data.detail.trim()){ toast("Skriv venligst din position under 'Andet'"); return; }
+    apiPost("saveProfile", { id: PLAYER_ID, name: data.name.trim(), position: data.position, detail: (data.detail||"").trim() })
+      .then(function(){ expanded.editingProfile = false; toast("Profil gemt"); refresh(); })
+      .catch(function(){ toast("Kunne ikke gemme profilen"); });
+  }
+
+  function setAvailability(matchId, status){
+    var me = state.players[PLAYER_ID];
+    if(!me){ toast("Udfyld din profil under 'Min status' først"); return; }
+    var current = state.availability[matchId + "__" + PLAYER_ID];
+    var match = state.matches[matchId] || {};
+    var wasStale = staleForPlayer(match, PLAYER_ID);
+    var nextStatus = (current && current.status === status && !wasStale) ? null : status;
+    apiPost("setAvailability", { matchId: matchId, playerId: PLAYER_ID, playerName: me.name, position: me.position, status: nextStatus })
+      .then(function(){ refresh(); })
+      .catch(function(){ toast("Kunne ikke gemme svar"); });
+  }
+
+  function addMatch(data){
+    var min = parseInt(data.minPlayers, 10);
+    apiPost("addMatch", { date: data.date, time: data.time||"", opponent: data.opponent.trim(), location: (data.location||"").trim(), minPlayers: isNaN(min)?DEFAULT_MIN_PLAYERS:min }, true)
+      .then(function(r){ if(r.ok){ toast("Kamp tilføjet"); refresh(); } else toast(r.error === "not_admin" ? "Forkert holdleder-kode" : "Kunne ikke tilføje kampen"); })
+      .catch(function(){ toast("Kunne ikke tilføje kampen"); });
+  }
+
+  function updateMatch(matchId, data){
+    var min = parseInt(data.minPlayers, 10);
+    apiPost("updateMatch", { id: matchId, date: data.date, time: data.time||"", opponent: data.opponent.trim(), location: (data.location||"").trim(), minPlayers: isNaN(min)?DEFAULT_MIN_PLAYERS:min }, true)
+      .then(function(r){
+        if(r.ok){ expanded[matchId + "_editing"] = false; toast("Kamp opdateret"); refresh(); }
+        else toast(r.error === "not_admin" ? "Forkert holdleder-kode" : "Kunne ikke gemme ændringen");
+      }).catch(function(){ toast("Kunne ikke gemme ændringen"); });
+  }
+
+  function deleteMatch(id){
+    apiPost("deleteMatch", { id: id }, true).then(function(r){
+      if(r.ok) refresh(); else toast(r.error === "not_admin" ? "Forkert holdleder-kode" : "Kunne ikke slette kampen");
+    }).catch(function(){ toast("Kunne ikke slette kampen"); });
+  }
+
+  function deletePlayer(id){
+    apiPost("deletePlayer", { id: id }, true).then(function(r){
+      if(r.ok) refresh(); else toast("Kunne ikke fjerne spilleren");
+    }).catch(function(){ toast("Kunne ikke fjerne spilleren"); });
+  }
+
+  // ---------- events ----------
+
+  function formToObject(form){
+    var out = {};
+    Array.prototype.forEach.call(form.elements, function(el){ if(el.name) out[el.name] = el.value; });
+    return out;
+  }
+
+  document.addEventListener("submit", function(e){
+    var form = e.target, kind = form.getAttribute("data-form");
+    if(kind === "profile"){ e.preventDefault(); var data = formToObject(form); if(!data.position){ toast("Vælg en position"); return; } saveProfile(data); }
+    else if(kind === "match"){ e.preventDefault(); addMatch(formToObject(form)); form.reset(); }
+    else if(kind === "editmatch"){ e.preventDefault(); var edata = formToObject(form); updateMatch(edata.matchId, edata); }
+  });
+
+  document.addEventListener("change", function(e){
+    if(e.target.id === "claimSelect" && e.target.value){
+      PLAYER_ID = e.target.value;
+      safeLS(function(){ localStorage.setItem("hb_player_id", PLAYER_ID); });
+      toast("Velkommen tilbage, " + (state.players[PLAYER_ID] ? state.players[PLAYER_ID].name : "") + "!");
+      render();
+    }
+  });
+
+  document.addEventListener("click", function(e){
+    var t = e.target;
+
+    var posChoice = t.closest(".pos-choice");
+    if(posChoice){
+      var form = posChoice.closest("form");
+      form.querySelectorAll(".pos-choice").forEach(function(c){ c.classList.remove("picked"); });
+      posChoice.classList.add("picked");
+      var isOther = posChoice.getAttribute("data-pos") === "other";
+      form.querySelector("[name=position]").value = posChoice.getAttribute("data-pos");
+      var label = form.querySelector("[data-role=detail-label]");
+      var detailInput = form.querySelector("[name=detail]");
+      if(label) label.textContent = isOther ? "Skriv din position" : "Uddyb evt. (valgfrit)";
+      if(detailInput){ detailInput.required = isOther; detailInput.placeholder = isOther ? "Fx forsvarsspiller, alsidig, ung spiller" : "Fx venstre fløj, højre back"; }
+      return;
+    }
+
+    var tabBtn = t.closest("nav.tabs button");
+    if(tabBtn){
+      activeTab = tabBtn.getAttribute("data-tab");
+      document.querySelectorAll("nav.tabs button").forEach(function(b){
+        var on = b === tabBtn; b.classList.toggle("active", on); b.setAttribute("aria-selected", on ? "true" : "false");
+      });
+      document.getElementById("view-mine").hidden = activeTab !== "mine";
+      document.getElementById("view-overblik").hidden = activeTab !== "overblik";
+      document.getElementById("view-spillere").hidden = activeTab !== "spillere";
+      return;
+    }
+
+    var statusBtn = t.closest(".status-toggle button");
+    if(statusBtn){ setAvailability(statusBtn.closest(".status-toggle").getAttribute("data-match"), statusBtn.getAttribute("data-status")); return; }
+
+    var act = t.closest("[data-act]");
+    if(act){
+      var name = act.getAttribute("data-act");
+      if(name === "edit-profile"){ expanded.editingProfile = true; renderMine(); }
+      else if(name === "cancel-edit"){ expanded.editingProfile = false; renderMine(); }
+      else if(name === "toggle-admin"){
+        if(!adminMode && !getAdminKey()){
+          var key = window.prompt("Indtast holdleder-koden (aftalt ved opsætning):");
+          if(!key) return;
+          setAdminKey(key);
+        }
+        adminMode = !adminMode;
+        safeLS(function(){ localStorage.setItem("hb_admin_mode", adminMode ? "1" : "0"); });
+        renderOverblik(); renderSpillere();
+      }
+      else if(name === "toggle-match"){ var mid = act.getAttribute("data-match"); expanded[mid] = !expanded[mid]; renderOverblik(); }
+      else if(name === "edit-match"){ var emid = act.getAttribute("data-match"); expanded[emid] = true; expanded[emid + "_editing"] = true; renderOverblik(); }
+      else if(name === "cancel-editmatch"){ expanded[act.getAttribute("data-match") + "_editing"] = false; renderOverblik(); }
+      else if(name === "delete-match"){ if(confirm("Slet denne kamp fra kalenderen?")) deleteMatch(act.getAttribute("data-match")); }
+      else if(name === "delete-player"){ if(confirm("Fjern denne spiller fra listen?")) deletePlayer(act.getAttribute("data-player")); }
+      return;
+    }
+
+    if(t.id === "copyBtn"){
+      var input = document.getElementById("shareUrl");
+      input.select(); input.setSelectionRange(0, 99999);
+      var ok = false;
+      try{ ok = document.execCommand("copy"); }catch(err){}
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(input.value).then(function(){ toast("Link kopieret"); }).catch(function(){ if(ok) toast("Link kopieret"); });
+      } else if(ok) toast("Link kopieret");
+    }
+  });
+
+  // ---------- boot ----------
+
+  document.getElementById("shareUrl").value = window.location.href.split("#")[0];
+  render();
+  refresh();
+  setInterval(refresh, POLL_MS);
+
+})();
+</script>
+</body>
+</html>

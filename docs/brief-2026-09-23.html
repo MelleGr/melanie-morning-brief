@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morning Brief — Wednesday, September 23, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #225EDC;
+    --accent-dim: rgba(34,94,220,0.14);
+  }
+  html[data-theme="dark"] {
+    --bg: #000405;
+    --card: #0b1013;
+    --card-border: rgba(255,255,255,0.08);
+    --text-95: rgba(255,255,255,0.95);
+    --text-60: rgba(255,255,255,0.60);
+    --text-38: rgba(255,255,255,0.38);
+  }
+  html[data-theme="light"] {
+    --bg: #FBFBF9;
+    --card: #ffffff;
+    --card-border: rgba(0,0,0,0.08);
+    --text-95: rgba(10,10,10,0.95);
+    --text-60: rgba(10,10,10,0.62);
+    --text-38: rgba(10,10,10,0.42);
+  }
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme]) {
+      --bg: #000405;
+      --card: #0b1013;
+      --card-border: rgba(255,255,255,0.08);
+      --text-95: rgba(255,255,255,0.95);
+      --text-60: rgba(255,255,255,0.60);
+      --text-38: rgba(255,255,255,0.38);
+    }
+  }
+  @media (prefers-color-scheme: light) {
+    html:not([data-theme]) {
+      --bg: #FBFBF9;
+      --card: #ffffff;
+      --card-border: rgba(0,0,0,0.08);
+      --text-95: rgba(10,10,10,0.95);
+      --text-60: rgba(10,10,10,0.62);
+      --text-38: rgba(10,10,10,0.42);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text-95);
+    font-family: 'Inter', -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+  }
+  .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-38);
+  }
+  .date {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 6px;
+    color: var(--text-95);
+  }
+  .toggle {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-60);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .toggle:hover { color: var(--text-95); border-color: var(--text-38); }
+
+  .quote-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 28px 30px;
+    margin-bottom: 48px;
+  }
+  .quote-text {
+    font-size: 19px;
+    line-height: 1.5;
+    font-weight: 500;
+    color: var(--text-95);
+    margin: 0 0 10px;
+  }
+  .quote-attr {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-38);
+  }
+
+  .section { margin-bottom: 48px; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-38);
+    margin-bottom: 16px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 20px 22px;
+    margin-bottom: 12px;
+  }
+  .card:last-child { margin-bottom: 0; }
+
+  .win-row { display: flex; gap: 16px; align-items: flex-start; }
+  .win-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--accent);
+    min-width: 22px;
+  }
+  .win-body { flex: 1; }
+  .win-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .pill {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-top: 2px;
+  }
+  .cut-note {
+    font-size: 13px;
+    color: var(--text-38);
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  .decision-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .decision-context { font-size: 14.5px; line-height: 1.55; color: var(--text-60); margin-bottom: 12px; }
+  .recommend-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 5px 14px;
+  }
+  .meeting-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .light-day-line {
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--text-60);
+  }
+  .light-day-line b { color: var(--text-95); font-weight: 600; }
+
+  .read-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .read-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .read-title a {
+    color: var(--text-95);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+  }
+  .read-title a:hover { border-bottom-color: var(--text-38); }
+  .read-why { font-size: 14.5px; color: var(--text-60); line-height: 1.5; }
+
+  .time-card p { font-size: 15.5px; line-height: 1.6; color: var(--text-60); margin: 0; }
+  .time-card p b { color: var(--text-95); font-weight: 600; }
+
+  footer {
+    margin-top: 56px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-38);
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 36px 18px 72px; }
+    .date { font-size: 19px; }
+    .quote-text { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div>
+      <div class="kicker">Melanie's Morning Brief</div>
+      <div class="date">Wednesday, September 23, 2026</div>
+    </div>
+    <button class="toggle" id="themeToggle" onclick="toggleTheme()">Dark</button>
+  </div>
+
+  <div class="quote-card">
+    <p class="quote-text">"A journey of a thousand miles begins with a single step."</p>
+    <div class="quote-attr">— Laozi, <em>Tao Te Ching</em></div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Win Conditions For Today</div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">01</div>
+        <div class="win-body">
+          <div class="win-title">Resolve Buffer today — this is the last day of paid access per Sunday's notice</div>
+          <span class="pill">→ Protects posting-cadence goal</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">02</div>
+        <div class="win-body">
+          <div class="win-title">Decide the half-marathon shirt plan — Sport Direct can't promise Friday for a logo print</div>
+          <span class="pill">→ Real deadline, five-minute call</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">03</div>
+        <div class="win-body">
+          <div class="win-title">Send one of the three OR outreach messages — 37 days overdue now</div>
+          <span class="pill">→ Grow OR hub 22 → 50 members</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Urgent Decisions</div>
+    <div class="card">
+      <div class="decision-title">Buffer's paid access ends today</div>
+      <div class="decision-context">Sunday's cancellation notice said access runs through September 23 — that's today. Nothing has moved since Monday's flag; if this doesn't get resolved, Elevathors and own-brand scheduling stops cold tonight.</div>
+      <span class="recommend-pill">Renew, replace, or export schedule today</span>
+    </div>
+    <div class="card">
+      <div class="decision-title">The half-marathon team shirts hit a snag</div>
+      <div class="decision-context">Sport Direct Sønderborg replied yesterday: they can only print text in-house — a logo needs an external printer with a 10-piece minimum, and they won't promise it's ready by Friday. The run is Sunday.</div>
+      <span class="recommend-pill">Confirm a fallback today</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">What To Be Prepped For</div>
+    <div class="card">
+      <div class="meeting-time">10:00 AM – 2:00 PM · Fyrtårnet</div>
+      <div class="decision-title">Workshop 3: Kommerciel forretningsudvikling</div>
+      <div class="decision-context">A four-hour block — no description attached, so confirm what to bring before heading in.</div>
+    </div>
+    <div class="card">
+      <div class="meeting-time">4:30 – 5:30 PM</div>
+      <div class="decision-title">Mathias håndbold træning</div>
+      <div class="decision-context">First of two practices this evening.</div>
+    </div>
+    <div class="card">
+      <div class="meeting-time">6:30 – 7:00 PM</div>
+      <div class="decision-title">Magnus Håndbold</div>
+      <div class="decision-context">Second practice — an hour's gap after Mathias's to work with.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Five Things To Read</div>
+    <div class="card read-item">
+      <div class="read-tag">The Copenhagen Post</div>
+      <div class="read-title"><a href="https://cphpost.dk/2026-09-22/news/round-up/higher-fuel-prices-expected-to-cost-sas-an-additional-2-billion-dkk-this-year/" target="_blank" rel="noopener">Higher Fuel Prices Expected To Cost SAS An Additional 2 Billion DKK This Year</a></div>
+      <div class="read-why">Jet fuel has more than doubled since March — a concrete number on how energy costs are hitting Danish business right now.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Odense Robotics</div>
+      <div class="read-title"><a href="https://www.odenserobotics.dk/events/danish-defence-drone-seminar/" target="_blank" rel="noopener">Danish Defence Drone Seminar</a></div>
+      <div class="read-why">Your own cluster, hosted with Danish Defence Command and UAS Test Center Denmark — happening today, worth knowing what came out of it.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Releasebot</div>
+      <div class="read-title"><a href="https://releasebot.io/updates/linkedin" target="_blank" rel="noopener">LinkedIn Release Notes: September 2026 Latest Updates</a></div>
+      <div class="read-why">New Saves/Sends post metrics and direct CapCut export — both change how you'd judge the carousel test once it's live.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Archynewsy</div>
+      <div class="read-title"><a href="https://www.archynewsy.com/how-personal-branding-helps-women-over-40-reclaim-their-careers/" target="_blank" rel="noopener">How Women Over 40 Are Using Personal Branding To Reclaim Their Careers</a></div>
+      <div class="read-why">On personal brand as career capital that appreciates with age rather than fades — a useful frame for the own-brand pillar.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Annex Wealth (Podcast)</div>
+      <div class="read-title"><a href="https://blog.annexwealth.com/2026/09/19/women-wealth-show-tax-free-truths-the-power-to-pivot/" target="_blank" rel="noopener">Women & Wealth Show: Tax-Free Truths & The Power To Pivot</a></div>
+      <div class="read-why">On what "tax-free" actually costs you later, and what clients value most from an advisor during a pivot — relevant groundwork for the wealth-building pillar.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">If You Have Time</div>
+    <div class="card time-card">
+      <p>The workshop wraps at 2, and nothing else is on until Mathias's practice at 4:30 — <b>a real two-and-a-half-hour window.</b> Let it be recovery from a long morning, not a catch-up sprint.</p>
+    </div>
+  </div>
+
+  <footer>Built for Melanie · 7:00 AM</footer>
+
+</div>
+
+<script>
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.getElementById('themeToggle').textContent = theme === 'dark' ? 'Dark' : 'Light';
+  }
+  function toggleTheme() {
+    var current = document.documentElement.getAttribute('data-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('brief-theme', next);
+    applyTheme(next);
+  }
+  (function init() {
+    var saved = localStorage.getItem('brief-theme');
+    if (saved) {
+      applyTheme(saved);
+    } else {
+      var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      applyTheme(system);
+    }
+  })();
+</script>
+</body>
+</html>

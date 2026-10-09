@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morning Brief — Friday, October 9, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #225EDC;
+    --accent-dim: rgba(34,94,220,0.14);
+  }
+  html[data-theme="dark"] {
+    --bg: #000405;
+    --card: #0b1013;
+    --card-border: rgba(255,255,255,0.08);
+    --text-95: rgba(255,255,255,0.95);
+    --text-60: rgba(255,255,255,0.60);
+    --text-38: rgba(255,255,255,0.38);
+  }
+  html[data-theme="light"] {
+    --bg: #FBFBF9;
+    --card: #ffffff;
+    --card-border: rgba(0,0,0,0.08);
+    --text-95: rgba(10,10,10,0.95);
+    --text-60: rgba(10,10,10,0.62);
+    --text-38: rgba(10,10,10,0.42);
+  }
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme]) {
+      --bg: #000405;
+      --card: #0b1013;
+      --card-border: rgba(255,255,255,0.08);
+      --text-95: rgba(255,255,255,0.95);
+      --text-60: rgba(255,255,255,0.60);
+      --text-38: rgba(255,255,255,0.38);
+    }
+  }
+  @media (prefers-color-scheme: light) {
+    html:not([data-theme]) {
+      --bg: #FBFBF9;
+      --card: #ffffff;
+      --card-border: rgba(0,0,0,0.08);
+      --text-95: rgba(10,10,10,0.95);
+      --text-60: rgba(10,10,10,0.62);
+      --text-38: rgba(10,10,10,0.42);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text-95);
+    font-family: 'Inter', -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+  }
+  .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-38);
+  }
+  .date {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 6px;
+    color: var(--text-95);
+  }
+  .toggle {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-60);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .toggle:hover { color: var(--text-95); border-color: var(--text-38); }
+
+  .quote-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 28px 30px;
+    margin-bottom: 48px;
+  }
+  .quote-text {
+    font-size: 19px;
+    line-height: 1.5;
+    font-weight: 500;
+    color: var(--text-95);
+    margin: 0 0 10px;
+  }
+  .quote-attr {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-38);
+  }
+
+  .section { margin-bottom: 48px; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-38);
+    margin-bottom: 16px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 20px 22px;
+    margin-bottom: 12px;
+  }
+  .card:last-child { margin-bottom: 0; }
+
+  .win-row { display: flex; gap: 16px; align-items: flex-start; }
+  .win-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--accent);
+    min-width: 22px;
+  }
+  .win-body { flex: 1; }
+  .win-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .pill {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-top: 2px;
+  }
+  .cut-note {
+    font-size: 13px;
+    color: var(--text-38);
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  .decision-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .decision-context { font-size: 14.5px; line-height: 1.55; color: var(--text-60); margin-bottom: 12px; }
+  .recommend-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 5px 14px;
+  }
+  .meeting-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .light-day-line {
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--text-60);
+  }
+  .light-day-line b { color: var(--text-95); font-weight: 600; }
+
+  .read-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .read-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .read-title a {
+    color: var(--text-95);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+  }
+  .read-title a:hover { border-bottom-color: var(--text-38); }
+  .read-why { font-size: 14.5px; color: var(--text-60); line-height: 1.5; }
+
+  .time-card p { font-size: 15.5px; line-height: 1.6; color: var(--text-60); margin: 0; }
+  .time-card p b { color: var(--text-95); font-weight: 600; }
+
+  footer {
+    margin-top: 56px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-38);
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 36px 18px 72px; }
+    .date { font-size: 19px; }
+    .quote-text { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div>
+      <div class="kicker">Melanie's Morning Brief</div>
+      <div class="date">Friday, October 9, 2026</div>
+    </div>
+    <button class="toggle" id="themeToggle" onclick="toggleTheme()">Dark</button>
+  </div>
+
+  <div class="quote-card">
+    <p class="quote-text">"Friendship is born at the moment when one man says to another: 'What! You too? I thought I was the only one.'"</p>
+    <div class="quote-attr">— C.S. Lewis, <em>The Four Loves</em></div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Win Conditions For Today</div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">01</div>
+        <div class="win-body">
+          <div class="win-title">Untangle the calendar before it runs you — 10:00 is double-booked and 12:30–14:00 is a triple-stack</div>
+          <span class="pill">→ Protects the one meeting that can't be rescheduled casually</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">02</div>
+        <div class="win-body">
+          <div class="win-title">Post Luke's Field Notes piece — you told him yesterday you'd use it today</div>
+          <span class="pill">→ A content commitment made and due in the same 24 hours</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">03</div>
+        <div class="win-body">
+          <div class="win-title">Accept Jan Tore Gjøby's connection request and finally ship his intro post</div>
+          <span class="pill">→ He reached out first, overnight — the opening that makes a 50-day-old task easy again</span>
+        </div>
+      </div>
+    </div>
+    <div class="cut-note">Cut: Matko, the Elevathors draft backlog, and the three OR outreach messages — see Urgent Decisions below. You're leaving for the summerhouse this weekend; today isn't the day to pretend there's room for all five.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Urgent Decisions</div>
+    <div class="card">
+      <div class="decision-title">10:00 is double-booked: AT: Status og opfølgning vs. Odense Robotics Besøg with Palle</div>
+      <div class="decision-context">Both sit at 10:00 on Kalender — the recurring internal status check-in, and a first meeting with Palle ("Ser frem til at møde dig og høre lidt mere om jer"). A first meeting with an external contact is the harder one to quietly reschedule.</div>
+      <span class="recommend-pill">Keep Palle, move AT: Status</span>
+    </div>
+    <div class="card">
+      <div class="decision-title">12:30–14:00 is a three-way stack: Kaffe og AI, Weekly Review, and timeregistrering all overlap</div>
+      <div class="decision-context">Kaffe og AI runs 12:30–13:30, Weekly Review 13:00–13:45, and timeregistrering 13:30–14:00 — each one eating into the next. Weekly Review is the recurring system that keeps the week honest; the other two are the flexible ones.</div>
+      <span class="recommend-pill">Protect Weekly Review, shift the other two</span>
+    </div>
+    <div class="card">
+      <div class="decision-title">Jan Tore, Matko, the Elevathors draft backlog, and OR outreach are now ~50+ days past due with no movement</div>
+      <div class="decision-context">All five Notion items are still "Not started," most dated back to mid-August. Jan Tore just reopened the door himself overnight — worth taking that one. The rest need an actual call: delegate, reschedule to a named day next week, or drop — not a seventh identical carry-forward.</div>
+      <span class="recommend-pill">Decide before the trip, not after</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">What To Be Prepped For</div>
+    <div class="card">
+      <span class="meeting-time">10:00 – 11:00</span>
+      <div class="decision-title">Odense Robotics Besøg — with Palle</div>
+      <div class="decision-context">Teams. First meeting — his note: "Ser frem til at møde dig og høre lidt mere om jer." Worth having a short version of what Elevathors/OR does ready, since he's hearing it cold.</div>
+    </div>
+    <div class="card">
+      <span class="meeting-time">12:30 – 13:30</span>
+      <div class="decision-title">Kaffe og AI</div>
+      <div class="decision-context">Teams, informal. Flexible if it needs to move for the stack above.</div>
+    </div>
+    <div class="card">
+      <span class="meeting-time">13:00 – 13:45</span>
+      <div class="decision-title">Weekly Review</div>
+      <div class="decision-context">Recurring — the Weekly Review System. Worth protecting as-is given the trip starting today.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Five Things To Read</div>
+    <div class="card read-item">
+      <div class="read-tag">Unmanned Airspace</div>
+      <div class="read-title"><a href="https://www.unmannedairspace.info/?p=41578" target="_blank" rel="noopener">Denmark To Present Defence Drone Plan To Industry</a></div>
+      <div class="read-why">UAS Denmark, Odense Robotics and DALO ran this industry dialogue on Oct 6 — direct read on where Danish defence drone procurement is heading, straight from the OR ecosystem.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">The Defense Post</div>
+      <div class="read-title"><a href="https://thedefensepost.com/2026/10/01/denmark-dropla-train-operators/" target="_blank" rel="noopener">Denmark Buys Dropla 4×4 Unmanned Ground Vehicles To Train Drone Operators</a></div>
+      <div class="read-why">DALO's latest purchase, this week — a concrete signal of where defence-adjacent robotics demand is actually landing.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Novo Nordisk</div>
+      <div class="read-title"><a href="https://www.novonordisk.com/news-and-media/news-and-ir-materials/news-details.html?id=917052" target="_blank" rel="noopener">Novo Nordisk Licenses Hengrui's Oral GLP-1/GIP Candidate For Up To $2.6bn</a></div>
+      <div class="read-why">Denmark's biggest company making its largest China licensing move yet — the kind of deal that reshapes how Danish business press covers pharma for weeks.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Danmarks Nationalbank</div>
+      <div class="read-title"><a href="https://www.nationalbanken.dk/en/news-and-knowledge/press/archive/2026/interest-rate-increase-10-09-2026" target="_blank" rel="noopener">Interest Rate Increase — Danmarks Nationalbank</a></div>
+      <div class="read-why">Current-account rate up to 2.10%, tracking the ECB. Useful context before any client conversation touching financing costs.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Maersk</div>
+      <div class="read-title"><a href="https://www.maersk.com/news/articles/2026/08/28/transpacific-schedule-adjustments-golden-week-2026" target="_blank" rel="noopener">Transpacific Schedule Adjustments For Golden Week 2026</a></div>
+      <div class="read-why">Denmark's other giant trimming Transpacific capacity around China's holiday week — a quiet read on freight demand heading into Q4.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">If You Have Time</div>
+    <div class="card time-card">
+      <p>The only real gap is <b>before 10:00</b>. Worth using it to close the loop on the <b>"Magnus uheld fortsætter"</b> draft that's sat untouched since September 1st — finish it or delete it, don't leave it hanging over four days away. Everything else can wait until you're back.</p>
+    </div>
+  </div>
+
+  <footer>Built for Melanie · 7:00 AM</footer>
+
+</div>
+
+<script>
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.getElementById('themeToggle').textContent = theme === 'dark' ? 'Dark' : 'Light';
+  }
+  function toggleTheme() {
+    var current = document.documentElement.getAttribute('data-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('brief-theme', next);
+    applyTheme(next);
+  }
+  (function init() {
+    var saved = localStorage.getItem('brief-theme');
+    if (saved) {
+      applyTheme(saved);
+    } else {
+      var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      applyTheme(system);
+    }
+  })();
+</script>
+</body>
+</html>

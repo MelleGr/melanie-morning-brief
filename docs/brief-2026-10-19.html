@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morning Brief — Monday, October 19, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #225EDC;
+    --accent-dim: rgba(34,94,220,0.14);
+  }
+  html[data-theme="dark"] {
+    --bg: #000405;
+    --card: #0b1013;
+    --card-border: rgba(255,255,255,0.08);
+    --text-95: rgba(255,255,255,0.95);
+    --text-60: rgba(255,255,255,0.60);
+    --text-38: rgba(255,255,255,0.38);
+  }
+  html[data-theme="light"] {
+    --bg: #FBFBF9;
+    --card: #ffffff;
+    --card-border: rgba(0,0,0,0.08);
+    --text-95: rgba(10,10,10,0.95);
+    --text-60: rgba(10,10,10,0.62);
+    --text-38: rgba(10,10,10,0.42);
+  }
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme]) {
+      --bg: #000405;
+      --card: #0b1013;
+      --card-border: rgba(255,255,255,0.08);
+      --text-95: rgba(255,255,255,0.95);
+      --text-60: rgba(255,255,255,0.60);
+      --text-38: rgba(255,255,255,0.38);
+    }
+  }
+  @media (prefers-color-scheme: light) {
+    html:not([data-theme]) {
+      --bg: #FBFBF9;
+      --card: #ffffff;
+      --card-border: rgba(0,0,0,0.08);
+      --text-95: rgba(10,10,10,0.95);
+      --text-60: rgba(10,10,10,0.62);
+      --text-38: rgba(10,10,10,0.42);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text-95);
+    font-family: 'Inter', -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+  }
+  .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-38);
+  }
+  .date {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 6px;
+    color: var(--text-95);
+  }
+  .toggle {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-60);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .toggle:hover { color: var(--text-95); border-color: var(--text-38); }
+
+  .quote-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 28px 30px;
+    margin-bottom: 48px;
+  }
+  .quote-text {
+    font-size: 19px;
+    line-height: 1.5;
+    font-weight: 500;
+    color: var(--text-95);
+    margin: 0 0 10px;
+  }
+  .quote-attr {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-38);
+  }
+
+  .section { margin-bottom: 48px; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-38);
+    margin-bottom: 16px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 20px 22px;
+    margin-bottom: 12px;
+  }
+  .card:last-child { margin-bottom: 0; }
+
+  .win-row { display: flex; gap: 16px; align-items: flex-start; }
+  .win-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--accent);
+    min-width: 22px;
+  }
+  .win-body { flex: 1; }
+  .win-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .pill {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-top: 2px;
+  }
+  .cut-note {
+    font-size: 13px;
+    color: var(--text-38);
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  .decision-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .decision-context { font-size: 14.5px; line-height: 1.55; color: var(--text-60); margin-bottom: 12px; }
+  .recommend-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 5px 14px;
+  }
+  .meeting-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .light-day-line {
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--text-60);
+  }
+  .light-day-line b { color: var(--text-95); font-weight: 600; }
+
+  .read-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .read-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .read-title a {
+    color: var(--text-95);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+  }
+  .read-title a:hover { border-bottom-color: var(--text-38); }
+  .read-why { font-size: 14.5px; color: var(--text-60); line-height: 1.5; }
+
+  .time-card p { font-size: 15.5px; line-height: 1.6; color: var(--text-60); margin: 0; }
+  .time-card p b { color: var(--text-95); font-weight: 600; }
+
+  footer {
+    margin-top: 56px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-38);
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 36px 18px 72px; }
+    .date { font-size: 19px; }
+    .quote-text { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div>
+      <div class="kicker">Melanie's Morning Brief</div>
+      <div class="date">Monday, October 19, 2026</div>
+    </div>
+    <button class="toggle" id="themeToggle" onclick="toggleTheme()">Dark</button>
+  </div>
+
+  <div class="quote-card">
+    <p class="quote-text">"The fault, dear Brutus, is not in our stars, but in ourselves."</p>
+    <div class="quote-attr">— William Shakespeare, <em>Julius Caesar</em>, Act 1, Scene 2</div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Win Conditions For Today</div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">01</div>
+        <div class="win-body">
+          <div class="win-title">Resolve the 15:00 collision before it hits — BMC #2 vs. Mathias's karate</div>
+          <span class="pill">→ One work meeting, two kids' activities, all overlapping — fix it by midday</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">02</div>
+        <div class="win-body">
+          <div class="win-title">Make the final call on Jan Tore's post — ship it or tell Martin</div>
+          <span class="pill">→ 7 weekdays at "Not started," zero contact with Martin — this is the last flag</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">03</div>
+        <div class="win-body">
+          <div class="win-title">Accept Pranav's (RoboCred) LinkedIn connection request</div>
+          <span class="pill">→ Two minutes, real OR-network movement — zero sent in 63 days against the 22→50 goal</span>
+        </div>
+      </div>
+    </div>
+    <div class="cut-note">Cut: own-brand content — yesterday's open day was the real shot at that; today has a scheduling fire plus two Elevathors/OR threads already.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Urgent Decisions</div>
+    <div class="card">
+      <div class="decision-title">15:00–16:00 is triple-booked: BMC #2, Mathias's karate, and the tail of Magnus's badminton</div>
+      <div class="decision-context">BMC #2 (15:00–16:00, other OR colleagues on it) directly overlaps Mathias's karate (15:00–16:00), which itself overlaps the last 30 minutes of Magnus's badminton (14:00–15:30). The work meeting is the hardest to move since others are on it — worth a quick message asking if it can shift 15–30 minutes, while sorting pickup coverage for one of the two kids' activities in parallel.</div>
+      <span class="recommend-pill">Ask to shift BMC #2 first — then settle pickup coverage</span>
+    </div>
+    <div class="card">
+      <div class="decision-title">Jan Tore's post: 7 weekdays at "Not started," no movement, no contact with Martin</div>
+      <div class="decision-context">Approved since 13 August. Flagged daily through last Friday, explicitly paused over the weekend, and today was set as the real deadline. Nothing has changed and no message to Martin is visible in Outlook. The daily flag clearly isn't the mechanism that unblocks this — today is the last day it appears here at all.</div>
+      <span class="recommend-pill">Ship it today, or send Martin two honest lines — no more flags after this</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">What To Be Prepped For</div>
+    <div class="card">
+      <span class="meeting-time">09:00 – 09:30</span>
+      <div class="win-title">Koordineringsmøde</div>
+      <p class="light-day-line">Fyrtårnet, Teams. Opens the day.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">12:00 – 13:00</span>
+      <div class="win-title">BMC #1</div>
+      <p class="light-day-line">Teams. Clean slot, no conflicts.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">14:00 – 16:00</span>
+      <div class="win-title">The afternoon collision</div>
+      <p class="light-day-line"><b>Magnus's badminton</b> (14:00–15:30) runs into <b>Mathias's karate</b> (15:00–16:00), and <b>BMC #2</b> (15:00–16:00, Teams) sits squarely on top of both. Resolve before 15:00 — see Urgent Decisions.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Five Things To Read</div>
+    <div class="card read-item">
+      <div class="read-tag">Military Embedded Systems</div>
+      <div class="read-title"><a href="https://militaryembedded.com/unmanned/counter-uas/ai-ready-c2-system-ordered-by-denmark-for-counter-drone-defense" target="_blank" rel="noopener">AI-Ready C2 System Ordered By Denmark For Counter-Drone Defense</a></div>
+      <div class="read-why">DALO awarded Systematic a nationwide, AI-ready command-and-control contract for counter-drone defense — a NATO-first deal, and a live example of Danish software winning on the defense-drone beat.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">IFR</div>
+      <div class="read-title"><a href="https://ifr.org/ifr-press-releases/five-million-robots-now-operate-in-factories-globally" target="_blank" rel="noopener">Five Million Robots Now Operate In Factories Globally</a></div>
+      <div class="read-why">The International Federation of Robotics' 2026 World Robotics report: global industrial robot stock up 9% to a record 5 million units, installations up 11%. The top-line number worth having on hand for any OR member conversation about sector momentum.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Tubefilter</div>
+      <div class="read-title"><a href="https://www.tubefilter.com/2026/10/16/linkedin-creator-monetization-update-advice-sessions-consulting/amp/" target="_blank" rel="noopener">LinkedIn Has A New Monetization Product Built Around Consulting Sessions</a></div>
+      <div class="read-why">Advice Sessions lets Business Premium subscribers book paid consultations straight from their LinkedIn profile, up to $500, no platform cut. A real, current shift in how LinkedIn wants expertise monetized — directly relevant to the content-strategy pillar.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Dansk Erhverv</div>
+      <div class="read-title"><a href="https://www.danskerhverv.dk/presse-og-nyheder/nyheder/2026/oktober/womens-board-award-2026-hyldede-tre-markante-erhvervsprofiler---se-vinderen-her/" target="_blank" rel="noopener">Women's Board Award 2026: Christina Grumstrup Sørensen Wins</a></div>
+      <div class="read-why">Copenhagen Infrastructure Partners' Senior Partner took this year's prize, with Margrethe Vestager delivering the keynote on AI and board readiness. A genuine piece of Danish business culture, and squarely in the own-brand pillar's lane.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">NextMSC</div>
+      <div class="read-title"><a href="https://www.nextmsc.com/blogs/ai-ready-cobots-reshape-the-future-of-industrial-automation-nextmsc" target="_blank" rel="noopener">AI-Ready Cobots Reshape The Future Of Industrial Automation</a></div>
+      <div class="read-why">Market sizing puts the cobot market near $12.7B by 2030 at a 32.6% CAGR, citing September's record robot-stock numbers and September's UR Gen 7 launch as the year's inflection points — useful framing for OR pitch conversations.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">If You Have Time</div>
+    <div class="card time-card">
+      <p>Two real gaps today: <b>09:30–12:00</b> and <b>13:00–14:00</b>. Once the afternoon collision is sorted, use one of them for whichever of today's three win conditions needs the most focus.</p>
+    </div>
+  </div>
+
+  <footer>Built for Melanie · 7:00 AM</footer>
+
+</div>
+
+<script>
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.getElementById('themeToggle').textContent = theme === 'dark' ? 'Dark' : 'Light';
+  }
+  function toggleTheme() {
+    var current = document.documentElement.getAttribute('data-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('brief-theme', next);
+    applyTheme(next);
+  }
+  (function init() {
+    var saved = localStorage.getItem('brief-theme');
+    if (saved) {
+      applyTheme(saved);
+    } else {
+      var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      applyTheme(system);
+    }
+  })();
+</script>
+</body>
+</html>

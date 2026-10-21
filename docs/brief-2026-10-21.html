@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morning Brief — Wednesday, October 21, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #225EDC;
+    --accent-dim: rgba(34,94,220,0.14);
+  }
+  html[data-theme="dark"] {
+    --bg: #000405;
+    --card: #0b1013;
+    --card-border: rgba(255,255,255,0.08);
+    --text-95: rgba(255,255,255,0.95);
+    --text-60: rgba(255,255,255,0.60);
+    --text-38: rgba(255,255,255,0.38);
+  }
+  html[data-theme="light"] {
+    --bg: #FBFBF9;
+    --card: #ffffff;
+    --card-border: rgba(0,0,0,0.08);
+    --text-95: rgba(10,10,10,0.95);
+    --text-60: rgba(10,10,10,0.62);
+    --text-38: rgba(10,10,10,0.42);
+  }
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme]) {
+      --bg: #000405;
+      --card: #0b1013;
+      --card-border: rgba(255,255,255,0.08);
+      --text-95: rgba(255,255,255,0.95);
+      --text-60: rgba(255,255,255,0.60);
+      --text-38: rgba(255,255,255,0.38);
+    }
+  }
+  @media (prefers-color-scheme: light) {
+    html:not([data-theme]) {
+      --bg: #FBFBF9;
+      --card: #ffffff;
+      --card-border: rgba(0,0,0,0.08);
+      --text-95: rgba(10,10,10,0.95);
+      --text-60: rgba(10,10,10,0.62);
+      --text-38: rgba(10,10,10,0.42);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text-95);
+    font-family: 'Inter', -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+  }
+  .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-38);
+  }
+  .date {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 6px;
+    color: var(--text-95);
+  }
+  .toggle {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-60);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .toggle:hover { color: var(--text-95); border-color: var(--text-38); }
+
+  .quote-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 28px 30px;
+    margin-bottom: 48px;
+  }
+  .quote-text {
+    font-size: 19px;
+    line-height: 1.5;
+    font-weight: 500;
+    color: var(--text-95);
+    margin: 0 0 10px;
+  }
+  .quote-attr {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-38);
+  }
+
+  .section { margin-bottom: 48px; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-38);
+    margin-bottom: 16px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 20px 22px;
+    margin-bottom: 12px;
+  }
+  .card:last-child { margin-bottom: 0; }
+
+  .win-row { display: flex; gap: 16px; align-items: flex-start; }
+  .win-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--accent);
+    min-width: 22px;
+  }
+  .win-body { flex: 1; }
+  .win-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .pill {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-top: 2px;
+  }
+  .cut-note {
+    font-size: 13px;
+    color: var(--text-38);
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  .decision-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .decision-context { font-size: 14.5px; line-height: 1.55; color: var(--text-60); margin-bottom: 12px; }
+  .recommend-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 5px 14px;
+  }
+  .meeting-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .light-day-line {
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--text-60);
+  }
+  .light-day-line b { color: var(--text-95); font-weight: 600; }
+
+  .read-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .read-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .read-title a {
+    color: var(--text-95);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+  }
+  .read-title a:hover { border-bottom-color: var(--text-38); }
+  .read-why { font-size: 14.5px; color: var(--text-60); line-height: 1.5; }
+
+  .time-card p { font-size: 15.5px; line-height: 1.6; color: var(--text-60); margin: 0; }
+  .time-card p b { color: var(--text-95); font-weight: 600; }
+
+  footer {
+    margin-top: 56px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-38);
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 36px 18px 72px; }
+    .date { font-size: 19px; }
+    .quote-text { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div>
+      <div class="kicker">Melanie's Morning Brief</div>
+      <div class="date">Wednesday, October 21, 2026</div>
+    </div>
+    <button class="toggle" id="themeToggle" onclick="toggleTheme()">Dark</button>
+  </div>
+
+  <div class="quote-card">
+    <p class="quote-text">"Waste no more time arguing what a good man should be. Be one."</p>
+    <div class="quote-attr">— Marcus Aurelius, Meditations, Book 10.16 (trans. Staniforth)</div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Win Conditions For Today</div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">01</div>
+        <div class="win-body">
+          <div class="win-title">Answer Martin on Johanna &amp; Esa-Pekka's new LinkedIn intro template</div>
+          <span class="pill">→ Martin already said "good idea, would you implement it?" — this is sitting on your desk, not his</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">02</div>
+        <div class="win-body">
+          <div class="win-title">Clear the Buffer backlog — 5 comments since 2:11am</div>
+          <span class="pill">→ One of them's on Mark Winn's intro post, which is now live and getting engagement</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">03</div>
+        <div class="win-body">
+          <div class="win-title">Verify Mathias's and Magnus's håndbold times before 16:30</div>
+          <span class="pill">→ If Mathias's title time is the real one, it collides head-on with Magnus's block</span>
+        </div>
+      </div>
+    </div>
+    <div class="cut-note">Carried forward, resolved: Mark Winn's intro post is confirmed live (it's generating the Buffer comments above) — no longer an open item.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Urgent Decisions</div>
+    <div class="card">
+      <div class="decision-title">Mathias's håndbold may directly collide with Magnus's</div>
+      <div class="decision-context">Mathias's håndbold is titled "16:30-17:30" but its calendar block runs 14:30–15:30. This is the 4th time in five days the Hjem calendar has shown this exact 2-hour title/block gap (Magnus's orthodontist and fodbold, Melanie's håndbold on Oct20, now Mathias on Oct21) — at this point it's a confirmed systemic sync issue on that calendar, not a fresh mystery to re-investigate each day. The practical risk today: Magnus's own Håndbold block runs 16:30–17:00 with no title override to check against. If Mathias's title time is the accurate one, both boys need to be at håndbold — presumably different locations — at the same 16:30 start.</div>
+      <span class="recommend-pill">Check both directly in Holdsport or the calendar app before 16:00</span>
+    </div>
+    <div class="card">
+      <div class="decision-title">Johanna &amp; Esa-Pekka's new LinkedIn advisor-announcement template is waiting on you</div>
+      <div class="decision-context">Martin forwarded their concept Monday (via Johanna, cc Esa-Pekka): instead of a plain photo-and-welcome graphic for new advisors, build a consistent template that leads with a hook, states the advisor's specific expertise so it's worth sharing, and reinforces the Elevathors brand each time. They've attached an initial mock-up and offered to refine it into a final version. Martin's own note: "I think it's a really good idea. Would you implement it?" This has been sitting unanswered since Monday 07:07.</div>
+      <span class="recommend-pill">Reply to Martin today — yes/no/modify, not silence</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">What To Be Prepped For</div>
+    <div class="card">
+      <span class="meeting-time">10:00 – 10:30</span>
+      <div class="win-title">Technology Adoption — Practical Info</div>
+      <p class="light-day-line">Teams. Back-to-back with BMC right after — no buffer between the two.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">10:30 – 11:00</span>
+      <div class="win-title">BMC</div>
+      <p class="light-day-line">Teams, immediately following the Technology Adoption call.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">15:30 – 16:00</span>
+      <div class="win-title">BMC status møde</div>
+      <p class="light-day-line">Teams.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">19:00 – 21:00</span>
+      <div class="win-title">Authority Speaking Secret Masterclass by Nawal</div>
+      <p class="light-day-line">Confirmed Copenhagen time (explicit +02:00 offset in the invite) — no ambiguity here, and it doesn't conflict with either reading of this afternoon's håndbold times.</p>
+    </div>
+    <div class="card">
+      <div class="win-title">This afternoon's håndbold logistics (see Urgent Decisions)</div>
+      <p class="light-day-line">Mathias's title says <b>16:30–17:30</b>; his calendar block says <b>14:30–15:30</b>. Magnus's håndbold is blocked <b>16:30–17:00</b> with nothing to cross-check. Confirm both before you need to be two places at once.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Five Things To Read</div>
+    <div class="card read-item">
+      <div class="read-tag">Euronews · Oct 11</div>
+      <div class="read-title"><a href="https://www.euronews.com/video/2026/10/11/denmark-tests-humanoid-robots-in-supermarkets-to-help-to-ease-staff-workload-at-night" target="_blank" rel="noopener">Denmark Tests Humanoid Robots In Supermarkets To Ease Staff Workload At Night</a></div>
+      <div class="read-why">Danish start-up Hive Robots, running on Unitree hardware, is trialling humanoid robots at a Føtex near Copenhagen — still teleoperated for now while the AI learns, but a real in-store commercial pilot, not a lab demo.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Rapporteur · Oct 13</div>
+      <div class="read-title"><a href="https://www.rapporteur.com/news/denmark-banks-on-ai-for-its-new-drone-defence-system/" target="_blank" rel="noopener">Denmark Banks On AI For Its New Drone Defence System</a></div>
+      <div class="read-why">Danish firm Systematic won a Ministry of Defence contract for an AI-capable command-and-control system to counter drones, to be linked to the nationwide counter-drone system Terma is building — one of the first NATO C2 contracts built to ingest AI-based analytics from day one.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">The Copenhagen Post · Oct 20</div>
+      <div class="read-title"><a href="https://cphpost.dk/2026-10-20/business-education/business-business-education/what-danes-are-talking-about-who-are-the-economys-wise-men/" target="_blank" rel="noopener">What Danes Are Talking About: The Four "Wise Men" Of Denmark And Their Economic Forecasts</a></div>
+      <div class="read-why">Denmark's independent economic council published its autumn report: it questions whether the government's proposed food-tax cut would actually lower prices, and flags slower growth ahead alongside energy-price risk.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">CNN · Oct 18</div>
+      <div class="read-title"><a href="https://edition.cnn.com/2026/10/18/tech/linkedin-fighting-ai-posts" target="_blank" rel="noopener">Even LinkedIn Is Getting Tired Of Your AI-Written Posts</a></div>
+      <div class="read-why">LinkedIn is tightening its crackdown on generic, AI-written posts, with a creator-management team acting as "content therapists" for executives and subject-matter experts — directly relevant to how Elevathors' own advisor posts should be written from here.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Forbes · Oct 18</div>
+      <div class="read-title"><a href="https://www.forbes.com/sites/williamarruda/2026/10/18/the-6-new-rules-of-personal-branding-for-career-success/" target="_blank" rel="noopener">The 6 New Rules Of Personal Branding For Career Success</a></div>
+      <div class="read-why">William Arruda's update to his long-running personal-branding framework, built around the fact that recruiters and hiring systems now use AI to evaluate candidates before a human ever looks — visibility to those systems is now part of the brand, not separate from it.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">If You Have Time</div>
+    <div class="card time-card">
+      <p>11:00–15:30 is open on the work side once the morning back-to-back calls clear. Good window to actually look at Johanna's mock-up graphic before replying to Martin, rather than answering from the email alone.</p>
+    </div>
+  </div>
+
+  <footer>Built for Melanie · 7:00 AM</footer>
+
+</div>
+
+<script>
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.getElementById('themeToggle').textContent = theme === 'dark' ? 'Dark' : 'Light';
+  }
+  function toggleTheme() {
+    var current = document.documentElement.getAttribute('data-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('brief-theme', next);
+    applyTheme(next);
+  }
+  (function init() {
+    var saved = localStorage.getItem('brief-theme');
+    if (saved) {
+      applyTheme(saved);
+    } else {
+      var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      applyTheme(system);
+    }
+  })();
+</script>
+</body>
+</html>

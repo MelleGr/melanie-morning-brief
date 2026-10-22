@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morning Brief — Thursday, October 22, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #225EDC;
+    --accent-dim: rgba(34,94,220,0.14);
+  }
+  html[data-theme="dark"] {
+    --bg: #000405;
+    --card: #0b1013;
+    --card-border: rgba(255,255,255,0.08);
+    --text-95: rgba(255,255,255,0.95);
+    --text-60: rgba(255,255,255,0.60);
+    --text-38: rgba(255,255,255,0.38);
+  }
+  html[data-theme="light"] {
+    --bg: #FBFBF9;
+    --card: #ffffff;
+    --card-border: rgba(0,0,0,0.08);
+    --text-95: rgba(10,10,10,0.95);
+    --text-60: rgba(10,10,10,0.62);
+    --text-38: rgba(10,10,10,0.42);
+  }
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme]) {
+      --bg: #000405;
+      --card: #0b1013;
+      --card-border: rgba(255,255,255,0.08);
+      --text-95: rgba(255,255,255,0.95);
+      --text-60: rgba(255,255,255,0.60);
+      --text-38: rgba(255,255,255,0.38);
+    }
+  }
+  @media (prefers-color-scheme: light) {
+    html:not([data-theme]) {
+      --bg: #FBFBF9;
+      --card: #ffffff;
+      --card-border: rgba(0,0,0,0.08);
+      --text-95: rgba(10,10,10,0.95);
+      --text-60: rgba(10,10,10,0.62);
+      --text-38: rgba(10,10,10,0.42);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text-95);
+    font-family: 'Inter', -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+  }
+  .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-38);
+  }
+  .date {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 6px;
+    color: var(--text-95);
+  }
+  .toggle {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-60);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .toggle:hover { color: var(--text-95); border-color: var(--text-38); }
+
+  .quote-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 28px 30px;
+    margin-bottom: 48px;
+  }
+  .quote-text {
+    font-size: 19px;
+    line-height: 1.5;
+    font-weight: 500;
+    color: var(--text-95);
+    margin: 0 0 10px;
+  }
+  .quote-attr {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-38);
+  }
+
+  .section { margin-bottom: 48px; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-38);
+    margin-bottom: 16px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 20px 22px;
+    margin-bottom: 12px;
+  }
+  .card:last-child { margin-bottom: 0; }
+
+  .win-row { display: flex; gap: 16px; align-items: flex-start; }
+  .win-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--accent);
+    min-width: 22px;
+  }
+  .win-body { flex: 1; }
+  .win-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .pill {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-top: 2px;
+  }
+  .cut-note {
+    font-size: 13px;
+    color: var(--text-38);
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  .decision-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .decision-context { font-size: 14.5px; line-height: 1.55; color: var(--text-60); margin-bottom: 12px; }
+  .recommend-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 5px 14px;
+  }
+  .meeting-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .light-day-line {
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--text-60);
+  }
+  .light-day-line b { color: var(--text-95); font-weight: 600; }
+
+  .read-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .read-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .read-title a {
+    color: var(--text-95);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+  }
+  .read-title a:hover { border-bottom-color: var(--text-38); }
+  .read-why { font-size: 14.5px; color: var(--text-60); line-height: 1.5; }
+
+  .time-card p { font-size: 15.5px; line-height: 1.6; color: var(--text-60); margin: 0; }
+  .time-card p b { color: var(--text-95); font-weight: 600; }
+
+  footer {
+    margin-top: 56px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-38);
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 36px 18px 72px; }
+    .date { font-size: 19px; }
+    .quote-text { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div>
+      <div class="kicker">Melanie's Morning Brief</div>
+      <div class="date">Thursday, October 22, 2026</div>
+    </div>
+    <button class="toggle" id="themeToggle" onclick="toggleTheme()">Dark</button>
+  </div>
+
+  <div class="quote-card">
+    <p class="quote-text">"He who has begun has half done."</p>
+    <div class="quote-attr">— Horace, Epistles, Book I, Epistle II, line 40</div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Win Conditions For Today</div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">01</div>
+        <div class="win-body">
+          <div class="win-title">Send the reply to Martin — it's already written</div>
+          <span class="pill">→ Full agreement + plan, sitting in Outlook Drafts since yesterday morning, never sent</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">02</div>
+        <div class="win-body">
+          <div class="win-title">Clear the Buffer backlog — now 2 days old</div>
+          <span class="pill">→ 5 comments since Tuesday night, still unread</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">03</div>
+        <div class="win-body">
+          <div class="win-title">Go to Build Her Stack tonight with your own-brand hat on</div>
+          <span class="pill">→ Sønderborg women's tech event — OR territory + personal brand content in one evening</span>
+        </div>
+      </div>
+    </div>
+    <div class="cut-note">Carried forward, resolved: Mark Winn's intro post stays confirmed live; "Magnus uheld fortsætter" draft remains blank and isn't being re-flagged (no new information since it was last raised).</div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Urgent Decisions</div>
+    <div class="card">
+      <div class="decision-title">Your reply to Martin is finished but unsent</div>
+      <div class="decision-context">You drafted this yesterday at 07:06 — you agreed the LinkedIn template idea from Johanna and Esa-Pekka is good, and you laid out your own next step clearly: review Johanna's mock-up, build a proper template for intro posts, then come back to Martin with a proposal before looping Johanna and Esa-Pekka back in to finalize it. It's a complete, well-reasoned reply. It's just sitting in Drafts.</div>
+      <span class="recommend-pill">Hit send today — the thinking is already done</span>
+    </div>
+    <div class="card">
+      <div class="decision-title">Buffer comment backlog is now 2 days old</div>
+      <div class="decision-context">The "5 new comments" recap arrived Tuesday at 02:11 and is still unread as of this morning — including at least one on Mark Winn's now-live intro post. No new recap has landed since, so it hasn't grown, but it also hasn't shrunk.</div>
+      <span class="recommend-pill">Clear it today before a third day's worth stacks on top</span>
+    </div>
+    <div class="card">
+      <div class="decision-title">DST ends this Sunday — the brief's send time will drift</div>
+      <div class="decision-context">This pipeline's schedule is currently set to fire at 05:00 UTC, which lands at 07:00 Copenhagen time only while Denmark is on CEST (summer time). Denmark switches to CET this Sunday, October 25. After that, 05:00 UTC becomes 06:00 Copenhagen time — this brief would start arriving an hour early unless the schedule is moved to 06:00 UTC. Today and tomorrow are the last two runs on the current schedule.</div>
+      <span class="recommend-pill">Have the schedule updated to 06:00 UTC before Sunday</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">What To Be Prepped For</div>
+    <div class="card">
+      <span class="meeting-time">11:30 – 12:00</span>
+      <div class="win-title">Technology Adoption Practical Info — second attempt</div>
+      <p class="light-day-line">Teams, with Oskar (who missed yesterday's first attempt) and Pol, his PhD student. Topic: what HuGo/Tealy could demonstrate at next week's Technology Adoption conference in Sønderborg — Oskar's own suggestion is a greeter role at the entrance.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">12:00 – 13:00</span>
+      <div class="win-title">BMC talent indsats</div>
+      <p class="light-day-line">Teams, immediately following the Technology Adoption call — no buffer between the two.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">17:30 – 18:30</span>
+      <div class="win-title">Mathias badminton</div>
+      <p class="light-day-line">Clean calendar entry today — no title/block mismatch to second-guess.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">19:30 – 21:30</span>
+      <div class="win-title">Build Her Stack</div>
+      <p class="light-day-line">The women's-tech event in Sønderborg that House of Software's reminder flagged earlier this week. Clear gap after badminton to get there.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Five Things To Read</div>
+    <div class="card read-item">
+      <div class="read-tag">PR Newswire · Oct 8</div>
+      <div class="read-title"><a href="https://www.prnewswire.com/news-releases/danish-startup-upends-the-forklift-industry-with-a-self-driving-pallet-jack-that-keeps-humans-in-charge-302902750.html" target="_blank" rel="noopener">Danish Startup Upends The Forklift Industry With A Self-Driving Pallet Jack That Keeps Humans In Charge</a></div>
+      <div class="read-why">Copenhagen's The Mobile Robot Company sells its J1600 pallet jack direct at a published €65,000 price, skipping resellers entirely — a concrete go-to-market model worth having on hand for OR member conversations.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Euronews · Oct 8</div>
+      <div class="read-title"><a href="https://www.euronews.com/2026/10/08/only-a-third-of-eu-counter-drone-programmes-will-deliver-by-2030-leaked-report-warns" target="_blank" rel="noopener">Only A Third Of EU Counter-Drone Programmes Will Deliver By 2030, Leaked Report Warns</a></div>
+      <div class="read-why">A leaked EDA readiness assessment finds counter-drone spending grew sixfold in a year, but most of the €18.9B being invested won't produce working systems on time — a useful reality check against the more triumphant drone-industry headlines.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">BioSpace · Oct 8</div>
+      <div class="read-title"><a href="https://www.biospace.com/press-releases/bavarian-nordic-upgrades-full-year-2026-financial-guidance-after-strong-travel-health-performance" target="_blank" rel="noopener">Bavarian Nordic Upgrades Full-Year 2026 Financial Guidance After Strong Travel Health Performance</a></div>
+      <div class="read-why">A Danish biotech raising guidance on surging US rabies-vaccine demand — a rare upbeat counterpoint to this week's "growth is slowing" line from the economic council.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Fortune · Oct 15</div>
+      <div class="read-title"><a href="https://fortune.com/2026/10/15/linkedin-ceo-daniel-shapero-workfluencers-day-jobs-10k-brand-deals-teachers-graphic-designers-side-hustle/" target="_blank" rel="noopener">LinkedIn CEO Daniel Shapero Says "Workfluencers" With Day Jobs Land $10K+ Brand Deals On The Side</a></div>
+      <div class="read-why">LinkedIn's own CEO, direct from the source: creators are up 60% since 2024, and 83% of them post alongside a full-time job — exactly the model behind both the Elevathors ghostwriting work and your own brand.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Quartz · Oct 7</div>
+      <div class="read-title"><a href="https://qz.com/richest-self-made-women-america" target="_blank" rel="noopener">Forbes' Richest Self-Made Women In America For 2026</a></div>
+      <div class="read-why">43 self-made women now clear the $1B bar, the highest combined total Forbes has recorded — and several of the profiles explicitly credit personal brand, not just the underlying business, as the wealth driver.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">If You Have Time</div>
+    <div class="card time-card">
+      <p><b>13:00–17:30</b> is wide open today. Enough room to actually send the Martin reply, clear the Buffer backlog, and still have a quiet half hour to think about what you want to get out of Build Her Stack tonight — not just attend it.</p>
+    </div>
+  </div>
+
+  <footer>Built for Melanie · 7:00 AM</footer>
+
+</div>
+
+<script>
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.getElementById('themeToggle').textContent = theme === 'dark' ? 'Dark' : 'Light';
+  }
+  function toggleTheme() {
+    var current = document.documentElement.getAttribute('data-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('brief-theme', next);
+    applyTheme(next);
+  }
+  (function init() {
+    var saved = localStorage.getItem('brief-theme');
+    if (saved) {
+      applyTheme(saved);
+    } else {
+      var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      applyTheme(system);
+    }
+  })();
+</script>
+</body>
+</html>

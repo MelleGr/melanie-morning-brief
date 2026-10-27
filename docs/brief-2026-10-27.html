@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morning Brief — Tuesday, October 27, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #225EDC;
+    --accent-dim: rgba(34,94,220,0.14);
+  }
+  html[data-theme="dark"] {
+    --bg: #000405;
+    --card: #0b1013;
+    --card-border: rgba(255,255,255,0.08);
+    --text-95: rgba(255,255,255,0.95);
+    --text-60: rgba(255,255,255,0.60);
+    --text-38: rgba(255,255,255,0.38);
+  }
+  html[data-theme="light"] {
+    --bg: #FBFBF9;
+    --card: #ffffff;
+    --card-border: rgba(0,0,0,0.08);
+    --text-95: rgba(10,10,10,0.95);
+    --text-60: rgba(10,10,10,0.62);
+    --text-38: rgba(10,10,10,0.42);
+  }
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme]) {
+      --bg: #000405;
+      --card: #0b1013;
+      --card-border: rgba(255,255,255,0.08);
+      --text-95: rgba(255,255,255,0.95);
+      --text-60: rgba(255,255,255,0.60);
+      --text-38: rgba(255,255,255,0.38);
+    }
+  }
+  @media (prefers-color-scheme: light) {
+    html:not([data-theme]) {
+      --bg: #FBFBF9;
+      --card: #ffffff;
+      --card-border: rgba(0,0,0,0.08);
+      --text-95: rgba(10,10,10,0.95);
+      --text-60: rgba(10,10,10,0.62);
+      --text-38: rgba(10,10,10,0.42);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text-95);
+    font-family: 'Inter', -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+  }
+  .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-38);
+  }
+  .date {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 6px;
+    color: var(--text-95);
+  }
+  .toggle {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-60);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .toggle:hover { color: var(--text-95); border-color: var(--text-38); }
+
+  .quote-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 28px 30px;
+    margin-bottom: 48px;
+  }
+  .quote-text {
+    font-size: 19px;
+    line-height: 1.5;
+    font-weight: 500;
+    color: var(--text-95);
+    margin: 0 0 10px;
+  }
+  .quote-attr {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-38);
+  }
+
+  .section { margin-bottom: 48px; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-38);
+    margin-bottom: 16px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 20px 22px;
+    margin-bottom: 12px;
+  }
+  .card:last-child { margin-bottom: 0; }
+
+  .win-row { display: flex; gap: 16px; align-items: flex-start; }
+  .win-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--accent);
+    min-width: 22px;
+  }
+  .win-body { flex: 1; }
+  .win-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .pill {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-top: 2px;
+  }
+  .cut-note {
+    font-size: 13px;
+    color: var(--text-38);
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  .decision-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .decision-context { font-size: 14.5px; line-height: 1.55; color: var(--text-60); margin-bottom: 12px; }
+  .recommend-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 5px 14px;
+  }
+  .meeting-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .light-day-line {
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--text-60);
+  }
+  .light-day-line b { color: var(--text-95); font-weight: 600; }
+
+  .read-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .read-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .read-title a {
+    color: var(--text-95);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+  }
+  .read-title a:hover { border-bottom-color: var(--text-38); }
+  .read-why { font-size: 14.5px; color: var(--text-60); line-height: 1.5; }
+
+  .time-card p { font-size: 15.5px; line-height: 1.6; color: var(--text-60); margin: 0; }
+  .time-card p b { color: var(--text-95); font-weight: 600; }
+
+  footer {
+    margin-top: 56px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-38);
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 36px 18px 72px; }
+    .date { font-size: 19px; }
+    .quote-text { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div>
+      <div class="kicker">Melanie's Morning Brief</div>
+      <div class="date">Tuesday, October 27, 2026</div>
+    </div>
+    <button class="toggle" id="themeToggle" onclick="toggleTheme()">Dark</button>
+  </div>
+
+  <div class="quote-card">
+    <p class="quote-text">"Well done is better than well said."</p>
+    <div class="quote-attr">— Benjamin Franklin, Poor Richard's Almanack, 1737</div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Win Conditions For Today</div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">01</div>
+        <div class="win-body">
+          <div class="win-title">Chase down every speaker's presentation before end of day</div>
+          <span class="pill">→ Today's the hard deadline — testing happens tomorrow, the conference is Thursday</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">02</div>
+        <div class="win-body">
+          <div class="win-title">Give Dinesan a time for Monday's handover and answer his question</div>
+          <span class="pill">→ He asked yesterday at 11:49 — still waiting on a time, and on whether you're covering content this week</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">03</div>
+        <div class="win-body">
+          <div class="win-title">Finish Johanna's intro in website format, as promised yesterday</div>
+          <span class="pill">→ You told her you'd get it ready for her review — a same-day close on a same-day promise</span>
+        </div>
+      </div>
+    </div>
+    <div class="cut-note">Credit: the Dinesan handover is no longer stalled — Monday, November 2nd is locked in. The open piece now is just the time and one follow-up question.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Urgent Decisions</div>
+    <div class="card">
+      <div class="decision-title">Technology Adoption 2026 is two days out — speaker materials are due today</div>
+      <div class="decision-context">The conference runs Thursday, 09:30–16:00 at Alsion, Sønderborg, with you and Julie Danielsen as the on-site contacts. Per the standing speaker checklist on this calendar, every presentation is due today in PPT format so everything can be tested and locked tomorrow (Oct 28) — along with photos, short bios, and talk titles for anyone who hasn't sent theirs. If even one outside speaker hasn't delivered, today is the day to chase it, not tomorrow.</div>
+      <span class="recommend-pill">Confirm every speaker's materials are in by end of day</span>
+    </div>
+    <div class="card">
+      <div class="decision-title">Dinesan is waiting on two small answers</div>
+      <div class="decision-context">His reply yesterday at 11:49 asked what time works for Monday the 2nd, and whether you're handling Elevathors content this week or what the interim arrangement is. Both are quick to answer and both have sat unanswered since yesterday.</div>
+      <span class="recommend-pill">Reply today — pick a time, state this week's arrangement</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">What To Be Prepped For</div>
+    <div class="card">
+      <span class="meeting-time">09:00 – 09:30</span>
+      <div class="win-title">Melanie & Denise 1:1</div>
+      <p class="light-day-line">Teams.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">16:45 – 18:00</span>
+      <div class="win-title">Magnus fodbold træning</div>
+      <p class="light-day-line">No conflicts around it today.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">19:00 – 21:30</span>
+      <div class="win-title">Melanie håndbold træning</div>
+      <p class="light-day-line">Your own training, not a kid's — worth protecting as the one thing on today's calendar that's just for you.</p>
+    </div>
+    <div class="card">
+      <div class="win-title">Thursday heads-up: Technology Adoption 2026</div>
+      <p class="light-day-line">09:30–16:00, Alsion, Sønderborg. You and Julie are the registration-desk contacts. Today's deadline (above) is what makes Thursday run smoothly.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Five Things To Read</div>
+    <div class="card read-item">
+      <div class="read-tag">Robotics 24/7 · Oct 21</div>
+      <div class="read-title"><a href="https://www.robotics247.com/article/generative-bionics-to-build-europes-largest-physical-ai-data-factory-to-advance-european-humanoid-sovereignty-with-amd-ai-infrastructure" target="_blank" rel="noopener">Generative Bionics To Build Europe's Largest Physical AI Data Factory To Advance European Humanoid Sovereignty With AMD AI Infrastructure</a></div>
+      <div class="read-why">An Italian humanoid developer's three-site European network, built on a real-to-sim-to-real training loop — exactly the "physical AI" theme Thursday's conference is built around, and good context before you're on-site all day.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">EIN Presswire · Oct 8</div>
+      <div class="read-title"><a href="https://www.einnews.com/pr_news/948116329/the-80-percent-revolution-how-danish-robotics-startup-the-mobile-robot-company-is-taking-the-industry-by-storm" target="_blank" rel="noopener">The 80 Percent Revolution: How Danish Robotics Startup The Mobile Robot Company Is Taking The Industry By Storm</a></div>
+      <div class="read-why">A Copenhagen startup deliberately targeting 80% autonomy instead of full autonomy — a pragmatic counterpoint to the "full humanoid sovereignty" framing above, worth having both in mind for conference conversations.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">The Copenhagen Post · Oct 26</div>
+      <div class="read-title"><a href="https://cphpost.dk/2026-10-26/news/round-up/denmark-issues-safety-guidance-for-vulnerable-people-after-cpr-data-leak" target="_blank" rel="noopener">Denmark Issues Safety Guidance For Vulnerable People After CPR Data Leak</a></div>
+      <div class="read-why">Follow-up on the 8.8-million-person CPR breach — new government guidance for people at heightened risk. The scale of this story has been building all month and is now the dominant Danish news item.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Alicia Teltz · Oct 25</div>
+      <div class="read-title"><a href="https://aliciateltz.substack.com/p/linkedin-updates-october-2026" target="_blank" rel="noopener">LinkedIn Updates October 2026: Super Likes, Pinned Comments</a></div>
+      <div class="read-why">A practitioner's rundown of this month's actual feature changes — Premium-only Super Likes, pinned comments returning, paid Advice Sessions — cutting through the vendor-blog noise most LinkedIn coverage runs on.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">AOL · Oct 14</div>
+      <div class="read-title"><a href="https://www.aol.com/articles/susan-dell-net-worth-revealed-194500000.html" target="_blank" rel="noopener">Susan Dell Net Worth Revealed — As Dell CEO's Wife Is Among The Richest Self-Made Women In America</a></div>
+      <div class="read-why">An estimated $5.8 billion in her own right, separate from Michael Dell's fortune — a clean example of a woman's wealth being made legible and credited as her own, not folded into a spouse's.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">If You Have Time</div>
+    <div class="card time-card">
+      <p>Once the 1:1 wraps, <b>09:30–16:45</b> is open. That's real room to clear the conference checklist, close out Dinesan and Johanna, and still have margin before tonight's håndbold.</p>
+    </div>
+  </div>
+
+  <footer>Built for Melanie · 7:00 AM</footer>
+
+</div>
+
+<script>
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.getElementById('themeToggle').textContent = theme === 'dark' ? 'Dark' : 'Light';
+  }
+  function toggleTheme() {
+    var current = document.documentElement.getAttribute('data-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('brief-theme', next);
+    applyTheme(next);
+  }
+  (function init() {
+    var saved = localStorage.getItem('brief-theme');
+    if (saved) {
+      applyTheme(saved);
+    } else {
+      var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      applyTheme(system);
+    }
+  })();
+</script>
+</body>
+</html>

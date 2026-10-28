@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morning Brief — Wednesday, October 28, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #225EDC;
+    --accent-dim: rgba(34,94,220,0.14);
+  }
+  html[data-theme="dark"] {
+    --bg: #000405;
+    --card: #0b1013;
+    --card-border: rgba(255,255,255,0.08);
+    --text-95: rgba(255,255,255,0.95);
+    --text-60: rgba(255,255,255,0.60);
+    --text-38: rgba(255,255,255,0.38);
+  }
+  html[data-theme="light"] {
+    --bg: #FBFBF9;
+    --card: #ffffff;
+    --card-border: rgba(0,0,0,0.08);
+    --text-95: rgba(10,10,10,0.95);
+    --text-60: rgba(10,10,10,0.62);
+    --text-38: rgba(10,10,10,0.42);
+  }
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme]) {
+      --bg: #000405;
+      --card: #0b1013;
+      --card-border: rgba(255,255,255,0.08);
+      --text-95: rgba(255,255,255,0.95);
+      --text-60: rgba(255,255,255,0.60);
+      --text-38: rgba(255,255,255,0.38);
+    }
+  }
+  @media (prefers-color-scheme: light) {
+    html:not([data-theme]) {
+      --bg: #FBFBF9;
+      --card: #ffffff;
+      --card-border: rgba(0,0,0,0.08);
+      --text-95: rgba(10,10,10,0.95);
+      --text-60: rgba(10,10,10,0.62);
+      --text-38: rgba(10,10,10,0.42);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text-95);
+    font-family: 'Inter', -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+  }
+  .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-38);
+  }
+  .date {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 6px;
+    color: var(--text-95);
+  }
+  .toggle {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-60);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .toggle:hover { color: var(--text-95); border-color: var(--text-38); }
+
+  .quote-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 28px 30px;
+    margin-bottom: 48px;
+  }
+  .quote-text {
+    font-size: 19px;
+    line-height: 1.5;
+    font-weight: 500;
+    color: var(--text-95);
+    margin: 0 0 10px;
+  }
+  .quote-attr {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-38);
+  }
+
+  .section { margin-bottom: 48px; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-38);
+    margin-bottom: 16px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 20px 22px;
+    margin-bottom: 12px;
+  }
+  .card:last-child { margin-bottom: 0; }
+
+  .win-row { display: flex; gap: 16px; align-items: flex-start; }
+  .win-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--accent);
+    min-width: 22px;
+  }
+  .win-body { flex: 1; }
+  .win-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .pill {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-top: 2px;
+  }
+  .cut-note {
+    font-size: 13px;
+    color: var(--text-38);
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  .decision-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .decision-context { font-size: 14.5px; line-height: 1.55; color: var(--text-60); margin-bottom: 12px; }
+  .recommend-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 5px 14px;
+  }
+  .meeting-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .light-day-line {
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--text-60);
+  }
+  .light-day-line b { color: var(--text-95); font-weight: 600; }
+
+  .read-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .read-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .read-title a {
+    color: var(--text-95);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+  }
+  .read-title a:hover { border-bottom-color: var(--text-38); }
+  .read-why { font-size: 14.5px; color: var(--text-60); line-height: 1.5; }
+
+  .time-card p { font-size: 15.5px; line-height: 1.6; color: var(--text-60); margin: 0; }
+  .time-card p b { color: var(--text-95); font-weight: 600; }
+
+  footer {
+    margin-top: 56px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-38);
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 36px 18px 72px; }
+    .date { font-size: 19px; }
+    .quote-text { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div>
+      <div class="kicker">Melanie's Morning Brief</div>
+      <div class="date">Wednesday, October 28, 2026</div>
+    </div>
+    <button class="toggle" id="themeToggle" onclick="toggleTheme()">Dark</button>
+  </div>
+
+  <div class="quote-card">
+    <p class="quote-text">"Thus it is that in war the victorious strategist only seeks battle after the victory has been won, whereas he who is destined to defeat first fights and afterwards looks for victory."</p>
+    <div class="quote-attr">— Sun Tzu, The Art of War, Ch. IV (trans. Lionel Giles, 1910)</div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Win Conditions For Today</div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">01</div>
+        <div class="win-body">
+          <div class="win-title">Confirm every speaker's presentation tests clean</div>
+          <span class="pill">→ Today's the day — tomorrow is live, with zero buffer to fix a broken file on-site</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">02</div>
+        <div class="win-body">
+          <div class="win-title">Send Dinesan the content overview you promised yesterday</div>
+          <span class="pill">→ You said you'd check what's ready and send it "right away" — still owed</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">03</div>
+        <div class="win-body">
+          <div class="win-title">Finish Johanna's website-format intro</div>
+          <span class="pill">→ In progress since Monday — close it out before it becomes a third day</span>
+        </div>
+      </div>
+    </div>
+    <div class="cut-note">Credit: the Dinesan handover time is locked — Monday Nov 2nd, 10:00, pending his nod. That loop is effectively closed.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Urgent Decisions</div>
+    <div class="card">
+      <div class="decision-title">Today is presentation-testing day for tomorrow's conference</div>
+      <div class="decision-context">Technology Adoption 2026 runs tomorrow, 09:30–16:00 at Alsion, Sønderborg, with you and Julie Danielsen as the on-site contacts. The standing speaker checklist says all presentations get tested and locked today, in PPT format, with PDF-sharing permission confirmed for each. Your own calendar has nothing else on it today — it looks like it was deliberately kept clear for exactly this.</div>
+      <span class="recommend-pill">Work through every speaker's file today — none left untested going into tomorrow</span>
+    </div>
+    <div class="card">
+      <div class="decision-title">Dinesan's content overview is a day overdue</div>
+      <div class="decision-context">You told him yesterday morning you'd check what's ready and send a short overview "right away." It hasn't gone out yet, and it's a small, bounded task — the kind that's easy to let slide once conference prep takes over the day.</div>
+      <span class="recommend-pill">Send it before the testing work absorbs the whole day</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">What To Be Prepped For</div>
+    <div class="card time-card">
+      <p>No work meetings today — the calendar is clear, which fits a day meant for heads-down conference prep.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">16:30 – 17:30</span>
+      <div class="win-title">Mathias håndbold træning</div>
+      <p class="light-day-line">No conflicts around it.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">18:30 – 19:00</span>
+      <div class="win-title">Magnus Håndbold</div>
+      <p class="light-day-line">Sequential with Mathias's, not overlapping.</p>
+    </div>
+    <div class="card">
+      <div class="win-title">Tomorrow heads-up: Technology Adoption 2026</div>
+      <p class="light-day-line">09:30–16:00, Alsion, Sønderborg — the day all of today's prep is for. Mathias has badminton tomorrow evening too, 17:30–18:30.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Five Things To Read</div>
+    <div class="card read-item">
+      <div class="read-tag">Odense Robotics · Oct 22</div>
+      <div class="read-title"><a href="https://www.odenserobotics.dk/reynolds-moore-launches-training-path-for-physical-ai-safety-based-on-nvidia-igx/" target="_blank" rel="noopener">Reynolds & Moore Launches Training Path For Physical AI Safety Based On NVIDIA IGX</a></div>
+      <div class="read-why">A new safety-training track for physical AI from your own cluster, built on NVIDIA's edge-AI hardware platform — timely given tomorrow's conference is built around exactly this theme.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">DroneLife · Oct 27</div>
+      <div class="read-title"><a href="https://dronelife.com/2026/10/27/sweden-selects-saildrone-for-year-long-mission-in-the-baltic-sea" target="_blank" rel="noopener">Sweden Selects Saildrone For Year-Long Mission In The Baltic Sea</a></div>
+      <div class="read-why">A maritime drone deployed for a full year right in Denmark's regional waters — a reminder that "drone" at this conference means more than aerial, and the Baltic is becoming a real proving ground.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">The Copenhagen Post · Oct 27</div>
+      <div class="read-title"><a href="https://cphpost.dk/2026-10-27/news/round-up/new-danish-media-outlet-projekt-y-to-launch-with-ai-written-news/" target="_blank" rel="noopener">New Danish Media Outlet Projekt Y To Launch With AI-Written News</a></div>
+      <div class="read-why">A new Danish outlet launching with AI-written journalism — worth knowing as a live case study in exactly the "AI slop vs. real voice" tension that's been shaping LinkedIn's own content rules this month.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">SocialDay · Oct 21</div>
+      <div class="read-title"><a href="https://socialday.live/features/linkedins-side-hustle-monetisation-suite-launches-with-invite-only-video-ads" target="_blank" rel="noopener">LinkedIn's Side-Hustle Monetisation Suite Launches With Invite-Only Video Ads And Zero Transparency On Creator Revenue Splits</a></div>
+      <div class="read-why">A sharper, more skeptical read on this month's LinkedIn monetization push than most of the coverage — useful counterweight before assuming these tools are ready to lean on.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Geri Stengel · ~Oct 17</div>
+      <div class="read-title"><a href="https://geristengel.substack.com/p/womens-health-founders-face-two-funding" target="_blank" rel="noopener">Women's Health Founders Face Two Funding Hurdles. Three Companies Cleared Both</a></div>
+      <div class="read-why">Cites PitchBook data showing all-female founding teams have already raised $3.74B in US VC through Q3 2026, up 55% year-over-year — a concrete, sourced number for the wealth-building pillar.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">If You Have Time</div>
+    <div class="card time-card">
+      <p>With no meetings today, the whole day is really for the testing work above. If every presentation clears early, that's genuine found time — not a day to fill with something else, just permission to stop once the checklist is done.</p>
+    </div>
+  </div>
+
+  <footer>Built for Melanie · 7:00 AM</footer>
+
+</div>
+
+<script>
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.getElementById('themeToggle').textContent = theme === 'dark' ? 'Dark' : 'Light';
+  }
+  function toggleTheme() {
+    var current = document.documentElement.getAttribute('data-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('brief-theme', next);
+    applyTheme(next);
+  }
+  (function init() {
+    var saved = localStorage.getItem('brief-theme');
+    if (saved) {
+      applyTheme(saved);
+    } else {
+      var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      applyTheme(system);
+    }
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morning Brief — Tuesday, November 3, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #225EDC;
+    --accent-dim: rgba(34,94,220,0.14);
+  }
+  html[data-theme="dark"] {
+    --bg: #000405;
+    --card: #0b1013;
+    --card-border: rgba(255,255,255,0.08);
+    --text-95: rgba(255,255,255,0.95);
+    --text-60: rgba(255,255,255,0.60);
+    --text-38: rgba(255,255,255,0.38);
+  }
+  html[data-theme="light"] {
+    --bg: #FBFBF9;
+    --card: #ffffff;
+    --card-border: rgba(0,0,0,0.08);
+    --text-95: rgba(10,10,10,0.95);
+    --text-60: rgba(10,10,10,0.62);
+    --text-38: rgba(10,10,10,0.42);
+  }
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme]) {
+      --bg: #000405;
+      --card: #0b1013;
+      --card-border: rgba(255,255,255,0.08);
+      --text-95: rgba(255,255,255,0.95);
+      --text-60: rgba(255,255,255,0.60);
+      --text-38: rgba(255,255,255,0.38);
+    }
+  }
+  @media (prefers-color-scheme: light) {
+    html:not([data-theme]) {
+      --bg: #FBFBF9;
+      --card: #ffffff;
+      --card-border: rgba(0,0,0,0.08);
+      --text-95: rgba(10,10,10,0.95);
+      --text-60: rgba(10,10,10,0.62);
+      --text-38: rgba(10,10,10,0.42);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text-95);
+    font-family: 'Inter', -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+  }
+  .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-38);
+  }
+  .date {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 6px;
+    color: var(--text-95);
+  }
+  .toggle {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-60);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .toggle:hover { color: var(--text-95); border-color: var(--text-38); }
+
+  .quote-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 28px 30px;
+    margin-bottom: 48px;
+  }
+  .quote-text {
+    font-size: 19px;
+    line-height: 1.5;
+    font-weight: 500;
+    color: var(--text-95);
+    margin: 0 0 10px;
+  }
+  .quote-attr {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-38);
+  }
+
+  .section { margin-bottom: 48px; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-38);
+    margin-bottom: 16px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 20px 22px;
+    margin-bottom: 12px;
+  }
+  .card:last-child { margin-bottom: 0; }
+
+  .win-row { display: flex; gap: 16px; align-items: flex-start; }
+  .win-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--accent);
+    min-width: 22px;
+  }
+  .win-body { flex: 1; }
+  .win-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .pill {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-top: 2px;
+  }
+  .cut-note {
+    font-size: 13px;
+    color: var(--text-38);
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  .decision-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .decision-context { font-size: 14.5px; line-height: 1.55; color: var(--text-60); margin-bottom: 12px; }
+  .recommend-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 5px 14px;
+  }
+  .meeting-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .light-day-line {
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--text-60);
+  }
+  .light-day-line b { color: var(--text-95); font-weight: 600; }
+
+  .read-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .read-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .read-title a {
+    color: var(--text-95);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+  }
+  .read-title a:hover { border-bottom-color: var(--text-38); }
+  .read-why { font-size: 14.5px; color: var(--text-60); line-height: 1.5; }
+
+  .time-card p { font-size: 15.5px; line-height: 1.6; color: var(--text-60); margin: 0; }
+  .time-card p b { color: var(--text-95); font-weight: 600; }
+
+  footer {
+    margin-top: 56px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-38);
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 36px 18px 72px; }
+    .date { font-size: 19px; }
+    .quote-text { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div>
+      <div class="kicker">Melanie's Morning Brief</div>
+      <div class="date">Tuesday, November 3, 2026</div>
+    </div>
+    <button class="toggle" id="themeToggle" onclick="toggleTheme()">Dark</button>
+  </div>
+
+  <div class="quote-card">
+    <p class="quote-text">"God is not a man, that he should lie; neither the son of man, that he should repent: hath he said, and shall he not do it? or hath he spoken, and shall he not make it good?"</p>
+    <div class="quote-attr">— Numbers 23:19, KJV</div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Win Conditions For Today</div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">01</div>
+        <div class="win-body">
+          <div class="win-title">Send Dinesan's content overview before 10:00</div>
+          <span class="pill">→ Now overdue through a second meeting slot — don't let it slip a third time</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">02</div>
+        <div class="win-body">
+          <div class="win-title">Accept the 10:00 invite — it's still showing tentative</div>
+          <span class="pill">→ Lock it in so today's meeting actually happens</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">03</div>
+        <div class="win-body">
+          <div class="win-title">Make the 14:50 screening — don't let work run over it</div>
+          <span class="pill">→ Health appointment, easy to deprioritize if the handover runs long</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Urgent Decisions</div>
+    <div class="card">
+      <div class="decision-title">Yesterday's handover didn't happen — it moved to today, 10:00</div>
+      <div class="decision-context">Dinesan couldn't meet Monday afternoon and asked to move to "tomorrow at 10," adding "can you post it manually today?" — a sign the content overview still wasn't ready as of Monday 10:13. The invite for today 10:00–11:00 is on your calendar but still unaccepted.</div>
+      <span class="recommend-pill">Accept the invite and send the overview before it starts</span>
+    </div>
+    <div class="card">
+      <div class="decision-title">Two entries for the same afternoon appointment</div>
+      <div class="decision-context">"Livmoderscreening" (14:50–15:50, your primary calendar) and "Læge" at Ulsnæs 6, Gråsten (14:50–15:20, the Melanie GMAIL calendar) share the same start time and location pattern — almost certainly one real appointment logged twice, not a conflict. Treat it as a single 14:50 screening.</div>
+      <span class="recommend-pill">No action needed beyond showing up once, at 14:50</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">What To Be Prepped For</div>
+    <div class="card">
+      <span class="meeting-time">08:00 – 09:00</span>
+      <div class="win-title">Billetsalg SMUK</div>
+      <p class="light-day-line">Ticket sale window — personal reminder, not a meeting.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">09:00 – 09:30</span>
+      <div class="win-title">Melanie & Denise 1:1</div>
+      <p class="light-day-line">Teams. Ends in time for the 10:00 handover.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">10:00 – 11:00</span>
+      <div class="win-title">Overlevering af Marketing — Dinesan Rasiah</div>
+      <p class="light-day-line">Rescheduled from Monday. Still shows as tentative on your calendar — accept it. Walk in with the content overview sent and the same short list from Monday: Johanna's intro, the draft backlog, and the two queued consultant posts.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">14:50 – 15:50</span>
+      <div class="win-title">Livmoderscreening</div>
+      <p class="light-day-line">Cervical screening. Same appointment as the "Læge" entry on the Melanie GMAIL calendar — one visit, not two.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">17:00 – 18:00</span>
+      <div class="win-title">Lauges Fødselsdag</div>
+      <p class="light-day-line">Birthday — family time before tonight's training.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">19:00 – 21:30</span>
+      <div class="win-title">Melanie håndbold træning</div>
+      <p class="light-day-line">Your own training, not a kids' activity — a full day ending on something for you.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Five Things To Read</div>
+    <div class="card read-item">
+      <div class="read-tag">RBC-Ukraine · Sep 28</div>
+      <div class="read-title"><a href="https://newsukraine.rbc.ua/news/denmark-buys-nine-military-robots-from-ukrainian-1790668211.html" target="_blank" rel="noopener">Denmark Buys Nine Military Robots From Ukrainian-Founded Company</a></div>
+      <div class="read-why">Odense-based Dropla Tech's 4×4 ground vehicles are now training Danish drone operators — a Danish-Ukrainian robotics story with a direct local address.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Genmab (IR) · Oct 28</div>
+      <div class="read-title"><a href="https://ir.genmab.com/news-releases/news-release-details/genmab-announces-statistically-significant-clinically-meaningful/" target="_blank" rel="noopener">Genmab's Petosemtamab Cuts Risk Of Death By 50% In Phase 3 Trial</a></div>
+      <div class="read-why">A major Danish biotech win in head and neck cancer — worth knowing as a positive counterweight to this autumn's run of Danish layoff headlines.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">PPC Land · Oct 15</div>
+      <div class="read-title"><a href="https://ppc.land/linkedin-tests-paying-us-creators-for-pre-roll-ads-on-their-videos/" target="_blank" rel="noopener">LinkedIn Tests Paying US Creators For Pre-Roll Ads On Their Videos</a></div>
+      <div class="read-why">Alongside the ad test, LinkedIn also rolled out a redesigned profile dashboard and expanded Creator Marketplace filters — the monetization groundwork keeps building.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Invest in Equity · Oct 30</div>
+      <div class="read-title"><a href="https://investinequity.substack.com/p/invest-in-equity-newsletter-october-39e" target="_blank" rel="noopener">Invest In Equity Newsletter — October</a></div>
+      <div class="read-why">The British Business Bank and UKBAA are funding 10 new angel syndicates led by women and ethnic-minority investors — concrete movement against the stat that only ~14% of UK angels are women.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">GlobeNewswire · Oct 22</div>
+      <div class="read-title"><a href="https://www.globenewswire.com/news-release/2026/10/22/3386120/0/en/women-in-finance-want-equal-recognition-drofa-comms-responds-with-women-leading-the-way-digital-magazine-2026.html" target="_blank" rel="noopener">Women In Finance Want Equal Recognition</a></div>
+      <div class="read-why">Of 94 experts named across 141 finance recommendations, only 14 were women — a sharp, citable visibility gap for the wealth-building and personal-brand pillar.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">If You Have Time</div>
+    <div class="card time-card">
+      <p>There isn't any — this is a full day end to end. If the handover wraps cleanly, let that be the win, and save anything extra for a lighter day.</p>
+    </div>
+  </div>
+
+  <footer>Built for Melanie · 7:00 AM</footer>
+
+</div>
+
+<script>
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.getElementById('themeToggle').textContent = theme === 'dark' ? 'Dark' : 'Light';
+  }
+  function toggleTheme() {
+    var current = document.documentElement.getAttribute('data-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('brief-theme', next);
+    applyTheme(next);
+  }
+  (function init() {
+    var saved = localStorage.getItem('brief-theme');
+    if (saved) {
+      applyTheme(saved);
+    } else {
+      var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      applyTheme(system);
+    }
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morning Brief — Thursday, November 5, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #225EDC;
+    --accent-dim: rgba(34,94,220,0.14);
+  }
+  html[data-theme="dark"] {
+    --bg: #000405;
+    --card: #0b1013;
+    --card-border: rgba(255,255,255,0.08);
+    --text-95: rgba(255,255,255,0.95);
+    --text-60: rgba(255,255,255,0.60);
+    --text-38: rgba(255,255,255,0.38);
+  }
+  html[data-theme="light"] {
+    --bg: #FBFBF9;
+    --card: #ffffff;
+    --card-border: rgba(0,0,0,0.08);
+    --text-95: rgba(10,10,10,0.95);
+    --text-60: rgba(10,10,10,0.62);
+    --text-38: rgba(10,10,10,0.42);
+  }
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme]) {
+      --bg: #000405;
+      --card: #0b1013;
+      --card-border: rgba(255,255,255,0.08);
+      --text-95: rgba(255,255,255,0.95);
+      --text-60: rgba(255,255,255,0.60);
+      --text-38: rgba(255,255,255,0.38);
+    }
+  }
+  @media (prefers-color-scheme: light) {
+    html:not([data-theme]) {
+      --bg: #FBFBF9;
+      --card: #ffffff;
+      --card-border: rgba(0,0,0,0.08);
+      --text-95: rgba(10,10,10,0.95);
+      --text-60: rgba(10,10,10,0.62);
+      --text-38: rgba(10,10,10,0.42);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text-95);
+    font-family: 'Inter', -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+  }
+  .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-38);
+  }
+  .date {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 6px;
+    color: var(--text-95);
+  }
+  .toggle {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-60);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .toggle:hover { color: var(--text-95); border-color: var(--text-38); }
+
+  .quote-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 28px 30px;
+    margin-bottom: 48px;
+  }
+  .quote-text {
+    font-size: 19px;
+    line-height: 1.5;
+    font-weight: 500;
+    color: var(--text-95);
+    margin: 0 0 10px;
+  }
+  .quote-attr {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-38);
+  }
+
+  .section { margin-bottom: 48px; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-38);
+    margin-bottom: 16px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 20px 22px;
+    margin-bottom: 12px;
+  }
+  .card:last-child { margin-bottom: 0; }
+
+  .win-row { display: flex; gap: 16px; align-items: flex-start; }
+  .win-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--accent);
+    min-width: 22px;
+  }
+  .win-body { flex: 1; }
+  .win-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .pill {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-top: 2px;
+  }
+  .cut-note {
+    font-size: 13px;
+    color: var(--text-38);
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  .decision-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .decision-context { font-size: 14.5px; line-height: 1.55; color: var(--text-60); margin-bottom: 12px; }
+  .recommend-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 5px 14px;
+  }
+  .meeting-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .light-day-line {
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--text-60);
+  }
+  .light-day-line b { color: var(--text-95); font-weight: 600; }
+
+  .read-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .read-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .read-title a {
+    color: var(--text-95);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+  }
+  .read-title a:hover { border-bottom-color: var(--text-38); }
+  .read-why { font-size: 14.5px; color: var(--text-60); line-height: 1.5; }
+
+  .time-card p { font-size: 15.5px; line-height: 1.6; color: var(--text-60); margin: 0; }
+  .time-card p b { color: var(--text-95); font-weight: 600; }
+
+  footer {
+    margin-top: 56px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-38);
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 36px 18px 72px; }
+    .date { font-size: 19px; }
+    .quote-text { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div>
+      <div class="kicker">Melanie's Morning Brief</div>
+      <div class="date">Thursday, November 5, 2026</div>
+    </div>
+    <button class="toggle" id="themeToggle" onclick="toggleTheme()">Dark</button>
+  </div>
+
+  <div class="quote-card">
+    <p class="quote-text">"When we are no longer able to change a situation, we are challenged to change ourselves."</p>
+    <div class="quote-attr">— Viktor Frankl, Man's Search for Meaning, Part Two: "Logotherapy in a Nutshell"</div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Win Conditions For Today</div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">01</div>
+        <div class="win-body">
+          <div class="win-title">Send Johanna her intro — today, not "soon"</div>
+          <span class="pill">→ Stuck since Oct 26, now ten days — the handover that was absorbing your bandwidth is resolved, nothing else is blocking this</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">02</div>
+        <div class="win-body">
+          <div class="win-title">Pick one of the five standing Notion tasks and actually move it</div>
+          <span class="pill">→ Unchanged since Aug/Sep — today's calendar is the clearest runway you've had in weeks</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">03</div>
+        <div class="win-body">
+          <div class="win-title">Confirm the e-Boks message from your employer is actually closed</div>
+          <span class="pill">→ Flagged important Tuesday evening — if it's still sitting unread, two minutes ends that</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Urgent Decisions</div>
+    <div class="card">
+      <div class="decision-title">Johanna's intro has been stuck for ten days</div>
+      <div class="decision-context">The last real movement was Oct 26 — a promise to follow up that never got sent. At the time, the handover saga was eating every spare minute; now that it's settled (Wednesday's 11:30 meeting went through, confirmed and accepted on both calendars), there's no honest reason left for this to keep waiting on you.</div>
+      <span class="recommend-pill">Send it today, as-is or lightly polished — don't let "better" keep blocking "out"</span>
+    </div>
+    <div class="card">
+      <div class="decision-title">Whether to chase Dinesan on the handover follow-through</div>
+      <div class="decision-context">No new "Overlevering" emails since Monday's note — nothing concerning, since Wednesday's meeting was confirmed and accepted, just no signal yet on whether the draft backlog or the Jan Tore Gjøby / Matko Smoljan posts have actually changed hands.</div>
+      <span class="recommend-pill">Give it one more day before following up — the meeting was only yesterday</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">What To Be Prepped For</div>
+    <div class="card">
+      <span class="meeting-time">09:30 – 10:00</span>
+      <div class="win-title">Kort update: Delegation 26.11</div>
+      <p class="light-day-line">Teams call, short status touchpoint — nothing to prepare beyond knowing where things stand.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">17:30 – 18:30</span>
+      <div class="win-title">🏸 Mathias badminton</div>
+      <p class="light-day-line">Family logistics, not a meeting — the only other fixed point today.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Five Things To Read</div>
+    <div class="card read-item">
+      <div class="read-tag">The Baltic Times · Oct 12</div>
+      <div class="read-title"><a href="https://www.baltictimes.com/danish-lithuanian_drone_manufacturer_monopulse_raises_over__2_million/" target="_blank" rel="noopener">Danish-Lithuanian Drone Manufacturer Monopulse Raises Over €2 Million</a></div>
+      <div class="read-why">Coinvest Capital-led round for a Danish-Lithuanian UAV maker, earmarked for production capacity and entry into Germany, France and the Netherlands — exactly the kind of cross-border drone-sector capital movement worth tracking.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">The Copenhagen Post · Nov 3</div>
+      <div class="read-title"><a href="https://cphpost.dk/2026-11-03/news/round-up/danish-prime-minsister-urges-everyone-in-denmark-to-prepare-for-cyberattacks-after-data-breaches" target="_blank" rel="noopener">Danish PM Urges Everyone In Denmark To Prepare For Cyberattacks After Data Breaches</a></div>
+      <div class="read-why">A national-level response following this week's attacks on Danish refrigeration systems — the policy angle on a story that's been building all week.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Social Media Today · Nov 4</div>
+      <div class="read-title"><a href="https://www.socialmediatoday.com/news/linkedin-shares-information-on-new-creator-insights-options/873675/" target="_blank" rel="noopener">LinkedIn Details New Creator Insights Options</a></div>
+      <div class="read-why">A new Post Performance Table splits reach between connections and non-connections and shows who followed from a given post — a direct, practical read on whether your content is actually traveling beyond your existing network.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Billion Dollar Boy · Oct 14</div>
+      <div class="read-title"><a href="https://www.billiondollarboy.com/news/bdb-acquires-creator-authority-b2b" target="_blank" rel="noopener">BDB Group Acquires Creator Authority</a></div>
+      <div class="read-why">A creator-marketing holding group betting on B2B influencer marketing specifically through LinkedIn — a signal that the content-strategy playbook you're building is becoming a recognized category, not a niche.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Business Today · Nov 5</div>
+      <div class="read-title"><a href="https://businesstoday.in/personal-finance/story/bt-big-story-women-are-natural-financial-planners-but-what-about-wealthy-women-565761-2026-11-05" target="_blank" rel="noopener">Women Are Natural Financial Planners. But What About Wealthy Women?</a></div>
+      <div class="read-why">On family offices, succession planning and a Barclays/Encubay projection that women will inherit enormous sums over the next decade — squarely inside your wealth-building content pillar, published today.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">If You Have Time</div>
+    <div class="card time-card">
+      <p>A genuinely open day — just the 09:30 Teams call and the evening's badminton. If Johanna's intro and the e-Boks message are handled early, let the rest of the stretch go toward the Notion backlog rather than being filled by whatever shows up in your inbox.</p>
+    </div>
+  </div>
+
+  <footer>Built for Melanie · 7:00 AM</footer>
+
+</div>
+
+<script>
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.getElementById('themeToggle').textContent = theme === 'dark' ? 'Dark' : 'Light';
+  }
+  function toggleTheme() {
+    var current = document.documentElement.getAttribute('data-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('brief-theme', next);
+    applyTheme(next);
+  }
+  (function init() {
+    var saved = localStorage.getItem('brief-theme');
+    if (saved) {
+      applyTheme(saved);
+    } else {
+      var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      applyTheme(system);
+    }
+  })();
+</script>
+</body>
+</html>

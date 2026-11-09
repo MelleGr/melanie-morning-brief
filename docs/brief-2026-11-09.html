@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morning Brief — Monday, November 9, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #225EDC;
+    --accent-dim: rgba(34,94,220,0.14);
+  }
+  html[data-theme="dark"] {
+    --bg: #000405;
+    --card: #0b1013;
+    --card-border: rgba(255,255,255,0.08);
+    --text-95: rgba(255,255,255,0.95);
+    --text-60: rgba(255,255,255,0.60);
+    --text-38: rgba(255,255,255,0.38);
+  }
+  html[data-theme="light"] {
+    --bg: #FBFBF9;
+    --card: #ffffff;
+    --card-border: rgba(0,0,0,0.08);
+    --text-95: rgba(10,10,10,0.95);
+    --text-60: rgba(10,10,10,0.62);
+    --text-38: rgba(10,10,10,0.42);
+  }
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme]) {
+      --bg: #000405;
+      --card: #0b1013;
+      --card-border: rgba(255,255,255,0.08);
+      --text-95: rgba(255,255,255,0.95);
+      --text-60: rgba(255,255,255,0.60);
+      --text-38: rgba(255,255,255,0.38);
+    }
+  }
+  @media (prefers-color-scheme: light) {
+    html:not([data-theme]) {
+      --bg: #FBFBF9;
+      --card: #ffffff;
+      --card-border: rgba(0,0,0,0.08);
+      --text-95: rgba(10,10,10,0.95);
+      --text-60: rgba(10,10,10,0.62);
+      --text-38: rgba(10,10,10,0.42);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text-95);
+    font-family: 'Inter', -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+  }
+  .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-38);
+  }
+  .date {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 6px;
+    color: var(--text-95);
+  }
+  .toggle {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-60);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .toggle:hover { color: var(--text-95); border-color: var(--text-38); }
+
+  .quote-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 28px 30px;
+    margin-bottom: 48px;
+  }
+  .quote-text {
+    font-size: 19px;
+    line-height: 1.5;
+    font-weight: 500;
+    color: var(--text-95);
+    margin: 0 0 10px;
+  }
+  .quote-attr {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-38);
+  }
+
+  .section { margin-bottom: 48px; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-38);
+    margin-bottom: 16px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 20px 22px;
+    margin-bottom: 12px;
+  }
+  .card:last-child { margin-bottom: 0; }
+
+  .win-row { display: flex; gap: 16px; align-items: flex-start; }
+  .win-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--accent);
+    min-width: 22px;
+  }
+  .win-body { flex: 1; }
+  .win-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .pill {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-top: 2px;
+  }
+  .cut-note {
+    font-size: 13px;
+    color: var(--text-38);
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  .decision-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .decision-context { font-size: 14.5px; line-height: 1.55; color: var(--text-60); margin-bottom: 12px; }
+  .recommend-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 5px 14px;
+  }
+  .meeting-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .light-day-line {
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--text-60);
+  }
+  .light-day-line b { color: var(--text-95); font-weight: 600; }
+
+  .read-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .read-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .read-title a {
+    color: var(--text-95);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+  }
+  .read-title a:hover { border-bottom-color: var(--text-38); }
+  .read-why { font-size: 14.5px; color: var(--text-60); line-height: 1.5; }
+
+  .time-card p { font-size: 15.5px; line-height: 1.6; color: var(--text-60); margin: 0; }
+  .time-card p b { color: var(--text-95); font-weight: 600; }
+
+  footer {
+    margin-top: 56px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-38);
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 36px 18px 72px; }
+    .date { font-size: 19px; }
+    .quote-text { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div>
+      <div class="kicker">Melanie's Morning Brief</div>
+      <div class="date">Monday, November 9, 2026</div>
+    </div>
+    <button class="toggle" id="themeToggle" onclick="toggleTheme()">Dark</button>
+  </div>
+
+  <div class="quote-card">
+    <p class="quote-text">"In all things success depends on previous preparation, and without such previous preparation there is sure to be failure."</p>
+    <div class="quote-attr">— The Doctrine of the Mean, Chapter 20 (trans. James Legge), Confucian canon</div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Win Conditions For Today</div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">01</div>
+        <div class="win-body">
+          <div class="win-title">Make the Esbjerg trip work end to end</div>
+          <span class="pill">→ Join the 08:00 Koordineringsmøde by phone while in transit, walk into Business Esbjerg at 09:00 ready</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">02</div>
+        <div class="win-body">
+          <div class="win-title">Settle who covers Magnus's badminton vs. Mathias's karate before 16:00</div>
+          <span class="pill">→ They overlap 16:00–16:30 — decide now, not while you're still driving back from Esbjerg</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">03</div>
+        <div class="win-body">
+          <div class="win-title">Send Johanna's intro</div>
+          <span class="pill">→ Stuck since Oct 26, now 14 days — a travel day is no excuse to let it sit a third week</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Urgent Decisions</div>
+    <div class="card">
+      <div class="decision-title">Magnus's badminton and Mathias's karate overlap today</div>
+      <div class="decision-context">Magnus's badminton runs 15:00–16:30, Mathias's karate 16:00–17:00 — a genuine 30-minute double-booking, on a day you're also back from Esbjerg.</div>
+      <span class="recommend-pill">Decide who takes which before you leave this morning, not en route</span>
+    </div>
+    <div class="card">
+      <div class="decision-title">Johanna's intro is still waiting, now 14 days</div>
+      <div class="decision-context">Last real movement was Oct 26. No new signal from her or Martin — nothing left genuinely blocking it.</div>
+      <span class="recommend-pill">Send it today, as-is or lightly polished</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">What To Be Prepped For</div>
+    <div class="card">
+      <span class="meeting-time">07:00 – 09:00</span>
+      <div class="win-title">Transport to Esbjerg</div>
+      <p class="light-day-line">The drive — the 08:00 Koordineringsmøde below happens while you're in it.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">08:00 – 08:30</span>
+      <div class="win-title">Koordineringsmøde</div>
+      <p class="light-day-line">Recurring Teams call, normally at Fyrtårnet — join by phone from the car today.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">09:00 – 10:00</span>
+      <div class="win-title">Møde Odense Robotics &amp; Business Esbjerg</div>
+      <p class="light-day-line">Business Esbjerg, John Tranums Vej 23, Skads — the actual reason for today's trip.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">15:00 – 16:30</span>
+      <div class="win-title">🏸 Magnus badminton træning</div>
+      <p class="light-day-line">Overlaps Mathias's karate below — see Urgent Decisions.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">16:00 – 17:00</span>
+      <div class="win-title">🥋 Mathias karate</div>
+      <p class="light-day-line">Also inside the overlap window.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Five Things To Read</div>
+    <div class="card read-item">
+      <div class="read-tag">Odense Robotics · Nov 2</div>
+      <div class="read-title"><a href="https://www.odenserobotics.dk/dan-palletiser-celebrates-50-years-with-more-than-1000-systems-delivered-worldwide/" target="_blank" rel="noopener">DAN Palletiser Celebrates 50 Years With More Than 1,000 Systems Delivered Worldwide</a></div>
+      <div class="read-why">A member company milestone straight from the cluster's own news page — good small talk for today's Business Esbjerg meeting.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Odense Robotics · late Oct</div>
+      <div class="read-title"><a href="https://www.odenserobotics.dk/giving-future-robots-a-digital-brain/" target="_blank" rel="noopener">Giving Future Robots A Digital Brain: Startup Cuts Years Off AI Development</a></div>
+      <div class="read-why">Synteza just joined the Odense Robotics StartUp Fund incubator — a fresh name for the "new OR outreach" list.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Investing.com · Nov 6</div>
+      <div class="read-title"><a href="https://www.investing.com/news/stock-market-news/coloplast-down-4-as-ubs-sees-limited-upside-after-guidance-cut-5008024" target="_blank" rel="noopener">Coloplast Down 4% As UBS Sees Limited Upside After Guidance Cut</a></div>
+      <div class="read-why">A major Danish company trimming its long-term growth ambition — another data point in this autumn's cautious corporate mood.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Social Media Today · Oct 27</div>
+      <div class="read-title"><a href="https://www.socialmediatoday.com/news/linkedin-launches-data-insights-hub/872972/" target="_blank" rel="noopener">LinkedIn Launches Data Insights Hub</a></div>
+      <div class="read-why">LinkedIn's Economic Graph relaunched as "LinkedIn Pulse," a labor-market analysis tool — potential source material for Elevathors thought-leadership posts.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Women's Business Daily · Nov 4</div>
+      <div class="read-title"><a href="https://www.womensbusinessdaily.com/featured-women/whitney-wolfe-herd/" target="_blank" rel="noopener">Whitney Wolfe Herd: Bumble Founder, Net Worth, What's Next</a></div>
+      <div class="read-why">A counterpoint to this week's founder profiles — a clear-eyed look at how fast paper wealth tied to one company can move.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">If You Have Time</div>
+    <div class="card time-card">
+      <p>If there's a quiet stretch after the Esbjerg meeting before the afternoon logistics kick in, use it for Johanna's email rather than starting anything new — today has enough moving parts already.</p>
+    </div>
+  </div>
+
+  <footer>Built for Melanie · 7:00 AM</footer>
+
+</div>
+
+<script>
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.getElementById('themeToggle').textContent = theme === 'dark' ? 'Dark' : 'Light';
+  }
+  function toggleTheme() {
+    var current = document.documentElement.getAttribute('data-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('brief-theme', next);
+    applyTheme(next);
+  }
+  (function init() {
+    var saved = localStorage.getItem('brief-theme');
+    if (saved) {
+      applyTheme(saved);
+    } else {
+      var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      applyTheme(system);
+    }
+  })();
+</script>
+</body>
+</html>

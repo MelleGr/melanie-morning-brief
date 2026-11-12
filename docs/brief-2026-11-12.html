@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morning Brief — Thursday, November 12, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #225EDC;
+    --accent-dim: rgba(34,94,220,0.14);
+  }
+  html[data-theme="dark"] {
+    --bg: #000405;
+    --card: #0b1013;
+    --card-border: rgba(255,255,255,0.08);
+    --text-95: rgba(255,255,255,0.95);
+    --text-60: rgba(255,255,255,0.60);
+    --text-38: rgba(255,255,255,0.38);
+  }
+  html[data-theme="light"] {
+    --bg: #FBFBF9;
+    --card: #ffffff;
+    --card-border: rgba(0,0,0,0.08);
+    --text-95: rgba(10,10,10,0.95);
+    --text-60: rgba(10,10,10,0.62);
+    --text-38: rgba(10,10,10,0.42);
+  }
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme]) {
+      --bg: #000405;
+      --card: #0b1013;
+      --card-border: rgba(255,255,255,0.08);
+      --text-95: rgba(255,255,255,0.95);
+      --text-60: rgba(255,255,255,0.60);
+      --text-38: rgba(255,255,255,0.38);
+    }
+  }
+  @media (prefers-color-scheme: light) {
+    html:not([data-theme]) {
+      --bg: #FBFBF9;
+      --card: #ffffff;
+      --card-border: rgba(0,0,0,0.08);
+      --text-95: rgba(10,10,10,0.95);
+      --text-60: rgba(10,10,10,0.62);
+      --text-38: rgba(10,10,10,0.42);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text-95);
+    font-family: 'Inter', -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+  }
+  .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-38);
+  }
+  .date {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 6px;
+    color: var(--text-95);
+  }
+  .toggle {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-60);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .toggle:hover { color: var(--text-95); border-color: var(--text-38); }
+
+  .quote-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 28px 30px;
+    margin-bottom: 48px;
+  }
+  .quote-text {
+    font-size: 19px;
+    line-height: 1.5;
+    font-weight: 500;
+    color: var(--text-95);
+    margin: 0 0 10px;
+  }
+  .quote-attr {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-38);
+  }
+
+  .section { margin-bottom: 48px; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-38);
+    margin-bottom: 16px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 20px 22px;
+    margin-bottom: 12px;
+  }
+  .card:last-child { margin-bottom: 0; }
+
+  .win-row { display: flex; gap: 16px; align-items: flex-start; }
+  .win-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--accent);
+    min-width: 22px;
+  }
+  .win-body { flex: 1; }
+  .win-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .pill {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-top: 2px;
+  }
+  .cut-note {
+    font-size: 13px;
+    color: var(--text-38);
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  .decision-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .decision-context { font-size: 14.5px; line-height: 1.55; color: var(--text-60); margin-bottom: 12px; }
+  .recommend-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 5px 14px;
+  }
+  .meeting-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .light-day-line {
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--text-60);
+  }
+  .light-day-line b { color: var(--text-95); font-weight: 600; }
+
+  .read-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .read-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .read-title a {
+    color: var(--text-95);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+  }
+  .read-title a:hover { border-bottom-color: var(--text-38); }
+  .read-why { font-size: 14.5px; color: var(--text-60); line-height: 1.5; }
+
+  .time-card p { font-size: 15.5px; line-height: 1.6; color: var(--text-60); margin: 0; }
+  .time-card p b { color: var(--text-95); font-weight: 600; }
+
+  footer {
+    margin-top: 56px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-38);
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 36px 18px 72px; }
+    .date { font-size: 19px; }
+    .quote-text { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div>
+      <div class="kicker">Melanie's Morning Brief</div>
+      <div class="date">Thursday, November 12, 2026</div>
+    </div>
+    <button class="toggle" id="themeToggle" onclick="toggleTheme()">Dark</button>
+  </div>
+
+  <div class="quote-card">
+    <p class="quote-text">"The soul of the sluggard desireth, and hath nothing: but the soul of the diligent shall be made fat."</p>
+    <div class="quote-attr">— Proverbs 13:4, KJV</div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Win Conditions For Today</div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">01</div>
+        <div class="win-body">
+          <div class="win-title">Walk into today's KPI follow-up with Denise actually prepped</div>
+          <span class="pill">→ 14:45, Satellitten — it's framed as a discussion, not a submission, but you still want your own read on progress ready</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">02</div>
+        <div class="win-body">
+          <div class="win-title">Ship something — anything — for own-brand content</div>
+          <span class="pill">→ Day 88 of "Not started." Lower the bar today: one honest post beats another day of zero</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">03</div>
+        <div class="win-body">
+          <div class="win-title">Reply to Jesper William Ibsen</div>
+          <span class="pill">→ Two messages now sitting over 48 hours unanswered on LinkedIn</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Urgent Decisions</div>
+    <div class="card">
+      <div class="decision-title">Johanna's intro is still waiting, now 17 days</div>
+      <div class="decision-context">Third day in a row this has come up. Last real movement was Oct 26 — nothing genuinely blocking it since.</div>
+      <span class="recommend-pill">If it doesn't go out today, send her two lines saying it's still in queue — don't let it go silent again</span>
+    </div>
+    <div class="card">
+      <div class="decision-title">The own-brand content task has been deferred every single day since Aug 17</div>
+      <div class="decision-context">That's 88 consecutive days on the list unchanged. Repeating the same flag clearly isn't moving it — today calls for an actual decision rather than another identical nudge.</div>
+      <span class="recommend-pill">Either ship something small today, or consciously pull it off the daily list until a real block of time exists</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">What To Be Prepped For</div>
+    <div class="card">
+      <span class="meeting-time">10:00 – 11:00</span>
+      <div class="win-title">Månedsmøde — Marketing, members and partnerships</div>
+      <p class="light-day-line">Fyrtårnet / online — standing monthly cross-team check-in. Denise facilitates a shared check-in, then ~10–12 min per team (commercial / hubs / marketing). Know what you'd report for yours.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">14:45 – 15:30</span>
+      <div class="win-title">Opfølgende MUS og KPI drøftelse</div>
+      <p class="light-day-line">Satellitten, Munkebjergvænget 1, Odense M — follow-up with Denise on your MUS and KPIs. The invite says the attached document is for discussion, not something you need to send beforehand.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">17:30 – 18:30</span>
+      <div class="win-title">Mathias badminton</div>
+      <p class="light-day-line">Evening family commitment.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Five Things To Read</div>
+    <div class="card read-item">
+      <div class="read-tag">Ørsted · Nov 5</div>
+      <div class="read-title"><a href="https://orsted.com/en/company-announcement-list/2026/11/orsted-delivers-strong-earnings-with-19--ebitda-gr-152708491" target="_blank" rel="noopener">Ørsted Delivers Strong Earnings With 19% EBITDA Growth</a></div>
+      <div class="read-why">A Q3 net loss on non-cash US impairments sits right alongside genuinely strong underlying growth — a clean example of the "good operating story, messy headline number" pattern worth having ready for Syddanmark business conversations.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Maritime Professional · Nov 5</div>
+      <div class="read-title"><a href="https://www.maritimeprofessional.com/news/maersk-shares-report-above-forecast-412055" target="_blank" rel="noopener">Maersk Shares Q3 Report Above Forecast, Warns Falling Freight Rates Will Impact Q4</a></div>
+      <div class="read-why">Mærsk beat forecasts and raised guidance for the third time this year — and the stock still fell, because investors wanted more. A good reminder that "better than expected" and "well received" aren't the same thing.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Net Influencer · Nov 3</div>
+      <div class="read-title"><a href="https://www.netinfluencer.com/linkedin-rolls-out-consolidated-creator-analytics-as-it-expands-monetization-tests/" target="_blank" rel="noopener">LinkedIn Rolls Out Consolidated Creator Analytics As It Expands Monetization Tests</a></div>
+      <div class="read-why">A single exportable table of every post's performance, rolling out globally this week — worth a look once you've actually posted something today.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Forbes · Nov 11</div>
+      <div class="read-title"><a href="https://www.forbes.com/sites/williamarruda/2026/11/11/the-best-way-to-build-your-personal-brand-is-to-stop-promoting-yourself/" target="_blank" rel="noopener">The Best Way To Build Your Personal Brand Is To Stop Promoting Yourself</a></div>
+      <div class="read-why">Arruda's argument — lead with value delivered to others, not self-promotion — is a useful reframe for exactly the kind of post you keep not writing.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Forbes · Nov 11</div>
+      <div class="read-title"><a href="https://www.forbes.com/sites/williamarruda/2026/11/11/why-trust-is-the-new-personal-branding-currency/" target="_blank" rel="noopener">Why Trust Is The New Personal Branding Currency</a></div>
+      <div class="read-why">Same columnist, same day: trust as the real asset a personal brand builds, earned through firsthand experience rather than image. Pairs with the piece above.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">If You Have Time</div>
+    <div class="card time-card">
+      <p>A genuinely open stretch from <b>11:00 to 14:45</b> once the Marketing call wraps, before the KPI meeting. This is the block — use it for the own-brand post rather than letting it slide to day 89.</p>
+    </div>
+  </div>
+
+  <footer>Built for Melanie · 7:00 AM</footer>
+
+</div>
+
+<script>
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.getElementById('themeToggle').textContent = theme === 'dark' ? 'Dark' : 'Light';
+  }
+  function toggleTheme() {
+    var current = document.documentElement.getAttribute('data-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('brief-theme', next);
+    applyTheme(next);
+  }
+  (function init() {
+    var saved = localStorage.getItem('brief-theme');
+    if (saved) {
+      applyTheme(saved);
+    } else {
+      var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      applyTheme(system);
+    }
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morning Brief — Friday, November 13, 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #225EDC;
+    --accent-dim: rgba(34,94,220,0.14);
+  }
+  html[data-theme="dark"] {
+    --bg: #000405;
+    --card: #0b1013;
+    --card-border: rgba(255,255,255,0.08);
+    --text-95: rgba(255,255,255,0.95);
+    --text-60: rgba(255,255,255,0.60);
+    --text-38: rgba(255,255,255,0.38);
+  }
+  html[data-theme="light"] {
+    --bg: #FBFBF9;
+    --card: #ffffff;
+    --card-border: rgba(0,0,0,0.08);
+    --text-95: rgba(10,10,10,0.95);
+    --text-60: rgba(10,10,10,0.62);
+    --text-38: rgba(10,10,10,0.42);
+  }
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme]) {
+      --bg: #000405;
+      --card: #0b1013;
+      --card-border: rgba(255,255,255,0.08);
+      --text-95: rgba(255,255,255,0.95);
+      --text-60: rgba(255,255,255,0.60);
+      --text-38: rgba(255,255,255,0.38);
+    }
+  }
+  @media (prefers-color-scheme: light) {
+    html:not([data-theme]) {
+      --bg: #FBFBF9;
+      --card: #ffffff;
+      --card-border: rgba(0,0,0,0.08);
+      --text-95: rgba(10,10,10,0.95);
+      --text-60: rgba(10,10,10,0.62);
+      --text-38: rgba(10,10,10,0.42);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text-95);
+    font-family: 'Inter', -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+  }
+  .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-38);
+  }
+  .date {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 6px;
+    color: var(--text-95);
+  }
+  .toggle {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-60);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .toggle:hover { color: var(--text-95); border-color: var(--text-38); }
+
+  .quote-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 28px 30px;
+    margin-bottom: 48px;
+  }
+  .quote-text {
+    font-size: 19px;
+    line-height: 1.5;
+    font-weight: 500;
+    color: var(--text-95);
+    margin: 0 0 10px;
+  }
+  .quote-attr {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-38);
+  }
+
+  .section { margin-bottom: 48px; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-38);
+    margin-bottom: 16px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 20px 22px;
+    margin-bottom: 12px;
+  }
+  .card:last-child { margin-bottom: 0; }
+
+  .win-row { display: flex; gap: 16px; align-items: flex-start; }
+  .win-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--accent);
+    min-width: 22px;
+  }
+  .win-body { flex: 1; }
+  .win-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .pill {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-top: 2px;
+  }
+  .cut-note {
+    font-size: 13px;
+    color: var(--text-38);
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  .decision-title { font-size: 16px; font-weight: 600; color: var(--text-95); margin-bottom: 6px; }
+  .decision-context { font-size: 14.5px; line-height: 1.55; color: var(--text-60); margin-bottom: 12px; }
+  .recommend-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 5px 14px;
+  }
+  .meeting-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-radius: 999px;
+    padding: 4px 12px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .light-day-line {
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--text-60);
+  }
+  .light-day-line b { color: var(--text-95); font-weight: 600; }
+
+  .read-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .read-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .read-title a {
+    color: var(--text-95);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+  }
+  .read-title a:hover { border-bottom-color: var(--text-38); }
+  .read-why { font-size: 14.5px; color: var(--text-60); line-height: 1.5; }
+
+  .time-card p { font-size: 15.5px; line-height: 1.6; color: var(--text-60); margin: 0; }
+  .time-card p b { color: var(--text-95); font-weight: 600; }
+
+  footer {
+    margin-top: 56px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-38);
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 36px 18px 72px; }
+    .date { font-size: 19px; }
+    .quote-text { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div>
+      <div class="kicker">Melanie's Morning Brief</div>
+      <div class="date">Friday, November 13, 2026</div>
+    </div>
+    <button class="toggle" id="themeToggle" onclick="toggleTheme()">Dark</button>
+  </div>
+
+  <div class="quote-card">
+    <p class="quote-text">"This above all: to thine own self be true, and it must follow, as the night the day, thou canst not then be false to any man."</p>
+    <div class="quote-attr">— Hamlet, Act I, Scene 3</div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Win Conditions For Today</div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">01</div>
+        <div class="win-body">
+          <div class="win-title">Confirm a room at Alsion before 09:30</div>
+          <span class="pill">→ The invite still says "Melanie finder et sted" — open since Oct 9, now the morning of a 3.5-hour strategy session with Denise and Søren</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">02</div>
+        <div class="win-body">
+          <div class="win-title">Decide now how to handle the 13:30–13:45 double-booking</div>
+          <span class="pill">→ Weekly Review and timeregristering overlap, right after you come out of a 3.5-hour meeting — don't let it get decided for you in the moment</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="win-row">
+        <div class="win-num">03</div>
+        <div class="win-body">
+          <div class="win-title">Reply to Alicja on LinkedIn</div>
+          <span class="pill">→ Her message has been sitting 3 days now</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Urgent Decisions</div>
+    <div class="card">
+      <div class="decision-title">Weekly Review (13:00–13:45) overlaps timeregristering (13:30–14:00)</div>
+      <div class="decision-context">Both are your own standing blocks, not meetings with others, which makes this an easy one to just let collide in the moment — except you'll be coming straight out of the Denise/Søren session with no buffer.</div>
+      <span class="recommend-pill">Pick now which one shifts or shortens, rather than triaging it live at 13:00</span>
+    </div>
+    <div class="card">
+      <div class="decision-title">Johanna's intro, now 18 days — fourth day this has come up</div>
+      <div class="decision-context">Saying "send it today" three days running hasn't moved it. That's worth noticing rather than repeating a fourth time.</div>
+      <span class="recommend-pill">Send the two-line "still in queue" note today — treat that as the actual plan, not the fallback</span>
+    </div>
+    <div class="card">
+      <div class="decision-title">Own-brand content: today genuinely has no real window</div>
+      <div class="decision-context">09:30 to 15:00 is booked solid — the Denise/Søren session, the Weekly Review/timeregristering overlap, and the Samtaleblomst delivery back to back. Yesterday's brief asked you to either ship something small or consciously take it off the daily list; today's calendar makes that choice for you.</div>
+      <span class="recommend-pill">Let it go for today — pick it back up this weekend or Monday, deliberately, not by default</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">What To Be Prepped For</div>
+    <div class="card">
+      <span class="meeting-time">09:30 – 13:00</span>
+      <div class="win-title">Denise, Melanie og Søren: Sønderjylland 2027 og frem</div>
+      <p class="light-day-line">Alsion — a long-horizon strategy conversation about the region's direction from 2027 on. Worth walking in with a point of view on your own priorities for that period, not just listening.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">13:00 – 13:45</span>
+      <div class="win-title">Weekly Review</div>
+      <p class="light-day-line">Your own system — overlaps timeregristering below, see Urgent Decisions.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">13:30 – 14:00</span>
+      <div class="win-title">timeregristering</div>
+      <p class="light-day-line">Standing admin task — also inside the overlap window.</p>
+    </div>
+    <div class="card">
+      <span class="meeting-time">14:00 – 15:00</span>
+      <div class="win-title">Samtaleblomst afleveres fra Mathias til Dorrit</div>
+      <p class="light-day-line">Family/school errand — Mathias's token delivered to Dorrit.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Five Things To Read</div>
+    <div class="card read-item">
+      <div class="read-tag">Universal Robots · Oct 21</div>
+      <div class="read-title"><a href="https://www.universal-robots.com/news-and-media/news-center/teradyne-robotics-and-sereact-partner-to-scale-physical-ai-solutions-for-retail-and-logistics/" target="_blank" rel="noopener">Teradyne Robotics and Sereact Partner to Scale Physical AI Solutions for Retail and Logistics</a></div>
+      <div class="read-why">UR's parent company pairing cobot hardware with physical-AI software for retail and logistics — a concrete example of where the Odense ecosystem's players are placing their next bets.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">TipRanks · Nov 5</div>
+      <div class="read-title"><a href="https://www.tipranks.com/news/the-fly/genmab-reports-q3-operating-profit-459m-consensus-370-1m-thefly" target="_blank" rel="noopener">Genmab Reports Q3 Operating Profit $459M, Consensus $370.1M</a></div>
+      <div class="read-why">A clean profit beat and strong pipeline progress, offset by flat product sales and a share-price pullback the same week — another "good quarter, messy reaction" story out of Danish biotech.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Dansk Industri · Nov 9</div>
+      <div class="read-title"><a href="https://www.danskindustri.dk/om-di/kontakt-os/presse/arkiv/pressemeddelelser/2026/11/di-elbilerne-var-kun-begyndelsen--danmarks-nogleindustrier-er-kinas-naste-mal/" target="_blank" rel="noopener">DI: Elbilerne Var Kun Begyndelsen — Danmarks Nøgleindustrier Er Kinas Næste Mål</a></div>
+      <div class="read-why">DI's warning that Chinese competition is moving beyond EVs into Denmark's other key industries — worth having in mind for any conversation about where Danish manufacturing and robotics compete globally, including today's Sønderjylland 2027 discussion.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">JobsNHire · Oct 17</div>
+      <div class="read-title"><a href="https://www.jobsnhire.com/articles/60208/20261017/linkedin-says-creators-are-60-percent-since-2024-83-percent-build-content-alongside-day-job.htm" target="_blank" rel="noopener">LinkedIn Says Creators Are Up 60% Since 2024, and 83% Build Content Alongside a Day Job</a></div>
+      <div class="read-why">That 83% figure is you — most LinkedIn creators aren't full-time, they're fitting it around real jobs, which is worth remembering the next time "I don't have time to post" feels like a disqualifying excuse rather than the norm.</div>
+    </div>
+    <div class="card read-item">
+      <div class="read-tag">Advanced Television · Nov 5</div>
+      <div class="read-title"><a href="https://www.advanced-television.com/2026/11/05/study-french-content-creation-market-valued-at-e10bn/" target="_blank" rel="noopener">Study: French Content Creation Market Valued at €10bn</a></div>
+      <div class="read-why">Part of the new Paris Creator Week Creator Economy Report 2026 — the global market is now put at $217.3B, up 26.2% year on year. The "hobby" framing is getting harder to justify by the numbers alone.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">If You Have Time</div>
+    <div class="card time-card">
+      <p>Honestly, there isn't a real gap today — 09:30 to 15:00 is back to back, with a 15-minute collision in the middle. Don't manufacture a window that isn't there; whatever doesn't fit moves to the weekend.</p>
+    </div>
+  </div>
+
+  <footer>Built for Melanie · 7:00 AM</footer>
+
+</div>
+
+<script>
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.getElementById('themeToggle').textContent = theme === 'dark' ? 'Dark' : 'Light';
+  }
+  function toggleTheme() {
+    var current = document.documentElement.getAttribute('data-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('brief-theme', next);
+    applyTheme(next);
+  }
+  (function init() {
+    var saved = localStorage.getItem('brief-theme');
+    if (saved) {
+      applyTheme(saved);
+    } else {
+      var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      applyTheme(system);
+    }
+  })();
+</script>
+</body>
+</html>
